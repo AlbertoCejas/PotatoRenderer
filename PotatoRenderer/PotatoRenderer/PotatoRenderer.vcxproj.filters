@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\core">
+      <UniqueIdentifier>{269da27a-fac3-45b6-9a7c-b6c9bac94e61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\render">
+      <UniqueIdentifier>{ccf50a24-240f-4202-9ceb-d58a90d41b12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\math">
+      <UniqueIdentifier>{2a384a7c-d83b-4a2f-a1e3-2826ba10a0cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core">
+      <UniqueIdentifier>{b792be8c-993d-426c-87c5-53424996a68b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\math">
+      <UniqueIdentifier>{6c69f162-a38a-4b9a-8ece-95abfd4fd8e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\render">
+      <UniqueIdentifier>{ed05d6bf-0acb-49bb-8f7f-e887bb1b48fa}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="core\Application.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="math\Matrix.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="render\Renderer.h">
+      <Filter>Header Files\render</Filter>
+    </ClInclude>
+    <ClInclude Include="render\Window.h">
+      <Filter>Header Files\render</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="core\Application.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="render\Renderer.cpp">
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="render\Window.cpp">
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
