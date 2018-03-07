@@ -1,7 +1,7 @@
 #include "Window.h"
 #include <GLFW/glfw3.h>
 
-Window::Window(const char* title, int32_t width, int32_t height)
+Window::Window(const char* title, int width, int height)
 {
 	window = glfwCreateWindow(width, height, title, nullptr, nullptr);
 	glfwMakeContextCurrent(window);
@@ -9,7 +9,7 @@ Window::Window(const char* title, int32_t width, int32_t height)
 
 bool Window::requiresExit() const
 {
-	return glfwWindowShouldClose(window);
+	return glfwWindowShouldClose(window) != 0u;
 }
 
 void Window::swapBuffers()

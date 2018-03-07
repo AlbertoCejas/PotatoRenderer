@@ -3,13 +3,13 @@
 
 #include <cinttypes>
 
-class GLFWwindow;
+struct GLFWwindow;
 
 class Window
 {
   public:
 
-	explicit Window(const char* title, int32_t width, int32_t height);
+	explicit Window(const char* title, int width, int height);
 
 	bool requiresExit() const;
 

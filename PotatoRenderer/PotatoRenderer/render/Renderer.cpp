@@ -4,14 +4,12 @@
 
 #include "Window.h"
 
-// GLEW
 #define GLEW_STATIC
 #include <GL/glew.h>
 
-// GLFW
 #include <GLFW/glfw3.h>
 
-Renderer::Renderer() : isInit(false), window(nullptr)
+Renderer::Renderer() : application(nullptr), window(nullptr), isInit(false)
 {
 
 }
@@ -54,12 +52,13 @@ void Renderer::init(Application* app)
 	isInit = true;
 }
 
-void Renderer::update(int32_t milisecs)
+void Renderer::update(int)
 {
 	if (window->requiresExit())
 	{
 		application->forceExit();
 	}
+
 }
 
 void Renderer::render()

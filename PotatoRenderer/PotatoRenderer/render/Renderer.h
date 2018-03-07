@@ -14,14 +14,15 @@ class Renderer
 	~Renderer();
 
 	void init(Application* app);
-	void update(int32_t miliseconds);
+	void update(int miliseconds);
 	void render();
 
   private:
 
-	bool isInit;
 	Window* window;
 	Application* application;
+	bool isInit;
+
 };
 
 #endif

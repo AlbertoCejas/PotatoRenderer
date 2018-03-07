@@ -29,8 +29,8 @@ int main()
 
 #else
 
-#include "math/Vector3.h"
-#include "math/Matrix.h"
+#include "render/ShaderProgram.h"
+#include "render/Mesh.h"
 
 #include <iostream>
 
@@ -69,10 +69,6 @@ const GLchar* fragmentShaderSource = "#version 330 core\n"
 // The MAIN function, from here we start the application and run the game loop
 int main()
 {
-	Vec3i vector;
-	Mat3i matrix;
-
-
 	// Init GLFW
 	glfwInit();
 	// Set all the required options for GLFW
@@ -171,6 +167,12 @@ int main()
 
 	glBindVertexArray(0); // Unbind VAO
 
+	GLfloat verticesData[] = {
+		// Positions        // Colors   
+		100.0f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f, // Bottom Right
+		0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, // Bottom Left
+		25.0f,  80.0f, 0.0f,  0.0f, 0.0f, 1.0f  // Top
+	};
 
 	// Game loop
 	while (!glfwWindowShouldClose(window))
@@ -188,7 +190,21 @@ int main()
 
 		// Draw the triangle
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		//glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		ShaderProgram shader = ShaderProgram();
+
+		std::vector<VertexAttribute> attributes = std::vector<VertexAttribute>();
+		attributes.push_back(VertexAttribute(VertexAttribute::POSITION, 3, ShaderProgram::POSITION_ATTRIBUTE));
+		attributes.push_back(VertexAttribute(VertexAttribute::COLOR, 3, ShaderProgram::COLOR_ATTRIBUTE));
+		Mesh mesh(true, 5000, attributes);
+		mesh.bind(shader);
+		mesh.setVertices(verticesData, 18);
+		shader.begin();
+		//shader.setUniformMatrix("u_projModelView", camera->GetCombined());
+		mesh.render(shader, 0, 3, GL_TRIANGLES);
+		shader.end();
+
 		glBindVertexArray(0);
 
 		// Swap the screen buffers
@@ -204,7 +220,7 @@ int main()
 }
 
 // Is called whenever a key is pressed/released via GLFW
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
+void key_callback(GLFWwindow* window, int key, int, int action, int)
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 	{

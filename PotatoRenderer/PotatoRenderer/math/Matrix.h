@@ -20,10 +20,10 @@ class Matrix
 		memset(data, 0, sizeof(ROW_DIM * COL_DIM));
 	}
 
-	inline constexpr int32_t getRowDim() const { return ROW_DIM; }
-	inline constexpr int32_t getColDim() const { return COL_DIM; }
+	inline constexpr int getRowDim() const { return ROW_DIM; }
+	inline constexpr int getColDim() const { return COL_DIM; }
 
-	T* operator()(int32_t rowIndex, int32_t colIndex) const
+	T* operator()(int rowIndex, int colIndex) const
 	{
 		assert(rowIndex > 0 && rowIndex < ROW_DIM);
 		assert(colIndex > 0 && colIndex < COL_DIM);
@@ -33,9 +33,9 @@ class Matrix
 
 	void print()
 	{
-		for (int32_t i = 0; i < ROW_DIM; i++)
+		for (uint32_t i = 0u; i < ROW_DIM; i++)
 		{
-			for (int32_t j = 0; j < COL_DIM; j++)
+			for (uint32_t j = 0u; j < COL_DIM; j++)
 			{
 				std::cout << data[i][j] << " ";
 			}
