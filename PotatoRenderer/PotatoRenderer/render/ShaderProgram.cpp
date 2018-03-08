@@ -2,22 +2,19 @@
 #include <GL/glew.h>
 #include <cassert>
 #include "render/GLEnums.h"
-#include <cstring>
-
-
-const char* ShaderProgram::POSITION_ATTRIBUTE = "a_position";
-const char* ShaderProgram::COLOR_ATTRIBUTE = "a_color";
+#include "math/Matrix.h"
 
 const char* ShaderProgram::DEFAULT_VERTEX_SHADER_SOURCE =
     "#version 330 core\n"
-    "layout (location = 0) in vec3 position;\n"
-    "layout (location = 1) in vec3 color;\n"
+    "layout (location = 0) in vec3 a_position;\n"
+    "layout (location = 1) in vec3 a_color;\n"
     "out vec3 ourColor;\n"
     "void main()\n"
     "{\n"
-    "gl_Position = vec4(position, 1.0);\n"
-    "ourColor = color;\n"
+    "gl_Position = vec4(a_position, 1.0);\n"
+    "ourColor = a_color;\n"
     "}\0";
+
 const char* ShaderProgram::DEFAULT_FRAGMENT_SHADER_SOURCE =
     "#version 330 core\n"
     "in vec3 ourColor;\n"
@@ -25,7 +22,7 @@ const char* ShaderProgram::DEFAULT_FRAGMENT_SHADER_SOURCE =
     "void main()\n"
     "{\n"
     "color = vec4(ourColor, 1.0f);\n"
-    "}\n\0";;
+    "}\n\0";
 
 ShaderProgram::ShaderProgram() : ShaderProgram(DEFAULT_VERTEX_SHADER_SOURCE, DEFAULT_FRAGMENT_SHADER_SOURCE) { }
 
@@ -50,6 +47,16 @@ ShaderProgram::ShaderProgram(const char* vertexShaderSource, const char* fragmen
 ShaderProgram::~ShaderProgram()
 {
 	glDeleteProgram(handler);
+
+	for (const char* name : m_uniformsNames)
+	{
+		delete[] name;
+	}
+
+	for (const char* name : m_attributesNames)
+	{
+		delete[] name;
+	}
 }
 
 int ShaderProgram::createShader(ShaderType type, const char* source)
@@ -85,6 +92,16 @@ void ShaderProgram::linkProgram(unsigned int shaderProgram)
 	assert(success != 0);
 }
 
+void ShaderProgram::begin()
+{
+	glUseProgram(handler);
+}
+
+void ShaderProgram::end()
+{
+	glUseProgram(0);
+}
+
 void ShaderProgram::fetchUniforms()
 {
 	unsigned int numOfUniforms;
@@ -103,8 +120,8 @@ void ShaderProgram::fetchUniforms()
 		glGetActiveUniform(handler, i, 30, &nameLength, &param, &type, name);
 		int location = glGetUniformLocation(handler, name);
 
-		char* cachedName = new char[nameLength+1]; // TODO : DELETE THIS
-		strcpy_s(cachedName, nameLength+1, name);
+		char* cachedName = new char[nameLength + 1];
+		strcpy_s(cachedName, nameLength + 1, name);
 		m_uniforms.insert(std::make_pair(cachedName, location));
 		m_uniformsTypes.insert(std::make_pair(cachedName, type));
 		m_uniformsSizes.insert(std::make_pair(cachedName, param));
@@ -129,8 +146,8 @@ void ShaderProgram::fetchAttributes()
 
 		glGetActiveAttrib(handler, i, 30, &nameLength, &param, &type, name);
 		unsigned int location = glGetAttribLocation(handler, name);
-		char* cachedName = new char[nameLength+1]; // TODO : DELETE THIS
-		strcpy_s(cachedName, nameLength+1, name);
+		char* cachedName = new char[nameLength + 1];
+		strcpy_s(cachedName, nameLength + 1, name);
 		m_attributes.insert(std::make_pair(cachedName, location));
 		m_attributesTypes.insert(std::make_pair(cachedName, type));
 		m_attributesSizes.insert(std::make_pair(cachedName, param));
@@ -152,6 +169,7 @@ unsigned int ShaderProgram::fetchUniformLocation(const char* name)
 		assert(location != -1); // "no uniform with name '" + name + "' in shader"
 		m_uniforms.insert(std::make_pair(name, location));
 	}
+
 	return location;
 }
 
@@ -169,6 +187,7 @@ unsigned int ShaderProgram::fetchAttributeLocation(const char* name)
 		assert(location != -1); // "no attribute with name '" + name + "' in shader"
 		m_attributes.insert(std::make_pair(name, location));
 	}
+
 	return location;
 }
 
@@ -186,8 +205,12 @@ void ShaderProgram::enableVertexAttribute(unsigned int location)
 void ShaderProgram::disableVertexAttribute(const char* name)
 {
 	unsigned int location = fetchAttributeLocation(name);
+
 	if (location == -1)
+	{
 		return;
+	}
+
 	glDisableVertexAttribArray(location);
 }
 
@@ -196,12 +219,13 @@ void ShaderProgram::disableVertexAttribute(unsigned int location)
 	glDisableVertexAttribArray(location);
 }
 
-void ShaderProgram::begin()
+void ShaderProgram::setUniformMatrix(const char* name, const Mat4f& matrix, bool transpose)
 {
-	glUseProgram(handler);
+	int location = fetchUniformLocation(name);
+	setUniformMatrix(location, matrix, transpose);
 }
 
-void ShaderProgram::end()
+void ShaderProgram::setUniformMatrix(int location, const Mat4f& matrix, bool transpose)
 {
-	glUseProgram(0);
+	glUniformMatrix4fv(location, 1, transpose, matrix.getData());
 }

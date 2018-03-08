@@ -5,18 +5,22 @@
 #include <unordered_map>
 #include "utils/CharUtils.h"
 
+class Mat4f;
 enum class ShaderType;
 
 class ShaderProgram
 {
   public:
 
-	static const char* POSITION_ATTRIBUTE;
-	static const char* COLOR_ATTRIBUTE;
+	static constexpr const char* POSITION_ATTRIBUTE = "a_position";
+	static constexpr const char* COLOR_ATTRIBUTE = "a_color";
 
 	explicit ShaderProgram();
 	explicit ShaderProgram(const char* vertexShaderSource, const char* fragmentShaderSource);
 	~ShaderProgram();
+
+	void begin();
+	void end();
 
 	void fetchUniforms();
 	void fetchAttributes();
@@ -29,8 +33,8 @@ class ShaderProgram
 	void disableVertexAttribute(const char* name);
 	void disableVertexAttribute(unsigned int location);
 
-	void begin();
-	void end();
+	void setUniformMatrix(const char* name, const Mat4f& matrix, bool transpose);
+	void setUniformMatrix(int location, const Mat4f& matrix, bool transpose);
 
   private:
 

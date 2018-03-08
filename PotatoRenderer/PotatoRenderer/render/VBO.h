@@ -31,12 +31,12 @@ class VBO
 
 	uint32_t                            vboId;
 	int32_t                             currentNumOfVertices;
-	int									verticesSize;
+	int32_t                             verticesSize;
 	float*                              vertices;
 	VertexAttributes                    vertexAttributes;
 	bool                                isStatic;
-	bool								isBound;
-	bool								isDirty;
+	bool                                isBound;
+	bool                                isDirty;
 
 };
 

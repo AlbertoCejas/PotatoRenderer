@@ -2,8 +2,7 @@
 #define _MESH_H_
 
 #include <vector>
-#include "render/VAO.h"
-#include "render/VBO.h"
+#include "render/VBOwithVAO.h"
 #include "render/VertexAttribute.h"
 
 class ShaderProgram;
@@ -19,23 +18,21 @@ class Mesh
 
 	bool hasVertexAttribute(VertexAttribute::Usage usage);
 	VertexAttribute* getVertexAttribute(VertexAttribute::Usage usage);
-	VertexAttributes& getVertexAttributes() { return vbo.getAttributes(); }
-	const VertexAttributes& getVertexAttributes() const { return vbo.getAttributes(); }
+	VertexAttributes& getVertexAttributes() { return vertexData.getAttributes(); }
 
-	inline int getNumVertices() const { return vbo.getNumVertices(); }
+	inline int getNumVertices() const { return vertexData.getCurrentNumVertices(); }
 
 	void bind(ShaderProgram& shader);
-	void unbind(ShaderProgram& shader);
-	void unbind(ShaderProgram& shader, int* locations);
+	void unbind();
 
+	void render(ShaderProgram& shader);
 	void render(ShaderProgram& shader, int primitiveType);
 	void render(ShaderProgram& shader, int offset, int count, int primitiveType);
 
 
   private:
 
-	VAO vao;
-	VBO vbo;
+	VBOWithVAO vertexData;
 
 };
 

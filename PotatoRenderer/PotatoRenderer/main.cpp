@@ -31,6 +31,7 @@ int main()
 
 #include "render/ShaderProgram.h"
 #include "render/Mesh.h"
+#include "vld.h"
 
 #include <iostream>
 
@@ -78,7 +79,7 @@ int main()
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 	// Create a GLFWwindow object that we can use for GLFW's functions
-	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "LearnOpenGL", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "PotatoRenderer", nullptr, nullptr);
 	glfwMakeContextCurrent(window);
 
 	// Set the required callback functions
@@ -167,12 +168,35 @@ int main()
 
 	glBindVertexArray(0); // Unbind VAO
 
-	GLfloat verticesData[] = {
-		// Positions        // Colors   
-		100.0f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f, // Bottom Right
-		0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, // Bottom Left
-		25.0f,  80.0f, 0.0f,  0.0f, 0.0f, 1.0f  // Top
+	GLfloat verticesData1[] =
+	{
+		// Positions        // Colors
+		0.25f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f, // Bottom Right
+		-0.25f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, // Bottom Left
+		0.0f,  0.8f, 0.0f,  0.0f, 0.0f, 1.0f  // Top
 	};
+
+	GLfloat verticesData2[] =
+	{
+		// Positions        // Colors
+		-0.25f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f, // Bottom Right
+		-0.75f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, // Bottom Left
+		-0.50f,  0.8f, 0.0f,  0.0f, 0.0f, 1.0f  // Top
+	};
+
+	ShaderProgram shader;
+
+	std::vector<VertexAttribute> attributes;
+	attributes.push_back(VertexAttribute(VertexAttribute::POSITION, 3, ShaderProgram::POSITION_ATTRIBUTE));
+	attributes.push_back(VertexAttribute(VertexAttribute::COLOR, 3, ShaderProgram::COLOR_ATTRIBUTE));
+
+	Mesh mesh1(true, 5000, attributes);
+	mesh1.bind(shader);
+	mesh1.setVertices(verticesData1, 3);
+
+	Mesh mesh2(true, 5000, attributes);
+	mesh2.bind(shader);
+	mesh2.setVertices(verticesData2, 3);
 
 	// Game loop
 	while (!glfwWindowShouldClose(window))
@@ -185,27 +209,19 @@ int main()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// Be sure to activate the shader
-		glUseProgram(shaderProgram);
+		/*
+		if (Context ctx = GenrateContext(shader))
+		{
+		    mesh.render(ctx)
+		}
+		*/
 
-		// Draw the triangle
-		glBindVertexArray(VAO);
-		//glDrawArrays(GL_TRIANGLES, 0, 3);
-
-		ShaderProgram shader = ShaderProgram();
-
-		std::vector<VertexAttribute> attributes = std::vector<VertexAttribute>();
-		attributes.push_back(VertexAttribute(VertexAttribute::POSITION, 3, ShaderProgram::POSITION_ATTRIBUTE));
-		attributes.push_back(VertexAttribute(VertexAttribute::COLOR, 3, ShaderProgram::COLOR_ATTRIBUTE));
-		Mesh mesh(true, 5000, attributes);
-		mesh.bind(shader);
-		mesh.setVertices(verticesData, 18);
 		shader.begin();
-		//shader.setUniformMatrix("u_projModelView", camera->GetCombined());
-		mesh.render(shader, 0, 3, GL_TRIANGLES);
+		mesh1.render(shader);
+		mesh2.render(shader);
 		shader.end();
 
-		glBindVertexArray(0);
+		//glBindVertexArray(0);
 
 		// Swap the screen buffers
 		glfwSwapBuffers(window);

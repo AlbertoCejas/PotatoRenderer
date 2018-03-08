@@ -22,6 +22,7 @@ class Matrix
 
 	inline constexpr int getRowDim() const { return ROW_DIM; }
 	inline constexpr int getColDim() const { return COL_DIM; }
+	inline const T* getData() const { return data; }
 
 	T* operator()(int rowIndex, int colIndex) const
 	{
