@@ -2,16 +2,16 @@
 #include <GL/glew.h>
 #include <cassert>
 #include "render/GLEnums.h"
-#include "math/Matrix.h"
 
 const char* ShaderProgram::DEFAULT_VERTEX_SHADER_SOURCE =
     "#version 330 core\n"
     "layout (location = 0) in vec3 a_position;\n"
     "layout (location = 1) in vec3 a_color;\n"
+    "uniform mat4 u_projTrans;\n"
     "out vec3 ourColor;\n"
     "void main()\n"
     "{\n"
-    "gl_Position = vec4(a_position, 1.0);\n"
+    "gl_Position = u_projTrans * vec4(a_position, 1.0);\n"
     "ourColor = a_color;\n"
     "}\0";
 
@@ -219,13 +219,23 @@ void ShaderProgram::disableVertexAttribute(unsigned int location)
 	glDisableVertexAttribArray(location);
 }
 
+void ShaderProgram::setUniformMatrix(const char* name, const Mat4f& matrix)
+{
+	setUniformMatrix(name, matrix, false);
+}
+
 void ShaderProgram::setUniformMatrix(const char* name, const Mat4f& matrix, bool transpose)
 {
 	int location = fetchUniformLocation(name);
 	setUniformMatrix(location, matrix, transpose);
 }
 
+void ShaderProgram::setUniformMatrix(int location, const Mat4f& matrix)
+{
+	setUniformMatrix(location, matrix, false);
+}
+
 void ShaderProgram::setUniformMatrix(int location, const Mat4f& matrix, bool transpose)
 {
-	glUniformMatrix4fv(location, 1, transpose, matrix.getData());
+	glUniformMatrix4fv(location, 1, transpose, (const GLfloat*) matrix.getData());
 }

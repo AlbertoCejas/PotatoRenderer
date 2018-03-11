@@ -13,10 +13,42 @@ class Vector3
 
 	static_assert(std::is_arithmetic<T>::value, "Type template must be a number");
 
+	static const Vector3 ZERO;
+
 	explicit Vector3() : x(0), y(0), z(0) { }
 	explicit Vector3(T x, T y, T z) : x(x), y(y), z(z) { }
-
 	Vector3(const Vector3& other) : x(other.x), y(other.y), z(other.z) { }
+
+	inline bool isZero() const { return x == 0 && y == 0 && z == 0; }
+
+	Vector3& set(const Vector3& other)
+	{
+		this->x = other.x;
+		this->y = other.y;
+		this->z = other.z;
+		return *this;
+	}
+	Vector3& set(float _x, float _y, float _z)
+	{
+		this->x = _x;
+		this->y = _y;
+		this->z = _z;
+		return *this;
+	}
+
+	Vector3& add(Vector3& other) { *this += other; return *this; }
+	Vector3& sub(Vector3& other) { *this -= other; return *this; }
+	Vector3& mul(Vector3& other) { *this *= other; return *this; }
+	Vector3& div(Vector3& other) { *this /= other; return *this; }
+	Vector3& add(float _x, float _y, float _z) { this->x += _x; this->y += _y; this->z += _z; return *this; }
+	Vector3& sub(float _x, float _y, float _z) { add(-_x, -_y, -_z); return *this; }
+	Vector3& mul(float _x, float _y, float _z) { this->x *= _x; this->y *= _y; this->z *= _z; return *this; }
+	Vector3& div(float _x, float _y, float _z) { this->x /= _x; this->y /= _y; this->z /= _z; return *this; }
+
+	Vector3& add(float scalar) { return add(scalar, scalar, scalar); }
+	Vector3& sub(float scalar) { return sub(scalar, scalar, scalar); }
+	Vector3& mul(float scalar) { return mul(scalar, scalar, scalar); }
+	Vector3& div(float scalar) { return div(scalar, scalar, scalar); }
 
 	Vector3 operator+(const Vector3& other) const
 	{
@@ -91,6 +123,14 @@ class Vector3
 		return *this;
 	}
 
+	Vector3& operator-=(T scalar)
+	{
+		this->x -= scalar;
+		this->y -= scalar;
+		this->z -= scalar;
+		return *this;
+	}
+
 	Vector3& operator*=(T scalar)
 	{
 		this->x *= scalar;
@@ -99,13 +139,22 @@ class Vector3
 		return *this;
 	}
 
-	Vector3& cross(const Vector3& other) const
+	Vector3& operator/=(T scalar)
 	{
-		return Vector3
+		assert(scalar != 0);
+		this->x /= scalar;
+		this->y /= scalar;
+		this->z /= scalar;
+		return *this;
+	}
+
+	Vector3& cross(const Vector3& other)
+	{
+		return this->set
 		(
 			y * other.z - z * other.y,
-		    z * other.x - x * other.z,
-		    x * other.y - y * other.x
+			z * other.x - x * other.z,
+			x * other.y - y * other.x
 		);
 	}
 
@@ -126,9 +175,9 @@ class Vector3
 
 	const Vector3& normalize()
 	{
-		T length = length();
+		T length = this->length();
 		assert(length != 0);
-		*this = *this / length;
+		*this /= length;
 		return *this;
 	}
 
@@ -140,13 +189,16 @@ class Vector3
 
 };
 
-template<typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
+template<typename T>
+const Vector3<T> Vector3<T>::ZERO;
+
+template<typename T>
 Vector3<T> operator+(T scalar, const Vector3<T>& vector)
 {
 	return vector + scalar;
 }
 
-template<typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
+template<typename T>
 Vector3<T> operator*(T scalar, const Vector3<T>& vector)
 {
 	return vector + scalar;

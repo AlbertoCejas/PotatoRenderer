@@ -4,8 +4,8 @@
 #include <cinttypes>
 #include <unordered_map>
 #include "utils/CharUtils.h"
+#include "math/Matrix.h"
 
-class Mat4f;
 enum class ShaderType;
 
 class ShaderProgram
@@ -33,7 +33,9 @@ class ShaderProgram
 	void disableVertexAttribute(const char* name);
 	void disableVertexAttribute(unsigned int location);
 
+	void setUniformMatrix(const char* name, const Mat4f& matrix);
 	void setUniformMatrix(const char* name, const Mat4f& matrix, bool transpose);
+	void setUniformMatrix(int location, const Mat4f& matrix);
 	void setUniformMatrix(int location, const Mat4f& matrix, bool transpose);
 
   private:

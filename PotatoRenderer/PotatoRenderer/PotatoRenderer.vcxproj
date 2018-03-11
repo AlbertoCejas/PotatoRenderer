@@ -129,9 +129,12 @@
   <ItemGroup>
     <ClInclude Include="core\Application.h" />
     <ClInclude Include="math\Matrix.h" />
+    <ClInclude Include="math\MatrixTransformations.h" />
     <ClInclude Include="math\Vector3.h" />
+    <ClInclude Include="render\BaseCamera.h" />
     <ClInclude Include="render\GLEnums.h" />
     <ClInclude Include="render\Mesh.h" />
+    <ClInclude Include="render\OrthographicCamera.h" />
     <ClInclude Include="render\Renderer.h" />
     <ClInclude Include="render\ShaderProgram.h" />
     <ClInclude Include="render\VAO.h" />
@@ -145,7 +148,9 @@
   <ItemGroup>
     <ClCompile Include="core\Application.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="render\BaseCamera.cpp" />
     <ClCompile Include="render\Mesh.cpp" />
+    <ClCompile Include="render\OrthographicCamera.cpp" />
     <ClCompile Include="render\Renderer.cpp" />
     <ClCompile Include="render\ShaderProgram.cpp" />
     <ClCompile Include="render\VAO.cpp" />

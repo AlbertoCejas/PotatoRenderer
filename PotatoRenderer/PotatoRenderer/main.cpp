@@ -30,6 +30,7 @@ int main()
 #else
 
 #include "render/ShaderProgram.h"
+#include "render/OrthographicCamera.h"
 #include "render/Mesh.h"
 #include "vld.h"
 
@@ -179,9 +180,9 @@ int main()
 	GLfloat verticesData2[] =
 	{
 		// Positions        // Colors
-		-0.25f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f, // Bottom Right
-		-0.75f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, // Bottom Left
-		-0.50f,  0.8f, 0.0f,  0.0f, 0.0f, 1.0f  // Top
+		100.0f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f, // Bottom Right
+		0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, // Bottom Left
+		50.0f,  200.0f, 0.0f,  0.0f, 0.0f, 1.0f  // Top
 	};
 
 	ShaderProgram shader;
@@ -197,6 +198,8 @@ int main()
 	Mesh mesh2(true, 5000, attributes);
 	mesh2.bind(shader);
 	mesh2.setVertices(verticesData2, 3);
+
+	OrthographicCamera camera((float) WIDTH, (float) HEIGHT);
 
 	// Game loop
 	while (!glfwWindowShouldClose(window))
@@ -217,6 +220,7 @@ int main()
 		*/
 
 		shader.begin();
+		shader.setUniformMatrix("u_projTrans", camera.GetCombined());
 		mesh1.render(shader);
 		mesh2.render(shader);
 		shader.end();

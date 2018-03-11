@@ -17,28 +17,136 @@ class Matrix
 
 	explicit Matrix()
 	{
-		memset(data, 0, sizeof(ROW_DIM * COL_DIM));
+		identity();
+	}
+
+	Matrix(const Matrix& other)
+	{
+		setData(other.data);
 	}
 
 	inline constexpr int getRowDim() const { return ROW_DIM; }
 	inline constexpr int getColDim() const { return COL_DIM; }
-	inline const T* getData() const { return data; }
+	inline const T* getData() const { return &data[0][0]; }
+
+	T* operator[](size_t index)
+	{
+		assert(index < ROW_DIM);
+		return data[index];
+	}
+
+	const T* const operator[](size_t index) const
+	{
+		assert(index < ROW_DIM);
+		return data[index];
+	}
 
 	T* operator()(int rowIndex, int colIndex) const
 	{
 		assert(rowIndex > 0 && rowIndex < ROW_DIM);
 		assert(colIndex > 0 && colIndex < COL_DIM);
 
-		return data[rowIndex][colIndex];
+		return &data[rowIndex][colIndex];
+	}
+
+	constexpr unsigned int size() const { return ROW_DIM * COL_DIM; }
+
+	void setData(const T* dataToCopy)
+	{
+		memcpy(data, dataToCopy, bytesSize());
+	}
+
+	Matrix& identity()
+	{
+		memset(data, 0, bytesSize());
+
+		for (unsigned int i = 0u; i < ROW_DIM; i++)
+		{
+			data[i][i] = static_cast<T>(1);
+		}
+
+		return *this;
+	}
+
+	Matrix operator+(const Matrix& other) const 
+	{
+		Matrix result;
+		for (unsigned int i = 0u; i < ROW_DIM; i++)
+		{
+			for (unsigned int j = 0u; j < COL_DIM; j++)
+			{
+				result.data[i][j] = data[i][j] + other.data[i][j];
+			}
+		}
+		return result;
+	}
+
+	Matrix operator*(const Matrix& other) const
+	{
+		Matrix result;
+		for (unsigned int i = 0u; i < ROW_DIM; i++)
+		{
+			for (unsigned int j = 0u; j < COL_DIM; j++)
+			{
+				result.data[i][j] = data[i][j] * other.data[i][j];
+			}
+		}
+		return result;
+	}
+
+	Matrix operator-(const Matrix& other) const
+	{
+		Matrix result;
+		for (unsigned int i = 0u; i < ROW_DIM; i++)
+		{
+			for (unsigned int j = 0u; j < COL_DIM; j++)
+			{
+				result.data[i][j] = data[i][j] - other.data[i][j];
+			}
+		}
+		return result;
+	}
+
+	void operator+=(const Matrix& other)
+	{
+		for (unsigned int i = 0u; i < ROW_DIM; i++)
+		{
+			for (unsigned int j = 0u; j < COL_DIM; j++)
+			{
+				data[i][j] = data[i][j] + other.data[i][j];
+			}
+		}
+	}
+
+	void operator*=(const Matrix& other)
+	{
+		for (unsigned int i = 0u; i < ROW_DIM; i++)
+		{
+			for (unsigned int j = 0u; j < COL_DIM; j++)
+			{
+				data[i][j] = data[i][j] * other.data[i][j];
+			}
+		}
+	}
+
+	void operator-=(const Matrix& other)
+	{
+		for (unsigned int i = 0u; i < ROW_DIM; i++)
+		{
+			for (unsigned int j = 0u; j < COL_DIM; j++)
+			{
+				data[i][j] = data[i][j] - other.data[i][j];
+			}
+		}
 	}
 
 	void print()
 	{
-		for (uint32_t i = 0u; i < ROW_DIM; i++)
+		for (unsigned int i = 0u; i < ROW_DIM; i++)
 		{
-			for (uint32_t j = 0u; j < COL_DIM; j++)
+			for (unsigned int j = 0u; j < COL_DIM; j++)
 			{
-				std::cout << data[i][j] << " ";
+				std::cout << data[i,j] << " ";
 			}
 
 			std::cout << "\n";
@@ -46,6 +154,8 @@ class Matrix
 	}
 
   private:
+
+	constexpr unsigned int bytesSize() const { return sizeof(T) * size(); }
 
 	T data[ROW_DIM][COL_DIM];
 };
