@@ -10,9 +10,9 @@ void Application::init()
 	renderer.init(this);
 }
 
-void Application::update(int miliseconds)
+void Application::update(int64_t microseconds)
 {
-	renderer.update(miliseconds);
+	renderer.update(microseconds);
 }
 
 void Application::render()

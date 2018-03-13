@@ -131,7 +131,9 @@
     <ClInclude Include="math\Matrix.h" />
     <ClInclude Include="math\MatrixTransformations.h" />
     <ClInclude Include="math\Vector3.h" />
+    <ClInclude Include="math\VectorTransformations.h" />
     <ClInclude Include="render\BaseCamera.h" />
+    <ClInclude Include="render\PerspectiveCamera.h" />
     <ClInclude Include="render\GLEnums.h" />
     <ClInclude Include="render\Mesh.h" />
     <ClInclude Include="render\OrthographicCamera.h" />
@@ -149,6 +151,7 @@
     <ClCompile Include="core\Application.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="render\BaseCamera.cpp" />
+    <ClCompile Include="render\PerspectiveCamera.cpp" />
     <ClCompile Include="render\Mesh.cpp" />
     <ClCompile Include="render\OrthographicCamera.cpp" />
     <ClCompile Include="render\Renderer.cpp" />

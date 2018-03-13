@@ -14,7 +14,7 @@ class Renderer
 	~Renderer();
 
 	void init(Application* app);
-	void update(int miliseconds);
+	void update(int64_t microseconds);
 	void render();
 
   private:

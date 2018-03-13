@@ -87,6 +87,12 @@
     <ClInclude Include="math\MatrixTransformations.h">
       <Filter>Header Files\math</Filter>
     </ClInclude>
+    <ClInclude Include="render\PerspectiveCamera.h">
+      <Filter>Header Files\render</Filter>
+    </ClInclude>
+    <ClInclude Include="math\VectorTransformations.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\Application.cpp">
@@ -123,6 +129,9 @@
       <Filter>Source Files\render</Filter>
     </ClCompile>
     <ClCompile Include="render\OrthographicCamera.cpp">
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="render\PerspectiveCamera.cpp">
       <Filter>Source Files\render</Filter>
     </ClCompile>
   </ItemGroup>

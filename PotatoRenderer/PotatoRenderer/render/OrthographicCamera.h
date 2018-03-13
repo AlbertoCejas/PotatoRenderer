@@ -15,7 +15,7 @@ class OrthographicCamera : public BaseCamera
 
 	~OrthographicCamera() { }
 
-	void setToOrtho(float viewportWidth, float viewportHeight);
+	// void setToOrtho(float viewportWidth, float viewportHeight);
 
 	void update() override;
 

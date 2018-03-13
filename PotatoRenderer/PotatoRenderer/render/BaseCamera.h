@@ -11,13 +11,18 @@ class BaseCamera
 	explicit BaseCamera(float _viewportWidth, float _viewportHeight);
 	virtual ~BaseCamera() { }
 
-	inline const Mat4f& GetCombined() const { return projectionViewCombined; }
+	inline const Mat4f& getCombined() const { return projectionViewCombined; }
+
+	inline const Vec3f& getDirection() const { return direction; }
+	inline const Vec3f& getUp() const { return up; }
 
 	virtual void translate(const Vec3f& vec) { position += vec; }
 	virtual void translate(float x, float y, float z) { position.add(x, y, z); }
 
-	void lookAt(const Vec3f& vec);
-	void lookAt(float x, float y, float z);
+	virtual void rotate(const Vec3f& axis, float angle);
+
+	//void lookAt(const Vec3f& vec);
+	//void lookAt(float x, float y, float z);
 
 	void normalizeUp();
 

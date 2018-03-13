@@ -11,7 +11,7 @@ class Application
 	explicit Application();
 
 	void init();
-	void update(int milisecs);
+	void update(int64_t milisecs);
 	void render();
 
 	inline bool mustExit() const { return this->exit; }

@@ -52,7 +52,7 @@ void Renderer::init(Application* app)
 	isInit = true;
 }
 
-void Renderer::update(int)
+void Renderer::update(int64_t)
 {
 	if (window->requiresExit())
 	{
