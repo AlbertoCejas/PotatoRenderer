@@ -99,6 +99,18 @@
     <ClInclude Include="math\MathUtils.h">
       <Filter>Header Files\math</Filter>
     </ClInclude>
+    <ClInclude Include="render\ShapeRenderer.h">
+      <Filter>Header Files\render</Filter>
+    </ClInclude>
+    <ClInclude Include="render\Color.h">
+      <Filter>Header Files\render</Filter>
+    </ClInclude>
+    <ClInclude Include="render\ImmediateRenderer.h">
+      <Filter>Header Files\render</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\stb_image.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\Application.cpp">
@@ -138,6 +150,15 @@
       <Filter>Source Files\render</Filter>
     </ClCompile>
     <ClCompile Include="render\PerspectiveCamera.cpp">
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="render\ShapeRenderer.cpp">
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="render\Color.cpp">
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="render\ImmediateRenderer.cpp">
       <Filter>Source Files\render</Filter>
     </ClCompile>
   </ItemGroup>

@@ -16,4 +16,12 @@ enum class ShaderProgramParamName : int32_t
 	ACTIVE_UNIFORMS = GL_ACTIVE_UNIFORMS
 };
 
+enum class DrawMode : int32_t 
+{ 
+	POINTS = GL_POINTS, 
+	LINES = GL_LINES, 
+	TRIANGLES = GL_TRIANGLES 
+};
+
+
 #endif

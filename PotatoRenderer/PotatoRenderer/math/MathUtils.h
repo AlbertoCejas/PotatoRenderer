@@ -13,8 +13,14 @@ namespace MathUtils
 	static const float PI = (float) M_PI;
 	static const float PI2 = PI * 2.0f;
 
-	// static float radiansToDegrees(float radians) { return radians * 180.0f / PI; }
+	static float radiansToDegrees(float radians) { return radians * 180.0f / PI; }
 	static float degreesToRadians(float degrees) { return degrees * PI / 180.0f; }
+
+	template<typename T>
+	static T clamp(const T value, const T min, const T max)
+	{
+		return value < min ? min : (value > max ? max : value);
+	}
 
 	template<typename T>
 	static bool areEqual(const T x, const T y)

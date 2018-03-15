@@ -14,10 +14,13 @@ class VBOWithVAO
 	~VBOWithVAO();
 
 	inline VertexAttributes& getAttributes() { return vertexAttributes; }
+	inline int getMaxNumVertices() const { return maxNumOfVertices; }
 	inline int getCurrentNumVertices() const { return currentNumOfVertices; };
 	inline float* getVertices() { isDirty = true; return vertices; }
 
-	void setVertices(float* vertices, int verticesSize);
+	void setVertices(float* vertices, int numOfVertices);
+	void addVertices(float* vertices, int numOfVertices);
+	void updateVertices(float* vertices, int numOfVerticesOffset, int numOfVertices);
 
 	void bind(ShaderProgram& shaderProgram);
 	void bind(ShaderProgram& shaderProgram, int* locations, int numOfLocations);

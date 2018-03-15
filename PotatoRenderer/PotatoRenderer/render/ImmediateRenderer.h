@@ -1,0 +1,49 @@
+#ifndef _IMMEDIATE_RENDERER_H_
+#define _IMMEDIATE_RENDERER_H_
+
+#include "render/ShaderProgram.h"
+#include "render/Mesh.h"
+#include <vector>
+#include "render/Color.h"
+
+enum class DrawMode;
+
+class ImmediateRenderer
+{
+  public:
+
+	explicit ImmediateRenderer(int _maxVertices);
+	~ImmediateRenderer();
+
+	void begin(const Mat4f& _transform, const DrawMode& drawMode);
+	void vertex(float x, float y, float z);
+	void end();
+	void flush();
+
+	inline const Mat4f* getTransform() const { return transform; }
+	inline DrawMode getDrawMode() const { return drawMode; }
+	inline int getNumVertices() const { return mesh.getNumVertices(); }
+	inline int getMaxNumVertices() const { return mesh.getMaxNumVertices(); }
+
+	inline const Color& getColor() const { return color; }
+	void setColor(const Color& color);
+	void setColor(float red, float green, float blue, float alpha);
+
+  private:
+
+	static std::vector<VertexAttribute> buildVertexAttributes();
+
+	void positionToVertexCache(float x, float y, float z);
+	void colorToVertexCache(const Color& color);
+
+	int32_t maxVertices;
+	int32_t numVertices;
+	Mesh mesh;
+	ShaderProgram shader;
+	const Mat4f* transform;
+	DrawMode drawMode;
+	Color color;
+	float* vertexCache;
+};
+
+#endif // _IMMEDIATE_RENDERER_H_

@@ -135,12 +135,15 @@
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\VectorTransformations.h" />
     <ClInclude Include="render\BaseCamera.h" />
+    <ClInclude Include="render\Color.h" />
+    <ClInclude Include="render\ImmediateRenderer.h" />
     <ClInclude Include="render\PerspectiveCamera.h" />
     <ClInclude Include="render\GLEnums.h" />
     <ClInclude Include="render\Mesh.h" />
     <ClInclude Include="render\OrthographicCamera.h" />
     <ClInclude Include="render\Renderer.h" />
     <ClInclude Include="render\ShaderProgram.h" />
+    <ClInclude Include="render\ShapeRenderer.h" />
     <ClInclude Include="render\VAO.h" />
     <ClInclude Include="render\VBO.h" />
     <ClInclude Include="render\VBOwithVAO.h" />
@@ -148,16 +151,20 @@
     <ClInclude Include="render\VertexAttributes.h" />
     <ClInclude Include="render\Window.h" />
     <ClInclude Include="utils\CharUtils.h" />
+    <ClInclude Include="utils\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\Application.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="render\BaseCamera.cpp" />
+    <ClCompile Include="render\Color.cpp" />
+    <ClCompile Include="render\ImmediateRenderer.cpp" />
     <ClCompile Include="render\PerspectiveCamera.cpp" />
     <ClCompile Include="render\Mesh.cpp" />
     <ClCompile Include="render\OrthographicCamera.cpp" />
     <ClCompile Include="render\Renderer.cpp" />
     <ClCompile Include="render\ShaderProgram.cpp" />
+    <ClCompile Include="render\ShapeRenderer.cpp" />
     <ClCompile Include="render\VAO.cpp" />
     <ClCompile Include="render\VBO.cpp" />
     <ClCompile Include="render\VBOwithVAO.cpp" />

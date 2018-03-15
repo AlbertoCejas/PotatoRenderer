@@ -2,6 +2,7 @@
 #define _RENDERER_H_
 
 #include <cinttypes>
+#include "render/ShapeRenderer.h"
 
 class Window;
 class Application;
@@ -17,11 +18,15 @@ class Renderer
 	void update(int64_t microseconds);
 	void render();
 
+	inline ShapeRenderer& getShapeRenderer() { return shapeRenderer; }
+
   private:
 
 	Window* window;
 	Application* application;
 	bool isInit;
+
+	ShapeRenderer shapeRenderer;
 
 };
 

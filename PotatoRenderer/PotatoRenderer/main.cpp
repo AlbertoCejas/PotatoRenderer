@@ -29,17 +29,8 @@ int main()
 
 #else
 
-#include "render/ShaderProgram.h"
-#include "render/OrthographicCamera.h"
-#include "render/PerspectiveCamera.h"
-#include "render/Mesh.h"
-#include "vld.h"
-#include "math/MathUtils.h"
-#define _USE_MATH_DEFINES
-#include "math.h"
 
 #include <iostream>
-
 
 // GLEW
 #define GLEW_STATIC
@@ -48,6 +39,16 @@ int main()
 // GLFW
 #include <GLFW/glfw3.h>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "utils/stb_image.h"
+
+#include "render/ShaderProgram.h"
+#include "render/OrthographicCamera.h"
+#include "render/PerspectiveCamera.h"
+#include "render/Mesh.h"
+#include "vld.h"
+#include "math/MathUtils.h"
+#include "render/ShapeRenderer.h"
 
 // Function prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
@@ -236,6 +237,8 @@ int main()
 	double deltaTime = 0.0f;
 	double lastFrame = 0.0f;
 
+	ShapeRenderer shapeRenderer;
+
 	// Game loop
 	while (!glfwWindowShouldClose(window))
 	{
@@ -245,18 +248,69 @@ int main()
 		lastFrame = currentFrame;
 
 		glfwPollEvents();
-		Do_Movement((float) deltaTime, camera);
+		Do_Movement((float)deltaTime, camera);
 
 		// Render
 		// Clear the colorbuffer
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		/*
 		shader.begin();
 		shader.setUniformMatrix("u_projTrans", camera.getCombined());
 		mesh1.render(shader);
 		mesh2.render(shader);
 		shader.end();
+		*/
+
+		shapeRenderer.begin(camera.getCombined(), DrawMode::TRIANGLES);
+		{
+			shapeRenderer.triangle
+			(
+				.0f, .0f, .0f,
+				50.0f, 0.0f, 0.0f,
+				25.0f, 50.0f, 0.0f,
+				Color::BLUE, Color::BLUE, Color::BLUE
+			);
+			shapeRenderer.rectangle
+			(
+				-10.0f, 20.0f, .0f,
+				-30.0f, 20.0f, 0.0f,
+				-30.0f, 40.0f, 0.0f,
+				-10.0f, 40.0f, 0.0f,
+				Color::ORANGE, Color::ORANGE, Color::ORANGE, Color::ORANGE
+			);
+			shapeRenderer.circle(0.0f, 0.0f, 0.0f, 5.0f, 20, Color::PINK);
+		}
+		shapeRenderer.end();
+
+
+		shapeRenderer.begin(camera.getCombined(), DrawMode::LINES);
+		{
+			shapeRenderer.triangle
+			(
+				.0f, .0f, .0f,
+				-50.0f, 0.0f, 0.0f,
+				-25.0f, 50.0f, 0.0f,
+				Color::ORANGE, Color::ORANGE, Color::ORANGE
+			);
+			shapeRenderer.rectangle
+			(
+				10.0f, 20.0f, .0f,
+				30.0f, 20.0f, 0.0f,
+				30.0f, 40.0f, 0.0f,
+				10.0f, 40.0f, 0.0f,
+				Color::ORANGE, Color::ORANGE, Color::ORANGE, Color::ORANGE
+			);
+			shapeRenderer.line
+			(
+				.0f, -10.0f, .0f,
+				10.0f, -10.0f, .0f,
+				Color::PINK, Color::PINK
+			);
+		}
+		shapeRenderer.end();
+
 
 		//glBindVertexArray(0);
 
@@ -367,19 +421,13 @@ void Do_Movement(float deltaTime, BaseCamera& camera)
 		camera.translate(right * velocity);
 	}
 
-	/*Vec3f front;
-	front.x = cos(MathUtils::degreesToRadians(Yaw)) * cos(MathUtils::degreesToRadians(Pitch));
-	front.y = sin(MathUtils::degreesToRadians(Pitch));
-	front.z = sin(MathUtils::degreesToRadians(Yaw)) * cos(MathUtils::degreesToRadians(Pitch));*/
-
 	if (Yaw != 0 || Pitch != 0)
 	{
 		Vec3f direction(camera.getDirection());
-		Vec3f v(camera.getDirection());
-		v.cross(camera.getUp());
-		//v.y = .0f;
-		v.normalize();
-		camera.rotateDegrees(v.x, v.y, v.z, Pitch);
+		//Vec3f right(camera.getDirection());
+		//right.cross(camera.getUp());
+		//right.normalize();
+		camera.rotateDegrees(right.x, right.y, right.z, Pitch);
 		camera.rotateDegrees(.0f, 1.0f, 0.0f, -Yaw); // This should be the updated UP vector of the camera
 
 		Yaw = .0f;

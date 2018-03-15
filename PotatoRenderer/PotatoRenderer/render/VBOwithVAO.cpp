@@ -1,5 +1,6 @@
 #include "VBOwithVAO.h"
 #include "render/ShaderProgram.h"
+#include <cstring>
 
 VBOWithVAO::VBOWithVAO(bool isStatic, int numVertices, const std::vector<VertexAttribute>& attributes) :
 	currentNumOfVertices(0),
@@ -10,7 +11,7 @@ VBOWithVAO::VBOWithVAO(bool isStatic, int numVertices, const std::vector<VertexA
 	isBound(false),
 	isDirty(false)
 {
-	verticesSize = vertexAttributes.getVertexSize() * numVertices / 4;
+	verticesSize = vertexAttributes.getVertexSizeBytes() * numVertices / 4;
 	vertices = new float[verticesSize];
 
 	glGenBuffers(1, &VBOhandle);
@@ -30,22 +31,44 @@ void VBOWithVAO::bufferChanged()
 {
 	if (isBound)
 	{
-		glBufferData(GL_ARRAY_BUFFER, currentNumOfVertices * vertexAttributes.getVertexSize(), vertices, isStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, currentNumOfVertices * vertexAttributes.getVertexSizeBytes(), vertices, isStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
 		isDirty = false;
 	}
 }
 
-void VBOWithVAO::setVertices(float* verticesToSet, int numOfVerticesToSet)
+void VBOWithVAO::setVertices(float* verticesToSet, int numOfVertices)
 {
 	isDirty = true;
-	currentNumOfVertices = numOfVerticesToSet;
+	currentNumOfVertices = numOfVertices;
 
-	int numOfFloatsToCopy = currentNumOfVertices * vertexAttributes.getVertexSize();
+	int numOfFloatsToCopy = currentNumOfVertices * vertexAttributes.getVertexSizeBytes();
+	memcpy(vertices, verticesToSet, sizeof(float) * numOfFloatsToCopy);
 
-	for (int i = 0; i < numOfFloatsToCopy; i++)
-	{
-		this->vertices[i] = verticesToSet[i];
-	}
+	bufferChanged();
+}
+
+
+void VBOWithVAO::addVertices(float* verticesToAdd, int numOfVertices)
+{
+	assert(numOfVertices > 0 && (currentNumOfVertices + numOfVertices) <= maxNumOfVertices);
+
+	isDirty = true;
+
+	int numOfFloatsToCopy = numOfVertices * vertexAttributes.getVertexSizeBytes() / 4;
+	memcpy(vertices + currentNumOfVertices * numOfFloatsToCopy, verticesToAdd, sizeof(float) * numOfFloatsToCopy);
+	currentNumOfVertices += numOfVertices;
+
+	bufferChanged();
+}
+
+void VBOWithVAO::updateVertices(float* verticesToUpdate, int numOfVerticesOffset, int numOfVertices)
+{
+	assert(numOfVertices > 0 && numOfVerticesOffset > -1 && ((numOfVerticesOffset + numOfVertices) < maxNumOfVertices));
+
+	isDirty = true;
+
+	int numOfFloatsToCopy = numOfVertices * vertexAttributes.getVertexSizeBytes();
+	memcpy(vertices + numOfVerticesOffset* numOfFloatsToCopy, verticesToUpdate, sizeof(float) * numOfFloatsToCopy);
 
 	bufferChanged();
 }
@@ -69,7 +92,7 @@ void VBOWithVAO::bind(ShaderProgram& shaderProgram, int* locations, int numOfLoc
 void VBOWithVAO::bindAttributes(ShaderProgram& shaderProgram, int* locations, int numOfLocations)
 {
 	bool stillValid = !cachedLocations.empty();
-	unsigned int numAttributes = vertexAttributes.size();
+	unsigned int numAttributes = vertexAttributes.numOfAttributes();
 
 	if (stillValid)
 	{
@@ -126,7 +149,7 @@ void VBOWithVAO::bindAttributes(ShaderProgram& shaderProgram, int* locations, in
 			    vertexAttribute.getNumOfComponents(),
 			    vertexAttribute.getType(),
 			    vertexAttribute.isNormalized(),
-			    vertexAttributes.getVertexSize(),
+			    vertexAttributes.getVertexSizeBytes(),
 			    vertexAttribute.getOffset()
 			);
 		}
@@ -140,7 +163,7 @@ void VBOWithVAO::unbindAttributes(ShaderProgram& shaderProgram)
 		return;
 	}
 
-	unsigned int numAttributes = vertexAttributes.size();
+	unsigned int numAttributes = vertexAttributes.numOfAttributes();
 
 	for (unsigned int i = 0u; i < numAttributes; i++)
 	{
@@ -161,7 +184,7 @@ void VBOWithVAO::bindData()
 	if (isDirty)
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, VBOhandle);
-		glBufferData(GL_ARRAY_BUFFER, currentNumOfVertices * vertexAttributes.getVertexSize(), vertices, isStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, currentNumOfVertices * vertexAttributes.getVertexSizeBytes(), vertices, isStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
 		isDirty = false;
 	}
 }

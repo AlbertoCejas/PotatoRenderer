@@ -11,16 +11,15 @@ class VertexAttributes
 
 	explicit VertexAttributes(const std::vector<VertexAttribute>& attributes);
 
-	inline int getVertexSize() const { return vertexSize; }
+	inline int getVertexSizeBytes() const { return vertexSizeBytes; }
 	inline unsigned int numOfAttributes() const { return attributes.size(); }
 	inline VertexAttribute& get(unsigned int index) { return attributes[index]; }
-	inline unsigned int size() const { return attributes.size(); }
 
   private:
 
 	int calculateOffsets();
 
-	int32_t vertexSize;
+	int32_t vertexSizeBytes;
 	std::vector<VertexAttribute> attributes;
 };
 

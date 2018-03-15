@@ -10,16 +10,28 @@ Mesh::~Mesh()
 
 }
 
-Mesh* Mesh::setVertices(float* vertices, int currentNumOfVertices)
+Mesh& Mesh::setVertices(float* vertices, int numOfVertices)
 {
-	vertexData.setVertices(vertices, currentNumOfVertices);
-	return this;
+	vertexData.setVertices(vertices, numOfVertices);
+	return *this;
+}
+
+Mesh& Mesh::addVertices(float* vertices, int numOfVertices)
+{
+	vertexData.addVertices(vertices, numOfVertices);
+	return *this;
+}
+
+Mesh& Mesh::updateVertices(float* vertices, int numOfVerticesOffset, int numOfVertices)
+{
+	vertexData.updateVertices(vertices, numOfVerticesOffset, numOfVertices);
+	return *this;
 }
 
 bool Mesh::hasVertexAttribute(VertexAttribute::Usage usage) // TODO: const here
 {
 	VertexAttributes& attributes = vertexData.getAttributes();
-	unsigned int len = attributes.size();
+	unsigned int len = attributes.numOfAttributes();
 
 	for (unsigned int i = 0u; i < len; i++)
 	{
@@ -35,7 +47,7 @@ bool Mesh::hasVertexAttribute(VertexAttribute::Usage usage) // TODO: const here
 VertexAttribute* Mesh::getVertexAttribute(VertexAttribute::Usage usage) // TODO: const here
 {
 	VertexAttributes& attributes = vertexData.getAttributes();
-	unsigned int len = attributes.size();
+	unsigned int len = attributes.numOfAttributes();
 
 	for (unsigned int i = 0u; i < len; i++)
 	{

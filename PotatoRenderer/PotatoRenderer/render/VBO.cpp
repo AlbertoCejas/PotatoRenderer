@@ -10,7 +10,7 @@ VBO::VBO(bool isStatic, int numVertices, const std::vector<VertexAttribute>& ver
 	isDirty(false),
 	currentNumOfVertices(0)
 {
-	verticesSize = vertexAttributes.getVertexSize() * numVertices / 4;
+	verticesSize = vertexAttributes.getVertexSizeBytes() * numVertices / 4;
 	vertices = new float[verticesSize];
 
 	glGenBuffers(1, &vboId);
@@ -28,7 +28,7 @@ void VBO::bind(ShaderProgram& shaderProgram)
 
 	if (isDirty)
 	{
-		glBufferData(GL_ARRAY_BUFFER, currentNumOfVertices * vertexAttributes.getVertexSize(), vertices, isStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, currentNumOfVertices * vertexAttributes.getVertexSizeBytes(), vertices, isStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
 		isDirty = false;
 	}
 
@@ -38,7 +38,7 @@ void VBO::bind(ShaderProgram& shaderProgram)
 
 void VBO::defineAttributes(ShaderProgram& shaderProgram)
 {
-	for (unsigned int i = 0u; i < vertexAttributes.size(); i++)
+	for (unsigned int i = 0u; i < vertexAttributes.numOfAttributes(); i++)
 	{
 		VertexAttribute& vertexAttribute = vertexAttributes.get(i);
 		shaderProgram.setVertexAttribute
@@ -47,7 +47,7 @@ void VBO::defineAttributes(ShaderProgram& shaderProgram)
 		    vertexAttribute.getNumOfComponents(),
 		    vertexAttribute.getType(),
 		    vertexAttribute.isNormalized(),
-		    vertexAttributes.getVertexSize(),
+		    vertexAttributes.getVertexSizeBytes(),
 		    vertexAttribute.getOffset()
 		);
 
@@ -57,7 +57,7 @@ void VBO::defineAttributes(ShaderProgram& shaderProgram)
 
 void VBO::unbind(ShaderProgram& shader, int* locations)
 {
-	unsigned int numAttributes = vertexAttributes.size();
+	unsigned int numAttributes = vertexAttributes.numOfAttributes();
 
 	if (locations == nullptr)
 	{
@@ -88,7 +88,7 @@ void VBO::setVertices(float* verticesToSet, int numOfVerticesToSet)
 	isDirty = true;
 	currentNumOfVertices = numOfVerticesToSet;
 
-	int numOfFloatsToCopy = currentNumOfVertices * vertexAttributes.getVertexSize();
+	int numOfFloatsToCopy = currentNumOfVertices * vertexAttributes.getVertexSizeBytes();
 
 	for (int i = 0; i < numOfFloatsToCopy; i++)
 	{
@@ -102,7 +102,7 @@ void VBO::bufferChanged()
 {
 	if (isBound)
 	{
-		glBufferData(GL_ARRAY_BUFFER, currentNumOfVertices * vertexAttributes.getVertexSize(), vertices, isStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, currentNumOfVertices * vertexAttributes.getVertexSizeBytes(), vertices, isStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
 		isDirty = false;
 	}
 }

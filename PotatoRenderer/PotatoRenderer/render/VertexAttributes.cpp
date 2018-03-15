@@ -2,7 +2,7 @@
 
 VertexAttributes::VertexAttributes(const std::vector<VertexAttribute>& attributesToSet) : attributes(attributesToSet)
 {
-	vertexSize = calculateOffsets();
+	vertexSizeBytes = calculateOffsets();
 }
 
 int VertexAttributes::calculateOffsets()

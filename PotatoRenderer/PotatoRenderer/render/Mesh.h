@@ -14,12 +14,15 @@ class Mesh
 	explicit Mesh(bool isStatic, int numVertices, const std::vector<VertexAttribute>& attributes);
 	~Mesh();
 
-	Mesh* setVertices(float* vertices, int currentNumOfVertices);
+	Mesh& setVertices(float* vertices, int numOfVertices);
+	Mesh& addVertices(float* vertices, int numOfVertices);
+	Mesh& updateVertices(float* vertices, int numOfVerticesOffset, int numOfVertices);
 
 	bool hasVertexAttribute(VertexAttribute::Usage usage);
 	VertexAttribute* getVertexAttribute(VertexAttribute::Usage usage);
 	VertexAttributes& getVertexAttributes() { return vertexData.getAttributes(); }
 
+	inline int getMaxNumVertices() const { return vertexData.getMaxNumVertices(); }
 	inline int getNumVertices() const { return vertexData.getCurrentNumVertices(); }
 
 	void bind(ShaderProgram& shader);
