@@ -5,6 +5,7 @@
 
 #include "math/Matrix.h"
 #include "math/Vector3.h"
+#include "math/Quaternion.h"
 #include "math.h"
 
 namespace MatrixTransformations
@@ -43,6 +44,7 @@ namespace MatrixTransformations
 	static void toOrtho(Matrix<T, 4, 4>& matrix, float left, float right, float bottom, float top, float near, float far) // Right-handed, depth clip space(-1,1)
 	{
 		matrix.identity();
+		// Ordered by cache access (column-major)
 		matrix(0, 0) = static_cast<T>(2) / (right - left);
 		matrix(1, 1) = static_cast<T>(2) / (top - bottom);
 		matrix(2, 2) = - static_cast<T>(2) / (far - near);
@@ -57,25 +59,12 @@ namespace MatrixTransformations
 		assert(std::abs(aspect - std::numeric_limits<T>::epsilon()) > static_cast<T>(0));
 
 		matrix.identity();
-		/*
-
-		float l_fd = (float)(1.0 / std::tan((fieldOfViewDegrees * (M_PI / 180)) / 2.0));
-		float l_a1 = (far + near) / (near - far);
-		float l_a2 = (2 * far * near) / (near - far);
-
-		matrix[0][0] = l_fd / aspect;
-		matrix[1][1] = l_fd;
-		matrix[2][2] = l_a1;
-		matrix[2][3] = l_a2;
-		matrix[3][2] = -1;
-		matrix[3][3] = static_cast<T>(0);
-
-		*/
 
 		const T fieldOfViewRadians = fieldOfViewDegrees * static_cast<T>(M_PI / 180.0);
 		const T insideTan = fieldOfViewRadians / static_cast<T>(2);
 		const T tanHalfFovy = std::tan(insideTan);
 
+		// Ordered by cache access (column-major)
 		matrix(0, 0) = static_cast<T>(1) / (aspect * tanHalfFovy);
 		matrix(1, 1) = static_cast<T>(1) / (tanHalfFovy);
 		matrix(2, 2) = - (far + near) / (far - near);
@@ -84,8 +73,8 @@ namespace MatrixTransformations
 		matrix(3, 3) = static_cast<T>(0);
 	}
 
-	template <typename T, int ROW_DIM, int COL_DIM>
-	static void rotate(Matrix<T, ROW_DIM, COL_DIM>& target, const Vector3<float>& axis, float degrees)
+	template <typename T>
+	static void rotate(Matrix<T, 4, 4>& target, float axisX, float axisY, float axisZ, float degrees)
 	{
 		if (degrees == .0f)
 		{
@@ -93,14 +82,93 @@ namespace MatrixTransformations
 			return;
 		}
 
-		Quaternion<T> quaternion(axis, degrees);
+		Quaternion quaternion;
+		quaternion.setToAxisRotationDegrees(axisX, axisY, axisZ, degrees);
 		rotate(target, quaternion);
 	};
 
-	template <typename T, int ROW_DIM, int COL_DIM>
-	static void rotate(Matrix<T, ROW_DIM, COL_DIM>& target, const Quaternion<T>& quaternion)
+	template <typename T>
+	static void rotate(Matrix<T, 4, 4>& target, const Quaternion& quaternion)
 	{
-
+		Matrix<T, 4, 4> matrix = transformToMatrix<T>(quaternion);
+		target *= matrix;
 	};
+
+	template <typename T>
+	static Matrix<T, 4, 4> transformToMatrix(const Quaternion& quaternion)
+	{
+		const T xx = quaternion.x * quaternion.x;
+		const T xy = quaternion.x * quaternion.y;
+		const T xz = quaternion.x * quaternion.z;
+		const T xw = quaternion.x * quaternion.w;
+		const T yy = quaternion.y * quaternion.y;
+		const T yz = quaternion.y * quaternion.z;
+		const T yw = quaternion.y * quaternion.w;
+		const T zz = quaternion.z * quaternion.z;
+		const T zw = quaternion.z * quaternion.w;
+
+		Matrix<T, 4, 4> matrix;
+
+		// Ordered by cache access (column-major)
+		matrix(0, 0) = (T)1 - (T)2 * (yy + zz);
+		matrix(0, 1) = (T)2 * (xy - zw);
+		matrix(0, 2) = (T)2 * (xz + yw);
+		matrix(0, 3) = (T)0;
+		matrix(1, 0) = (T)2 * (xy + zw);
+		matrix(1, 1) = (T)1 - (T)2 * (xx + zz);
+		matrix(1, 2) = (T)2 * (yz - xw);
+		matrix(1, 3) = (T)0;
+		matrix(2, 0) = (T)2 * (xz - yw);
+		matrix(2, 1) = (T)2 * (yz + xw);
+		matrix(2, 2) = (T)1 - (T)2 * (xx + yy);
+		matrix(2, 3) = (T)0;
+		matrix(3, 0) = (T)0;
+		matrix(3, 1) = (T)0;
+		matrix(3, 2) = (T)0;
+		matrix(3, 3) = (T)1;
+
+		return matrix;
+	}
+
+	template <typename T>
+	static void applyTransform(Matrix<T, 4, 4>& target, T translationX, T translationY, T translationZ, T quaternionX, T quaternionY, T quaternionZ, T quaternionW,
+	                           T scaleX, T scaleY, T scaleZ)
+	{
+		const T xs = quaternionX * (T)2;
+		const T ys = quaternionY * (T)2;
+		const T zs = quaternionZ * (T)2;
+		const T wx = quaternionW * xs;
+		const T wy = quaternionW * ys;
+		const T wz = quaternionW * zs;
+		const T xx = quaternionX * xs;
+		const T xy = quaternionX * ys;
+		const T xz = quaternionX * zs;
+		const T yy = quaternionY * ys;
+		const T yz = quaternionY * zs;
+		const T zz = quaternionZ * zs;
+
+		// Ordered by cache access (column-major)
+
+		matrix(0, 0) = scaleX * ((T)1 - (yy + zz));
+		matrix(1, 0) = scaleX * (xy + wz);
+		matrix(2, 0) = scaleX * (xz + wy);
+		matrix(3, 0) = (T)0;
+
+		matrix(0, 1) = scaleY * (xy - wz);
+		matrix(1, 1) = scaleY * ((T)1 - (xx + zz));
+		matrix(2, 1) = scaleY * (yz + wx);
+		matrix(3, 1) = (T)0;
+
+		matrix(0, 2) = scaleZ * (xz + wy);
+		matrix(1, 2) = scaleZ * (yz - wx);
+		matrix(2, 2) = scaleZ * ((T)1 - (xx + yy));
+		matrix(3, 2) = (T)0;
+
+		matrix(0, 3) = translationX;
+		matrix(1, 3) = translationY;
+		matrix(2, 3) = translationZ;
+		matrix(3, 3) = (T)1;
+	}
+};
 
 #endif

@@ -128,8 +128,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="core\Application.h" />
+    <ClInclude Include="math\MathUtils.h" />
     <ClInclude Include="math\Matrix.h" />
     <ClInclude Include="math\MatrixTransformations.h" />
+    <ClInclude Include="math\Quaternion.h" />
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\VectorTransformations.h" />
     <ClInclude Include="render\BaseCamera.h" />

@@ -34,6 +34,7 @@ int main()
 #include "render/PerspectiveCamera.h"
 #include "render/Mesh.h"
 #include "vld.h"
+#include "math/MathUtils.h"
 #define _USE_MATH_DEFINES
 #include "math.h"
 
@@ -79,8 +80,6 @@ bool firstMouse = true;
 float Yaw = 0.0f;
 float Pitch = 0.0f;
 
-//OrthographicCamera camera((float)WIDTH, (float)HEIGHT);
-
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void Do_Movement(float deltaTime, BaseCamera& camera);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -103,7 +102,7 @@ int main()
 
 	// Set the required callback functions
 	glfwSetKeyCallback(window, key_callback);
-	//glfwSetCursorPosCallback(window, mouse_callback);
+	glfwSetCursorPosCallback(window, mouse_callback);
 	//glfwSetScrollCallback(window, scroll_callback);
 
 	// Options
@@ -229,6 +228,7 @@ int main()
 	mesh3.bind(shader);
 	mesh3.setVertices(vertices, 3);
 
+	//OrthographicCamera camera((float)WIDTH, (float)HEIGHT);
 	PerspectiveCamera camera((float)WIDTH, (float)HEIGHT);
 	camera.translate(0, 0, 50);
 	camera.update();
@@ -338,21 +338,9 @@ void scroll_callback(GLFWwindow*, double, double)
 	//camera.ProcessMouseScroll(yoffset);
 }
 
-float getDegrees(float radians)
-{
-	const float halfC = M_PI / 180;
-	return radians * halfC;
-}
-
-float getRadians(float degrees)
-{
-	const float halfC = 180 / M_PI;
-	return degrees * halfC;
-}
-
 void Do_Movement(float deltaTime, BaseCamera& camera)
 {
-	float speed = 20.0f;
+	float speed = 100.0f;
 	GLfloat velocity = speed * deltaTime;
 
 	// Camera controls
@@ -379,12 +367,27 @@ void Do_Movement(float deltaTime, BaseCamera& camera)
 		camera.translate(right * velocity);
 	}
 
-	Vec3f front;
-	front.x = cos(getRadians(Yaw)) * cos(getRadians(Pitch));
-	front.y = sin(getRadians(Pitch));
-	front.z = sin(getRadians(Yaw)) * cos(getRadians(Pitch));
+	/*Vec3f front;
+	front.x = cos(MathUtils::degreesToRadians(Yaw)) * cos(MathUtils::degreesToRadians(Pitch));
+	front.y = sin(MathUtils::degreesToRadians(Pitch));
+	front.z = sin(MathUtils::degreesToRadians(Yaw)) * cos(MathUtils::degreesToRadians(Pitch));*/
+
+	if (Yaw != 0 || Pitch != 0)
+	{
+		Vec3f direction(camera.getDirection());
+		Vec3f v(camera.getDirection());
+		v.cross(camera.getUp());
+		//v.y = .0f;
+		v.normalize();
+		camera.rotateDegrees(v.x, v.y, v.z, Pitch);
+		camera.rotateDegrees(.0f, 1.0f, 0.0f, -Yaw); // This should be the updated UP vector of the camera
+
+		Yaw = .0f;
+		Pitch = .0f;
+	}
 
 	camera.update();
+
 }
 
 #endif

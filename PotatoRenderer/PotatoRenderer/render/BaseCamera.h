@@ -19,7 +19,7 @@ class BaseCamera
 	virtual void translate(const Vec3f& vec) { position += vec; }
 	virtual void translate(float x, float y, float z) { position.add(x, y, z); }
 
-	virtual void rotate(const Vec3f& axis, float angle);
+	virtual void rotateDegrees(float axisX, float axisY, float axisZ, float angle);
 
 	//void lookAt(const Vec3f& vec);
 	//void lookAt(float x, float y, float z);

@@ -42,10 +42,10 @@ void BaseCamera::lookAt(float x, float y, float z)
 }
 */
 
-void BaseCamera::rotate(const Vec3f& axis, float angle)
+void BaseCamera::rotateDegrees(float axisX, float axisY, float axisZ, float angle)
 {
-	VectorTransformations::rotate(direction, axis, angle);
-	VectorTransformations::rotate(up, axis, angle);
+	VectorTransformations::rotateDegrees<float>(direction, axisX, axisY, axisZ, angle);
+	VectorTransformations::rotateDegrees<float>(up, axisX, axisY, axisZ, angle);
 }
 
 void BaseCamera::normalizeUp()

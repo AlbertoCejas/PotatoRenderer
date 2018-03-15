@@ -93,6 +93,12 @@
     <ClInclude Include="math\VectorTransformations.h">
       <Filter>Header Files\math</Filter>
     </ClInclude>
+    <ClInclude Include="math\Quaternion.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\MathUtils.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\Application.cpp">
