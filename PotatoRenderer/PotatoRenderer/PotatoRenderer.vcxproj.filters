@@ -111,6 +111,12 @@
     <ClInclude Include="utils\stb_image.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
+    <ClInclude Include="render\Texture.h">
+      <Filter>Header Files\render</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\BitwiseUtils.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\Application.cpp">
@@ -160,6 +166,9 @@
     </ClCompile>
     <ClCompile Include="render\ImmediateRenderer.cpp">
       <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="render\Texture.cpp">
+      <Filter>Header Files\render</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -239,6 +239,30 @@ int main()
 
 	ShapeRenderer shapeRenderer;
 
+	unsigned int texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	// set the texture wrapping/filtering options (on the currently bound texture object)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// load and generate the texture
+	int width, height, nrChannels;
+	unsigned char* data = stbi_load("texture.jpg", &width, &height, &nrChannels, 0);
+
+	if (data)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		std::cout << "Failed to load texture" << std::endl;
+	}
+
+	stbi_image_free(data);
+
 	// Game loop
 	while (!glfwWindowShouldClose(window))
 	{
@@ -263,22 +287,22 @@ int main()
 		shader.end();
 		*/
 
-		shapeRenderer.begin(camera.getCombined(), DrawMode::TRIANGLES);
+		shapeRenderer.begin(camera.getCombined(), DrawMode::FILLED);
 		{
 			shapeRenderer.triangle
 			(
-				.0f, .0f, .0f,
-				50.0f, 0.0f, 0.0f,
-				25.0f, 50.0f, 0.0f,
-				Color::BLUE, Color::BLUE, Color::BLUE
+			    0.0f, 0.0f, 0.0f,
+			    50.0f, 0.0f, 0.0f,
+			    25.0f, 50.0f, 0.0f,
+			    Color::BLUE
 			);
 			shapeRenderer.rectangle
 			(
-				-10.0f, 20.0f, .0f,
-				-30.0f, 20.0f, 0.0f,
-				-30.0f, 40.0f, 0.0f,
-				-10.0f, 40.0f, 0.0f,
-				Color::ORANGE, Color::ORANGE, Color::ORANGE, Color::ORANGE
+			    -10.0f, 20.0f, 0.0f,
+			    -30.0f, 20.0f, 0.0f,
+			    -30.0f, 40.0f, 0.0f,
+			    -10.0f, 40.0f, 0.0f,
+			    Color::ORANGE
 			);
 			shapeRenderer.circle(0.0f, 0.0f, 0.0f, 5.0f, 20, Color::PINK);
 		}
@@ -289,24 +313,24 @@ int main()
 		{
 			shapeRenderer.triangle
 			(
-				.0f, .0f, .0f,
-				-50.0f, 0.0f, 0.0f,
-				-25.0f, 50.0f, 0.0f,
-				Color::ORANGE, Color::ORANGE, Color::ORANGE
+			    0.0f, 0.0f, 10.0f,
+			    -50.0f, 0.0f, 10.0f,
+			    -25.0f, 50.0f, 10.0f,
+			    Color::ORANGE
 			);
 			shapeRenderer.rectangle
 			(
-				10.0f, 20.0f, .0f,
-				30.0f, 20.0f, 0.0f,
-				30.0f, 40.0f, 0.0f,
-				10.0f, 40.0f, 0.0f,
-				Color::ORANGE, Color::ORANGE, Color::ORANGE, Color::ORANGE
+			    10.0f, 20.0f, 0.0f,
+			    30.0f, 20.0f, 0.0f,
+			    30.0f, 40.0f, 0.0f,
+			    10.0f, 40.0f, 0.0f,
+			    Color::ORANGE
 			);
 			shapeRenderer.line
 			(
-				.0f, -10.0f, .0f,
-				10.0f, -10.0f, .0f,
-				Color::PINK, Color::PINK
+			    0.0f, -10.0f, 0.0f,
+			    10.0f, -10.0f, 0.0f,
+			    Color::PINK
 			);
 		}
 		shapeRenderer.end();

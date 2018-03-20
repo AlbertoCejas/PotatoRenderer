@@ -5,11 +5,12 @@ std::vector<VertexAttribute> ImmediateRenderer::buildVertexAttributes()
 	std::vector<VertexAttribute> attribs = std::vector<VertexAttribute>();
 	attribs.push_back(VertexAttribute(VertexAttribute::POSITION, 3, ShaderProgram::POSITION_ATTRIBUTE));
 	attribs.push_back(VertexAttribute(VertexAttribute::COLOR, 4, ShaderProgram::COLOR_ATTRIBUTE));
+	attribs.push_back(VertexAttribute(VertexAttribute::TEXTURE_COORDS, 2, ShaderProgram::TEXTURE_COORDS));
 	return attribs;
 }
 
 ImmediateRenderer::ImmediateRenderer(int _maxVertices) : maxVertices(_maxVertices), numVertices(0), mesh(false, _maxVertices, buildVertexAttributes()), transform(nullptr),
-	color(Color::BLACK)
+	texture(nullptr), color(Color::BLACK)
 {
 	vertexCache = new float[mesh.getVertexAttributes().getVertexSizeBytes() / 4];
 }
@@ -35,6 +36,12 @@ void ImmediateRenderer::vertex(float x, float y, float z)
 	numVertices++;
 }
 
+void ImmediateRenderer::vertex(float x, float y, float z, float u, float v)
+{
+	textCoordsToVertexCache(u, v);
+	vertex(x, y, z);
+}
+
 void ImmediateRenderer::end()
 {
 	flush();
@@ -46,6 +53,7 @@ void ImmediateRenderer::flush()
 	{
 		shader.begin();
 		shader.setUniformMatrix("u_projTrans", *transform);
+		shader.set
 		mesh.render(shader, (int)drawMode);
 		shader.end();
 		numVertices = 0;
@@ -62,6 +70,12 @@ void ImmediateRenderer::setColor(const Color& _color)
 void ImmediateRenderer::setColor(float red, float green, float blue, float alpha)
 {
 	color.set(red, green, blue, alpha);
+}
+
+void ImmediateRenderer::textCoordsToVertexCache(float u, float v)
+{
+	vertexCache[7] = u;
+	vertexCache[8] = v;
 }
 
 void ImmediateRenderer::positionToVertexCache(float x, float y, float z)

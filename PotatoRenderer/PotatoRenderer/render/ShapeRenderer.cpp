@@ -1,5 +1,6 @@
 #include "render/ShapeRenderer.h"
 #include "math/MathUtils.h"
+#include "render/Texture.h"
 #include <algorithm>
 #include <cassert>
 
@@ -74,13 +75,16 @@ void ShapeRenderer::triangle(float x1, float y1, float z1, float x2, float y2, f
 	immediateRenderer.vertex(x1, y1, z1);
 	immediateRenderer.setColor(col2);
 	immediateRenderer.vertex(x2, y2, z2);
+
 	if (drawMode == DrawMode::LINES)
 	{
 		immediateRenderer.setColor(col2);
 		immediateRenderer.vertex(x2, y2, z2);
 	}
+
 	immediateRenderer.setColor(col3);
 	immediateRenderer.vertex(x3, y3, z3);
+
 	if (drawMode == DrawMode::LINES)
 	{
 		immediateRenderer.setColor(col3);
@@ -88,6 +92,27 @@ void ShapeRenderer::triangle(float x1, float y1, float z1, float x2, float y2, f
 		immediateRenderer.setColor(col1);
 		immediateRenderer.vertex(x1, y1, z1);
 	}
+}
+
+void ShapeRenderer::triangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float p1u, float p1v, float p2u, float p2v, float p3u,
+                             float p3v, const Texture& texture)
+{
+	const Color& oldColor = immediateRenderer.getColor();
+
+	if (immediateRenderer.getDrawMode() != DrawMode::FILLED)
+	{
+		const Mat4f* transformation = immediateRenderer.getTransform();
+		this->end();
+		this->begin(*transformation, DrawMode::FILLED);
+	}
+
+	setColor(Color(1.0f, 1.0f, 1.0f, 1.0f));
+	immediateRenderer.setTextCoords(p1u, p1v);
+	immediateRenderer.vertex(x1, y1, z1);
+	immediateRenderer.setTextCoords(p2u, p2v);
+	immediateRenderer.vertex(x2, y2, z2);
+	immediateRenderer.setTextCoords(p3u, p3v);
+	immediateRenderer.vertex(x3, y3, z3);
 }
 
 void ShapeRenderer::rectangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4)
@@ -100,7 +125,8 @@ void ShapeRenderer::rectangle(float x1, float y1, float z1, float x2, float y2, 
 	rectangle(x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4, _color, _color, _color, _color);
 }
 
-void ShapeRenderer::rectangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4, const Color& col1, const Color& col2, const Color& col3, const Color& col4)
+void ShapeRenderer::rectangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4, const Color& col1,
+                              const Color& col2, const Color& col3, const Color& col4)
 {
 	if (immediateRenderer.getDrawMode() == DrawMode::LINES)
 	{
@@ -169,7 +195,7 @@ void ShapeRenderer::circle(float x, float y, float z, float radius, int segments
 
 	if (immediateRenderer.getDrawMode() == DrawMode::LINES)
 	{
-		check(DrawMode::LINES, DrawMode::TRIANGLES, segments * 2 + 2);
+		check(DrawMode::LINES, DrawMode::FILLED, segments * 2 + 2);
 
 		for (int i = 0; i < segments; i++)
 		{
@@ -183,15 +209,17 @@ void ShapeRenderer::circle(float x, float y, float z, float radius, int segments
 			immediateRenderer.setColor(_color);
 			immediateRenderer.vertex(x + cx, y + cy, z);
 		}
+
 		// Ensure the last segment is identical to the first.
 		immediateRenderer.setColor(_color);
 		immediateRenderer.vertex(x + cx, y + cy, z);
 	}
 	else
 	{
-		check(DrawMode::LINES, DrawMode::TRIANGLES, segments * 3 + 3);
+		check(DrawMode::LINES, DrawMode::FILLED, segments * 3 + 3);
 
 		segments--;
+
 		for (int i = 0; i < segments; i++)
 		{
 			immediateRenderer.setColor(_color);
@@ -206,6 +234,7 @@ void ShapeRenderer::circle(float x, float y, float z, float radius, int segments
 			immediateRenderer.setColor(_color);
 			immediateRenderer.vertex(x + cx, y + cy, z);
 		}
+
 		// Ensure the last segment is identical to the first.
 		immediateRenderer.setColor(_color);
 		immediateRenderer.vertex(x, y, z);
