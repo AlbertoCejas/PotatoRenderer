@@ -144,7 +144,9 @@
     <ClInclude Include="render\Renderer.h" />
     <ClInclude Include="render\ShaderProgram.h" />
     <ClInclude Include="render\ShapeRenderer.h" />
+    <ClInclude Include="render\Sprite.h" />
     <ClInclude Include="render\Texture.h" />
+    <ClInclude Include="render\TextureRegion.h" />
     <ClInclude Include="render\VAO.h" />
     <ClInclude Include="render\VBO.h" />
     <ClInclude Include="render\VBOwithVAO.h" />
@@ -167,7 +169,9 @@
     <ClCompile Include="render\Renderer.cpp" />
     <ClCompile Include="render\ShaderProgram.cpp" />
     <ClCompile Include="render\ShapeRenderer.cpp" />
+    <ClCompile Include="render\Sprite.cpp" />
     <ClCompile Include="render\Texture.cpp" />
+    <ClCompile Include="render\TextureRegion.cpp" />
     <ClCompile Include="render\VAO.cpp" />
     <ClCompile Include="render\VBO.cpp" />
     <ClCompile Include="render\VBOwithVAO.cpp" />

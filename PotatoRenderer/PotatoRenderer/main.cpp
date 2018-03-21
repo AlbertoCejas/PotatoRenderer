@@ -39,8 +39,8 @@ int main()
 // GLFW
 #include <GLFW/glfw3.h>
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "utils/stb_image.h"
+//#define STB_IMAGE_IMPLEMENTATION
+//#include "utils/stb_image.h"
 
 #include "render/ShaderProgram.h"
 #include "render/OrthographicCamera.h"
@@ -49,6 +49,10 @@ int main()
 #include "vld.h"
 #include "math/MathUtils.h"
 #include "render/ShapeRenderer.h"
+
+#include "render/Texture.h"
+#include "render/TextureRegion.h"
+#include "render/Sprite.h"
 
 // Function prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
@@ -211,11 +215,11 @@ int main()
 		25.0f, 50.0f, 10.0f,  0.0f, 1.0f, 0.0f  // Top
 	};
 
-	ShaderProgram shader;
+	ShaderProgram shader(false, true, false);
 
 	std::vector<VertexAttribute> attributes;
-	attributes.push_back(VertexAttribute(VertexAttribute::POSITION, 3, ShaderProgram::POSITION_ATTRIBUTE));
-	attributes.push_back(VertexAttribute(VertexAttribute::COLOR, 3, ShaderProgram::COLOR_ATTRIBUTE));
+	attributes.push_back(VertexAttribute(VertexAttribute::Usage::POSITION, 3, ShaderProgram::POSITION_ATTRIBUTE));
+	attributes.push_back(VertexAttribute(VertexAttribute::Usage::COLOR, 3, ShaderProgram::COLOR_ATTRIBUTE));
 
 	Mesh mesh1(true, 5000, attributes);
 	mesh1.bind(shader);
@@ -239,6 +243,7 @@ int main()
 
 	ShapeRenderer shapeRenderer;
 
+	/*
 	unsigned int texture;
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
@@ -253,16 +258,16 @@ int main()
 
 	if (data)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
+	    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	    glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else
 	{
-		std::cout << "Failed to load texture" << std::endl;
+	    std::cout << "Failed to load texture" << std::endl;
 	}
 
 	stbi_image_free(data);
-
+	*/
 	// Game loop
 	while (!glfwWindowShouldClose(window))
 	{

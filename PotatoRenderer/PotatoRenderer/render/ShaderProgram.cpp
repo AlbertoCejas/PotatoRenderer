@@ -2,7 +2,9 @@
 #include <GL/glew.h>
 #include <cassert>
 #include "render/GLEnums.h"
-
+#include <string>
+#include <cstdlib>
+/*
 const char* ShaderProgram::DEFAULT_VERTEX_SHADER_SOURCE =
     "#version 330 core\n"
     "layout (location = 0) in vec3 a_position;\n"
@@ -23,8 +25,88 @@ const char* ShaderProgram::DEFAULT_FRAGMENT_SHADER_SOURCE =
     "{\n"
     "color = vec4(ourColor, 1.0f);\n"
     "}\n\0";
+*/
 
-ShaderProgram::ShaderProgram() : ShaderProgram(DEFAULT_VERTEX_SHADER_SOURCE, DEFAULT_FRAGMENT_SHADER_SOURCE) { }
+std::string ShaderProgram::createDefaultVertexShader(bool hasNormals, bool hasColors, int numOfTexCoords)
+{
+	std::string vertexShader("#version 330 core\n");
+	vertexShader += ("attribute vec3 " + std::string(ShaderProgram::POSITION_ATTRIBUTE) + ";\n"); // Position
+	vertexShader += hasNormals ? ("attribute vec3 " + std::string(ShaderProgram::NORMAL_ATTRIBUTE) + ";\n") : ""; // Normal
+	vertexShader += hasColors ? ("attribute vec3 " + std::string(ShaderProgram::COLOR_ATTRIBUTE) + ";\n") : ""; // Color
+
+	for (int i = 0; i < numOfTexCoords; i++)
+	{
+		vertexShader += "attribute vec2 " + std::string(ShaderProgram::TEXCOORD_ATTRIBUTE) + std::to_string(i) + ";\n"; // TexCoords
+	}
+
+	vertexShader += "uniform mat4 u_projTrans;\n";
+	vertexShader += (hasColors ? "varying vec3 v_col;\n" : "");
+
+	for (int i = 0; i < numOfTexCoords; i++)
+	{
+		vertexShader += "varying vec2 v_tex" + std::to_string(i) + ";\n";
+	}
+
+	vertexShader += "void main() {\n";
+	vertexShader += "   gl_Position = u_projTrans * vec4(" + std::string(ShaderProgram::POSITION_ATTRIBUTE) + ", 1.0);\n"
+	                + (hasColors ? "   v_col = " + std::string(ShaderProgram::COLOR_ATTRIBUTE) + ";\n" : "");
+
+	for (int i = 0; i < numOfTexCoords; i++)
+	{
+		std::string iStr = std::to_string(i);
+		vertexShader += "   v_tex" + iStr + " = " + ShaderProgram::TEXCOORD_ATTRIBUTE + iStr + ";\n";
+	}
+
+	vertexShader += "   gl_PointSize = 1.0;\n";
+	vertexShader += "}\n";
+
+	return vertexShader;
+}
+
+std::string ShaderProgram::createDefaultFragmentShader(bool, bool hasColors, int numOfTextCoords)
+{
+	std::string fragmentShader("#version 330 core\n");
+
+	fragmentShader += "#ifdef GL_ES\n";
+	fragmentShader += "precision mediump float;\n";
+	fragmentShader += "#endif\n";
+
+	if (hasColors) { fragmentShader += "varying vec3 v_col;\n"; }
+
+	for (int i = 0; i < numOfTextCoords; i++)
+	{
+		std::string iStr = std::to_string(i);
+		fragmentShader += "varying vec2 v_tex" + iStr + ";\n";
+		fragmentShader += "uniform sampler2D u_sampler" + iStr + ";\n";
+	}
+
+	fragmentShader += "void main() {\n";
+	fragmentShader += "   gl_FragColor = ";
+	fragmentShader += (hasColors ? "vec4(v_col, 1.0f)" : "vec4(1, 1, 1, 1)");
+
+	if (numOfTextCoords > 0) { fragmentShader += " * "; }
+
+	for (int i = 0; i < numOfTextCoords; i++)
+	{
+		std::string iStr = std::to_string(i);
+
+		if (i == numOfTextCoords - 1)
+		{
+			fragmentShader += " texture2D(u_sampler" + iStr + ",  v_tex" + iStr + ")";
+		}
+		else
+		{
+			fragmentShader += " texture2D(u_sampler" + iStr + ",  v_tex" + iStr + ") *";
+		}
+	}
+
+	fragmentShader += ";\n}";
+
+	return fragmentShader;
+}
+
+ShaderProgram::ShaderProgram(bool hasNormals, bool hasColors, int numOfTextCoords) :
+	ShaderProgram(createDefaultVertexShader(hasNormals, hasColors, numOfTextCoords).c_str(), createDefaultFragmentShader(hasNormals, hasColors, numOfTextCoords).c_str()) { }
 
 ShaderProgram::ShaderProgram(const char* vertexShaderSource, const char* fragmentShaderSource)
 {
@@ -217,6 +299,12 @@ void ShaderProgram::disableVertexAttribute(const char* name)
 void ShaderProgram::disableVertexAttribute(unsigned int location)
 {
 	glDisableVertexAttribArray(location);
+}
+
+void ShaderProgram::setUniformi(const char* name, int value)
+{
+	int location = fetchUniformLocation(name);
+	glUniform1i(location, value);
 }
 
 void ShaderProgram::setUniformMatrix(const char* name, const Mat4f& matrix)

@@ -4,18 +4,21 @@
 #include "ShaderProgram.h"
 #include <cstdint>
 #include <GL/glew.h>
+#include <string>
 
 class VertexAttribute
 {
   public:
 
-	enum class Usage : std::int32_t { POSITION, COLOR };
+	enum class Usage : std::int32_t { POSITION, COLOR, TEXTURE_COORDS};
 
-	static const Usage POSITION = Usage::POSITION;
-	static const Usage COLOR = Usage::COLOR;
+	//static const Usage POSITION = Usage::POSITION;
+	//static const Usage COLOR = Usage::COLOR;
+	//static const Usage TEXTURE_COORDS = Usage::TEXTURE_COORDS;
 
-	static VertexAttribute* position() { return new VertexAttribute(POSITION, 3, ShaderProgram::POSITION_ATTRIBUTE); }
-	static VertexAttribute* color() { return new VertexAttribute(COLOR, 3, GL_FLOAT, false, ShaderProgram::COLOR_ATTRIBUTE); }
+	static VertexAttribute position() { return VertexAttribute(Usage::POSITION, 3, ShaderProgram::POSITION_ATTRIBUTE); }
+	static VertexAttribute color() { return VertexAttribute(Usage::COLOR, 3, GL_FLOAT, false, ShaderProgram::COLOR_ATTRIBUTE, 0); }
+	static VertexAttribute texCoords(int unit) { return VertexAttribute(Usage::TEXTURE_COORDS, 2, GL_FLOAT, false, (ShaderProgram::TEXCOORD_ATTRIBUTE + std::to_string(unit)).c_str(), unit); }
 
 
 	VertexAttribute(Usage usage, int numComponents, const char* alias) :
@@ -23,9 +26,19 @@ class VertexAttribute
 		(
 		    usage,
 		    numComponents,
+		    alias,
+		    0
+		) {}
+
+	VertexAttribute(Usage usage, int numComponents, const char* alias, int index) :
+		VertexAttribute
+		(
+		    usage,
+		    numComponents,
 		    GL_FLOAT,
-			false,
-		    alias
+		    false,
+		    alias,
+		    index
 		) {}
 
 	inline int getLocation() const { return (int) usage; }
@@ -40,14 +53,15 @@ class VertexAttribute
 
   private:
 
-	VertexAttribute(Usage usage, int numComponents, int type, bool normalized, const char* alias)
-		: usage(usage), numOfComponents(numComponents), type(type), alias(alias), normalized(normalized) {}
+	VertexAttribute(Usage _usage, int _numComponents, int _type, bool _normalized, const char* _alias, int _index)
+		: usage(_usage), numOfComponents(_numComponents), type(_type), alias(_alias), normalized(_normalized), unit(_index) {}
 
 	Usage           usage;
 	int32_t         numOfComponents;
 	int32_t         type;
 	int32_t         offset;
 	const char*     alias;
+	int32_t         unit;
 	bool            normalized;
 };
 

@@ -3,12 +3,10 @@
 #include "render/Texture.h"
 #include "render/GLEnums.h"
 #include <cstring>
-// GLFW
-#include <GLFW/glfw3.h>
 #include <algorithm>
 #include "utils/BitwiseUtils.h"
 
-const int32_t Texture::MAX_BOUNDED_TEXTURES = 32;
+const int32_t Texture::MAX_BOUNDED_TEXTURES = sizeof(Texture::CURRENTLY_BOUNDED_TEXTURE_UNITS_MASK) << 3;
 int32_t Texture::CURRENTLY_BOUNDED_TEXTURE_UNITS_MASK = 0;
 
 Texture::Texture(const char* _path) : Texture(_path, TextureFilter::LINEAR, TextureFilter::LINEAR, TextureWrap::REPEAT, TextureWrap::REPEAT, true)
@@ -35,7 +33,7 @@ Texture::~Texture()
 unsigned char* Texture::loadData(const char* path)
 {
 	stbi_set_flip_vertically_on_load(true);
-	unsigned char* data = stbi_load("texture.jpg", &width, &height, &numOfChannels, 0);
+	unsigned char* data = stbi_load(path, &width, &height, &numOfChannels, 0);
 	assert(data != nullptr);
 	return data;
 }
@@ -79,6 +77,7 @@ void Texture::unbindTexture()
 	if (textureUnitIndex != -1)
 	{
 		BitwiseUtils::resetNBit(CURRENTLY_BOUNDED_TEXTURE_UNITS_MASK, textureUnitIndex);
+		textureUnitIndex = -1;
 	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);

@@ -1,6 +1,8 @@
 #ifndef _TEXTURE_H_
 #define _TEXTURE_H_
 
+#include <cinttypes>
+
 enum class TextureFilter;
 enum class TextureWrap;
 

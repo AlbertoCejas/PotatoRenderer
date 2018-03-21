@@ -31,8 +31,6 @@ class ShapeRenderer
 	void triangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3);
 	void triangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, const Color& color);
 	void triangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, const Color& col1, const Color& col2, const Color& col3);
-	void triangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float p1u, float p1v, float p2u, float p2v, float p3u,
-	              float p3v, const Texture& texture);
 
 	// points must be adjacents
 	void rectangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4);

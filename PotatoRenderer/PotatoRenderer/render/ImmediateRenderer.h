@@ -18,7 +18,6 @@ class ImmediateRenderer
 
 	void begin(const Mat4f& _transform, const DrawMode& drawMode);
 	void vertex(float x, float y, float z);
-	void vertex(float x, float y, float z, float u, float v);
 	void end();
 	void flush();
 
@@ -31,9 +30,6 @@ class ImmediateRenderer
 	void setColor(const Color& color);
 	void setColor(float red, float green, float blue, float alpha);
 
-	void setTextCoords(float u, float v);
-
-	inline void setTexture(const Texture& _texture) { texture = &_texture; }
 	inline void setDrawMode(DrawMode _drawMode) { drawMode = _drawMode; }
 
   private:
@@ -42,7 +38,6 @@ class ImmediateRenderer
 
 	void positionToVertexCache(float x, float y, float z);
 	void colorToVertexCache(const Color& color);
-	void textCoordsToVertexCache(float u, float v);
 
 	int32_t maxVertices;
 	int32_t numVertices;
@@ -51,7 +46,6 @@ class ImmediateRenderer
 	const Mat4f* transform;
 	DrawMode drawMode;
 	Color color;
-	const Texture* texture;
 	float* vertexCache;
 };
 
