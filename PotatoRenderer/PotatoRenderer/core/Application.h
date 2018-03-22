@@ -8,7 +8,7 @@ class Application
 {
   public:
 
-	explicit Application();
+	Application();
 
 	void init();
 	void update(int64_t milisecs);

@@ -17,7 +17,7 @@ class Matrix
 	static_assert(ROW_DIM > 0, "Rows dimension must be greater than zero");
 	static_assert(COL_DIM > 0, "Cols dimension must be greater than zero");
 
-	explicit Matrix()
+	Matrix()
 	{
 		identity();
 	}

@@ -12,7 +12,7 @@ class VBO
 {
   public:
 
-	explicit VBO(bool isStatic, int numVertices, const std::vector<VertexAttribute>& attributes);
+	VBO(bool isStatic, int numVertices, const std::vector<VertexAttribute>& attributes);
 	~VBO();
 
 	inline const VertexAttributes& getAttributes() const { return vertexAttributes; }

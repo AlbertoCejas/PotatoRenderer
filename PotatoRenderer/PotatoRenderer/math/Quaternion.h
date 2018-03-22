@@ -8,8 +8,8 @@ class Quaternion
 {
   public:
 
-	explicit Quaternion() : Quaternion(.0f, .0f, .0f, 1.0f) { }
-	explicit Quaternion(float _x, float _y, float _z, float _w) : x(_x), y(_y), z(_z), w(_w) { }
+	Quaternion() : Quaternion(.0f, .0f, .0f, 1.0f) { }
+	Quaternion(float _x, float _y, float _z, float _w) : x(_x), y(_y), z(_z), w(_w) { }
 
 	Quaternion(const Quaternion& other) : Quaternion(other.x, other.y, other.z, other.w) { }
 

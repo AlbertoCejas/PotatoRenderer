@@ -7,7 +7,7 @@ class VAO // VertexArrayObject
 {
   public:
 
-	explicit VAO();
+	VAO();
 	~VAO();
 
 	void bind();

@@ -11,12 +11,12 @@ class Mesh
 {
   public:
 
-	explicit Mesh(bool isStatic, int numVertices, const std::vector<VertexAttribute>& attributes);
+	Mesh(bool isStatic, int numVertices, const std::vector<VertexAttribute>& attributes);
 	~Mesh();
 
-	Mesh& setVertices(float* vertices, int numOfVertices);
-	Mesh& addVertices(float* vertices, int numOfVertices);
-	Mesh& updateVertices(float* vertices, int numOfVerticesOffset, int numOfVertices);
+	Mesh& setVertices(const float* vertices, int numOfVertices);
+	Mesh& addVertices(const float* vertices, int numOfVertices);
+	Mesh& updateVertices(const float* vertices, int numOfVerticesOffset, int numOfVertices);
 
 	bool hasVertexAttribute(VertexAttribute::Usage usage);
 	VertexAttribute* getVertexAttribute(VertexAttribute::Usage usage);

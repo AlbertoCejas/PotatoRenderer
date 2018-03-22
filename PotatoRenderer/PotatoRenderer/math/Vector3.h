@@ -15,8 +15,8 @@ class Vector3
 
 	static const Vector3 ZERO;
 
-	explicit Vector3() : x(0), y(0), z(0) { }
-	explicit Vector3(T x, T y, T z) : x(x), y(y), z(z) { }
+	Vector3() : x(0), y(0), z(0) { }
+	Vector3(T x, T y, T z) : x(x), y(y), z(z) { }
 	Vector3(const Vector3& other) : x(other.x), y(other.y), z(other.z) { }
 
 	inline bool isZero() const { return x == 0 && y == 0 && z == 0; }

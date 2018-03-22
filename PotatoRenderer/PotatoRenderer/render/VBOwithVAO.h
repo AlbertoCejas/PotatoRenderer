@@ -10,7 +10,7 @@ class VBOWithVAO
 {
   public:
 
-	explicit VBOWithVAO(bool isStatic, int numVertices, const std::vector<VertexAttribute>& attributes);
+	VBOWithVAO(bool isStatic, int numVertices, const std::vector<VertexAttribute>& attributes);
 	~VBOWithVAO();
 
 	inline VertexAttributes& getAttributes() { return vertexAttributes; }
@@ -18,9 +18,9 @@ class VBOWithVAO
 	inline int getCurrentNumVertices() const { return currentNumOfVertices; };
 	inline float* getVertices() { isDirty = true; return vertices; }
 
-	void setVertices(float* vertices, int numOfVertices);
-	void addVertices(float* vertices, int numOfVertices);
-	void updateVertices(float* vertices, int numOfVerticesOffset, int numOfVertices);
+	void setVertices(const float* vertices, int numOfVertices);
+	void addVertices(const float* vertices, int numOfVertices);
+	void updateVertices(const float* vertices, int numOfVerticesOffset, int numOfVertices);
 
 	void bind(ShaderProgram& shaderProgram);
 	void bind(ShaderProgram& shaderProgram, int* locations, int numOfLocations);

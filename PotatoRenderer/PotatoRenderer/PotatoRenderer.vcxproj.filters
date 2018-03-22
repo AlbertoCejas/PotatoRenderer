@@ -123,6 +123,9 @@
     <ClInclude Include="render\Sprite.h">
       <Filter>Source Files\render</Filter>
     </ClInclude>
+    <ClInclude Include="render\SpriteBatch.h">
+      <Filter>Header Files\render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\Application.cpp">
@@ -173,13 +176,16 @@
     <ClCompile Include="render\ImmediateRenderer.cpp">
       <Filter>Source Files\render</Filter>
     </ClCompile>
-    <ClCompile Include="render\Texture.cpp">
-      <Filter>Header Files\render</Filter>
-    </ClCompile>
     <ClCompile Include="render\TextureRegion.cpp">
       <Filter>Source Files\render</Filter>
     </ClCompile>
     <ClCompile Include="render\Sprite.cpp">
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="render\Texture.cpp">
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="render\SpriteBatch.cpp">
       <Filter>Source Files\render</Filter>
     </ClCompile>
   </ItemGroup>

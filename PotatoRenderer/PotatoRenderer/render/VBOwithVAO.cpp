@@ -36,7 +36,7 @@ void VBOWithVAO::bufferChanged()
 	}
 }
 
-void VBOWithVAO::setVertices(float* verticesToSet, int numOfVertices)
+void VBOWithVAO::setVertices(const float* verticesToSet, int numOfVertices)
 {
 	isDirty = true;
 	currentNumOfVertices = numOfVertices;
@@ -48,7 +48,7 @@ void VBOWithVAO::setVertices(float* verticesToSet, int numOfVertices)
 }
 
 
-void VBOWithVAO::addVertices(float* verticesToAdd, int numOfVertices)
+void VBOWithVAO::addVertices(const float* verticesToAdd, int numOfVertices)
 {
 	assert(numOfVertices > 0 && (currentNumOfVertices + numOfVertices) <= maxNumOfVertices);
 
@@ -61,14 +61,14 @@ void VBOWithVAO::addVertices(float* verticesToAdd, int numOfVertices)
 	bufferChanged();
 }
 
-void VBOWithVAO::updateVertices(float* verticesToUpdate, int numOfVerticesOffset, int numOfVertices)
+void VBOWithVAO::updateVertices(const float* verticesToUpdate, int numOfVerticesOffset, int numOfVertices)
 {
 	assert(numOfVertices > 0 && numOfVerticesOffset > -1 && ((numOfVerticesOffset + numOfVertices) < maxNumOfVertices));
 
 	isDirty = true;
 
 	int numOfFloatsToCopy = numOfVertices * vertexAttributes.getVertexSizeBytes();
-	memcpy(vertices + numOfVerticesOffset* numOfFloatsToCopy, verticesToUpdate, sizeof(float) * numOfFloatsToCopy);
+	memcpy(vertices + numOfVerticesOffset * numOfFloatsToCopy, verticesToUpdate, sizeof(float) * numOfFloatsToCopy);
 
 	bufferChanged();
 }

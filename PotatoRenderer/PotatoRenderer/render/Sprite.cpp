@@ -1,28 +1,86 @@
 #include "Sprite.h"
-#include "render/TextureRegion.h"
 
-Sprite::Sprite(const TextureRegion& _textureRegion) : Sprite(_textureRegion, 0, 0, 0, _textureRegion.getWidth(), _textureRegion.getHeight(), 0)
+Sprite::Sprite(const TextureRegion& _textureRegion) : Sprite(_textureRegion, 0.0f, 0.0f, 0.0f, (float)_textureRegion.getWidth(), (float)_textureRegion.getHeight(), 0.0f)
 {
 
 }
 
-Sprite::Sprite(const TextureRegion& _textureRegion, int _bottomLeftX, int _bottomLeftY, int _bottomLeftZ, int _upperRightX, int _upperRightY, int _upperRightZ) :
+Sprite::Sprite(const TextureRegion& _textureRegion, float _bottomLeftX, float _bottomLeftY, float _bottomLeftZ, float _upperRightX, float _upperRightY, float _upperRightZ) :
 	Sprite(_textureRegion, _bottomLeftX, _bottomLeftY, _bottomLeftZ, _upperRightX, _upperRightY, _upperRightZ, (_upperRightX - _bottomLeftX) / 2, (_upperRightY - _bottomLeftY) / 2,
 	       (_upperRightZ - _bottomLeftX) / 2)
 {
 
 }
 
-Sprite::Sprite(const TextureRegion& _textureRegion, int _bottomLeftX, int _bottomLeftY, int _bottomLeftZ, int _upperRightX, int _upperRightY, int _upperRightZ, int _originX,
-               int _originY, int _originZ) :
-	Sprite(_textureRegion, _bottomLeftX, _bottomLeftY, _bottomLeftZ, _upperRightX, _upperRightY, _upperRightZ, _originX, _originY, _originZ,
-	       (_upperRightX - _bottomLeftX), (_upperRightY - _bottomLeftY))
+Sprite::Sprite(const TextureRegion& _textureRegion, float _bottomLeftX, float _bottomLeftY, float _bottomLeftZ, float _upperRightX, float _upperRightY, float _upperRightZ,
+               float _originX, float _originY, float _originZ) :
+	textureRegion(_textureRegion),
+	origin(_originX, _originY, _originZ),
+	color(Color::WHITE),
+	dirty(false)
 {
-
+	updatePosition(_bottomLeftX, _bottomLeftY, _bottomLeftZ, _upperRightX, _upperRightY, _upperRightZ);
+	updateColor();
+	updateUVs();
 }
 
-Sprite::Sprite(const TextureRegion& _textureRegion, int _bottomLeftX, int _bottomLeftY, int _bottomLeftZ, int _upperRightX, int _upperRightY, int _upperRightZ, int _originX,
-               int _originY, int _originZ, int _targetWidth, int _targetHeight)
-{
 
+const std::array<float, Sprite::SPRITE_SIZE>& Sprite::getVertices() const
+{
+	if (dirty)
+	{
+		// Update rotation, scale, etc...
+	}
+
+	return vertices;
+}
+
+void Sprite::updatePosition(float bottomLeftX, float bottomLeftY, float bottomLeftZ, float upperRightX, float upperRightY, float upperRightZ)
+{
+	vertices[X1] = bottomLeftX;
+	vertices[Y1] = bottomLeftY;
+	vertices[Z1] = bottomLeftZ;
+
+	vertices[X2] = upperRightX;
+	vertices[Y2] = bottomLeftY;
+	vertices[Z2] = upperRightZ;
+
+	vertices[X3] = bottomLeftX;
+	vertices[Y3] = upperRightY;
+	vertices[Z3] = bottomLeftZ;
+
+	vertices[X4] = upperRightX;
+	vertices[Y4] = upperRightY;
+	vertices[Z4] = upperRightZ;
+}
+
+void Sprite::updateColor()
+{
+	vertices[CR1] = color.r;
+	vertices[CG1] = color.g;
+	vertices[CB1] = color.b;
+	vertices[CR2] = color.r;
+	vertices[CG2] = color.g;
+	vertices[CB2] = color.b;
+	vertices[CR3] = color.r;
+	vertices[CG3] = color.g;
+	vertices[CB3] = color.b;
+	vertices[CR4] = color.r;
+	vertices[CG4] = color.g;
+	vertices[CB4] = color.b;
+}
+
+void Sprite::updateUVs()
+{
+	vertices[U1] = textureRegion.getU1();
+	vertices[V1] = textureRegion.getV1();
+
+	vertices[U2] = textureRegion.getU2();
+	vertices[V2] = textureRegion.getV1();
+
+	vertices[U3] = textureRegion.getU1();
+	vertices[V3] = textureRegion.getV2();
+
+	vertices[U4] = textureRegion.getU2();
+	vertices[V4] = textureRegion.getV2();
 }

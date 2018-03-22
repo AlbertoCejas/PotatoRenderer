@@ -11,7 +11,7 @@ class Renderer
 {
   public:
 
-	explicit Renderer();
+	Renderer();
 	~Renderer();
 
 	void init(Application* app);

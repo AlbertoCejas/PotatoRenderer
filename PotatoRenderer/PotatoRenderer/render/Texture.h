@@ -11,7 +11,7 @@ class Texture
   public:
 
 	explicit Texture(const char* _path);
-	explicit Texture(const char* _path, TextureFilter _minFilter, TextureFilter _magFilter, TextureWrap _uWrap, TextureWrap _vWrap, bool _generateMipMaps);
+	Texture(const char* _path, TextureFilter _minFilter, TextureFilter _magFilter, TextureWrap _uWrap, TextureWrap _vWrap, bool _generateMipMaps);
 	~Texture();
 
 	inline int getTextureUnitIndex() const { return textureUnitIndex; }
@@ -24,6 +24,8 @@ class Texture
 	inline TextureWrap getVWrap() const { return vWrap; }
 	// inline const unsigned char* getData() const { return data; }
 
+	void bindTexture();
+	void unbindTexture();
 
   private:
 
@@ -32,8 +34,7 @@ class Texture
 
 	unsigned char* loadData(const char* path);
 	void uploadTexture(unsigned char* data);
-	void bindTexture();
-	void unbindTexture();
+
 
 	uint32_t handler;
 	int32_t textureUnitIndex;

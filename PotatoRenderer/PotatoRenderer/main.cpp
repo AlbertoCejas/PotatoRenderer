@@ -53,6 +53,7 @@ int main()
 #include "render/Texture.h"
 #include "render/TextureRegion.h"
 #include "render/Sprite.h"
+#include "render/SpriteBatch.h"
 
 // Function prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
@@ -218,8 +219,9 @@ int main()
 	ShaderProgram shader(false, true, false);
 
 	std::vector<VertexAttribute> attributes;
-	attributes.push_back(VertexAttribute(VertexAttribute::Usage::POSITION, 3, ShaderProgram::POSITION_ATTRIBUTE));
-	attributes.push_back(VertexAttribute(VertexAttribute::Usage::COLOR, 3, ShaderProgram::COLOR_ATTRIBUTE));
+	attributes.reserve(2);
+	attributes.push_back(VertexAttribute::position());
+	attributes.push_back(VertexAttribute::color());
 
 	Mesh mesh1(true, 5000, attributes);
 	mesh1.bind(shader);
@@ -268,6 +270,13 @@ int main()
 
 	stbi_image_free(data);
 	*/
+
+
+	SpriteBatch spriteBatch(1000);
+	Texture texture("texture.jpg");
+	TextureRegion region(texture);
+	Sprite sprite(region);
+
 	// Game loop
 	while (!glfwWindowShouldClose(window))
 	{
@@ -292,54 +301,58 @@ int main()
 		shader.end();
 		*/
 
-		shapeRenderer.begin(camera.getCombined(), DrawMode::FILLED);
+		spriteBatch.begin(camera);
+		spriteBatch.render(sprite);
+		spriteBatch.end();
+
+		/*shapeRenderer.begin(camera.getCombined(), DrawMode::FILLED);
 		{
-			shapeRenderer.triangle
-			(
-			    0.0f, 0.0f, 0.0f,
-			    50.0f, 0.0f, 0.0f,
-			    25.0f, 50.0f, 0.0f,
-			    Color::BLUE
-			);
-			shapeRenderer.rectangle
-			(
-			    -10.0f, 20.0f, 0.0f,
-			    -30.0f, 20.0f, 0.0f,
-			    -30.0f, 40.0f, 0.0f,
-			    -10.0f, 40.0f, 0.0f,
-			    Color::ORANGE
-			);
-			shapeRenderer.circle(0.0f, 0.0f, 0.0f, 5.0f, 20, Color::PINK);
+		    shapeRenderer.triangle
+		    (
+		        0.0f, 0.0f, 0.0f,
+		        50.0f, 0.0f, 0.0f,
+		        25.0f, 50.0f, 0.0f,
+		        Color::BLUE
+		    );
+		    shapeRenderer.rectangle
+		    (
+		        -10.0f, 20.0f, 0.0f,
+		        -30.0f, 20.0f, 0.0f,
+		        -30.0f, 40.0f, 0.0f,
+		        -10.0f, 40.0f, 0.0f,
+		        Color::ORANGE
+		    );
+		    shapeRenderer.circle(0.0f, 0.0f, 0.0f, 5.0f, 20, Color::PINK);
 		}
 		shapeRenderer.end();
 
 
 		shapeRenderer.begin(camera.getCombined(), DrawMode::LINES);
 		{
-			shapeRenderer.triangle
-			(
-			    0.0f, 0.0f, 10.0f,
-			    -50.0f, 0.0f, 10.0f,
-			    -25.0f, 50.0f, 10.0f,
-			    Color::ORANGE
-			);
-			shapeRenderer.rectangle
-			(
-			    10.0f, 20.0f, 0.0f,
-			    30.0f, 20.0f, 0.0f,
-			    30.0f, 40.0f, 0.0f,
-			    10.0f, 40.0f, 0.0f,
-			    Color::ORANGE
-			);
-			shapeRenderer.line
-			(
-			    0.0f, -10.0f, 0.0f,
-			    10.0f, -10.0f, 0.0f,
-			    Color::PINK
-			);
+		    shapeRenderer.triangle
+		    (
+		        0.0f, 0.0f, 10.0f,
+		        -50.0f, 0.0f, 10.0f,
+		        -25.0f, 50.0f, 10.0f,
+		        Color::ORANGE
+		    );
+		    shapeRenderer.rectangle
+		    (
+		        10.0f, 20.0f, 0.0f,
+		        30.0f, 20.0f, 0.0f,
+		        30.0f, 40.0f, 0.0f,
+		        10.0f, 40.0f, 0.0f,
+		        Color::ORANGE
+		    );
+		    shapeRenderer.line
+		    (
+		        0.0f, -10.0f, 0.0f,
+		        10.0f, -10.0f, 0.0f,
+		        Color::PINK
+		    );
 		}
 		shapeRenderer.end();
-
+		*/
 
 		//glBindVertexArray(0);
 

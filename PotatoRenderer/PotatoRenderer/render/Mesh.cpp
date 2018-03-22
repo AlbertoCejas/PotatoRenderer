@@ -10,19 +10,19 @@ Mesh::~Mesh()
 
 }
 
-Mesh& Mesh::setVertices(float* vertices, int numOfVertices)
+Mesh& Mesh::setVertices(const float* vertices, int numOfVertices)
 {
 	vertexData.setVertices(vertices, numOfVertices);
 	return *this;
 }
 
-Mesh& Mesh::addVertices(float* vertices, int numOfVertices)
+Mesh& Mesh::addVertices(const float* vertices, int numOfVertices)
 {
 	vertexData.addVertices(vertices, numOfVertices);
 	return *this;
 }
 
-Mesh& Mesh::updateVertices(float* vertices, int numOfVerticesOffset, int numOfVertices)
+Mesh& Mesh::updateVertices(const float* vertices, int numOfVerticesOffset, int numOfVertices)
 {
 	vertexData.updateVertices(vertices, numOfVerticesOffset, numOfVertices);
 	return *this;

@@ -13,7 +13,7 @@ class ShapeRenderer
 {
   public:
 
-	explicit ShapeRenderer() : ShapeRenderer(5000) { }
+	ShapeRenderer() : ShapeRenderer(5000) { }
 	explicit ShapeRenderer(int maxVertices);
 
 	void begin(const Mat4f& transformation, const DrawMode& type);

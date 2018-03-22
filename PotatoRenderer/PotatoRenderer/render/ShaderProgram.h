@@ -17,8 +17,8 @@ class ShaderProgram
 	static constexpr const char* NORMAL_ATTRIBUTE = "a_normal";
 	static constexpr const char* TEXCOORD_ATTRIBUTE = "a_texCoord";
 
-	explicit ShaderProgram(bool hasNormals, bool hasColors, int numOfTextCoords);
-	explicit ShaderProgram(const char* vertexShaderSource, const char* fragmentShaderSource);
+	ShaderProgram(bool hasNormals, bool hasColors, int numOfTextCoords);
+	ShaderProgram(const char* vertexShaderSource, const char* fragmentShaderSource);
 	~ShaderProgram();
 
 	void begin();

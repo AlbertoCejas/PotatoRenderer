@@ -8,7 +8,7 @@ class BaseCamera
 {
   public:
 
-	explicit BaseCamera(float _viewportWidth, float _viewportHeight);
+	BaseCamera(float _viewportWidth, float _viewportHeight);
 	virtual ~BaseCamera() { }
 
 	inline const Mat4f& getCombined() const { return projectionViewCombined; }

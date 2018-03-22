@@ -3,8 +3,8 @@
 std::vector<VertexAttribute> ImmediateRenderer::buildVertexAttributes()
 {
 	std::vector<VertexAttribute> attribs = std::vector<VertexAttribute>();
-	attribs.push_back(VertexAttribute(VertexAttribute::Usage::POSITION, 3, ShaderProgram::POSITION_ATTRIBUTE));
-	attribs.push_back(VertexAttribute(VertexAttribute::Usage::COLOR, 4, ShaderProgram::COLOR_ATTRIBUTE));
+	attribs.push_back(VertexAttribute::position());
+	attribs.push_back(VertexAttribute::color());
 	return attribs;
 }
 

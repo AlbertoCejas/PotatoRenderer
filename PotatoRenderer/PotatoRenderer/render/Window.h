@@ -9,7 +9,7 @@ class Window
 {
   public:
 
-	explicit Window(const char* title, int width, int height);
+	Window(const char* title, int width, int height);
 
 	bool requiresExit() const;
 
