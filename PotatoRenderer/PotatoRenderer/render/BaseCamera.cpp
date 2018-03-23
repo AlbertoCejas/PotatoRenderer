@@ -7,7 +7,7 @@ BaseCamera::BaseCamera(float _viewportWidth, float _viewportHeight) :
 	viewportHeight(_viewportHeight),
 	up(0.0f, 1.0f, 0.0f),
 	near(1.0f),
-	far(100.0f),
+	far(50000.0f),
 	direction(0.0f, 0.0f, -1.0f)
 { }
 

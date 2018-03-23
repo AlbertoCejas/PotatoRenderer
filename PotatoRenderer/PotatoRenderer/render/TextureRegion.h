@@ -9,10 +9,10 @@ class TextureRegion
 {
   public:
 
-	explicit TextureRegion(const Texture& _texture);
-	TextureRegion(const Texture& _texture, int _x, int _y, int _width, int _height);
+	explicit TextureRegion(Texture& _texture);
+	TextureRegion(Texture& _texture, int _x, int _y, int _width, int _height);
 
-	inline const Texture& getTexture() const { return texture; }
+	inline Texture& getTexture() { return texture; }
 	inline int getWidth() const { return width; }
 	inline int getHeight() const { return height; }
 
@@ -27,7 +27,7 @@ class TextureRegion
 
 	void setRegion(float u, float v, float u2, float v2);
 
-	const Texture& texture;
+	Texture& texture;
 	float u, v;
 	float u2, v2;
 	int32_t width;

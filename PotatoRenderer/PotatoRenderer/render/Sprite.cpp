@@ -16,7 +16,7 @@ Sprite::Sprite(const TextureRegion& _textureRegion, float _bottomLeftX, float _b
                float _originX, float _originY, float _originZ) :
 	textureRegion(_textureRegion),
 	origin(_originX, _originY, _originZ),
-	color(Color::WHITE),
+	color(Color::RED),
 	dirty(false)
 {
 	updatePosition(_bottomLeftX, _bottomLeftY, _bottomLeftZ, _upperRightX, _upperRightY, _upperRightZ);
@@ -38,20 +38,29 @@ const std::array<float, Sprite::SPRITE_SIZE>& Sprite::getVertices() const
 void Sprite::updatePosition(float bottomLeftX, float bottomLeftY, float bottomLeftZ, float upperRightX, float upperRightY, float upperRightZ)
 {
 	vertices[X1] = bottomLeftX;
-	vertices[Y1] = bottomLeftY;
+	vertices[Y1] = bottomLeftY; //1
 	vertices[Z1] = bottomLeftZ;
 
 	vertices[X2] = upperRightX;
-	vertices[Y2] = bottomLeftY;
+	vertices[Y2] = bottomLeftY; //2
 	vertices[Z2] = upperRightZ;
 
 	vertices[X3] = bottomLeftX;
-	vertices[Y3] = upperRightY;
+	vertices[Y3] = upperRightY; //3
 	vertices[Z3] = bottomLeftZ;
 
 	vertices[X4] = upperRightX;
-	vertices[Y4] = upperRightY;
+	vertices[Y4] = upperRightY; //4
 	vertices[Z4] = upperRightZ;
+
+	vertices[X5] = bottomLeftX;
+	vertices[Y5] = upperRightY; //3
+	vertices[Z5] = bottomLeftZ;
+
+	vertices[X6] = upperRightX;
+	vertices[Y6] = bottomLeftY; //2
+	vertices[Z6] = upperRightZ;
+
 }
 
 void Sprite::updateColor()
@@ -68,11 +77,17 @@ void Sprite::updateColor()
 	vertices[CR4] = color.r;
 	vertices[CG4] = color.g;
 	vertices[CB4] = color.b;
+	vertices[CR5] = color.r;
+	vertices[CG5] = color.g;
+	vertices[CB5] = color.b;
+	vertices[CR6] = color.r;
+	vertices[CG6] = color.g;
+	vertices[CB6] = color.b;
 }
 
 void Sprite::updateUVs()
 {
-	vertices[U1] = textureRegion.getU1();
+	/*vertices[U1] = textureRegion.getU1();
 	vertices[V1] = textureRegion.getV1();
 
 	vertices[U2] = textureRegion.getU2();
@@ -82,5 +97,5 @@ void Sprite::updateUVs()
 	vertices[V3] = textureRegion.getV2();
 
 	vertices[U4] = textureRegion.getU2();
-	vertices[V4] = textureRegion.getV2();
+	vertices[V4] = textureRegion.getV2();*/
 }

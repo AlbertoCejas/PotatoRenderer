@@ -22,7 +22,7 @@ class SpriteBatch
 	inline void setShader(ShaderProgram& shader) { selectedShader = &shader; }
 
 	void begin(const BaseCamera& camera);
-	void render(const Sprite& sprite);
+	void render(Sprite& sprite);
 	void end();
 
   private:
@@ -44,7 +44,7 @@ class SpriteBatch
 	Mesh mesh;
 	bool hasBegun;
 
-	const Texture* lastTexture;
+	Texture* lastTexture;
 
 };
 

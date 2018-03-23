@@ -8,14 +8,14 @@ std::vector<VertexAttribute> SpriteBatch::buildVertexAttributes()
 	std::vector<VertexAttribute> attribs = std::vector<VertexAttribute>();
 	attribs.push_back(VertexAttribute::position());
 	attribs.push_back(VertexAttribute::color());
-	//attribs.push_back(VertexAttribute::texCoords(0));
+	// attribs.push_back(VertexAttribute::texCoords(0));
 	return attribs;
 }
 
 SpriteBatch::SpriteBatch(int _maxVertices) : batchedSprites(), selectedShader(nullptr), mesh(false, _maxVertices,
-	        buildVertexAttributes()), defaultShader(false, true, 1), hasBegun(false), camera(nullptr), lastTexture(nullptr)
+	        buildVertexAttributes()), defaultShader(false, true, 0), hasBegun(false), camera(nullptr), lastTexture(nullptr)
 {
-	batchedSprites.reserve(_maxVertices / 4);
+	batchedSprites.reserve(_maxVertices / 6);
 	selectedShader = &defaultShader;
 }
 
@@ -26,14 +26,15 @@ void SpriteBatch::begin(const BaseCamera& _camera)
 	camera = &_camera;
 }
 
-void SpriteBatch::render(const Sprite& sprite)
+void SpriteBatch::render(Sprite& sprite)
 {
-	const Texture& texture = sprite.getTextureRegion().getTexture();
+	Texture& texture = sprite.getTextureRegion().getTexture();
 
 	batchedSprites.push_back(&sprite);
 
 	if (lastTexture != &texture)
 	{
+		lastTexture = &texture;
 		flush();
 	}
 }
@@ -43,6 +44,7 @@ void SpriteBatch::end()
 	assert(hasBegun);
 	flush();
 	hasBegun = false;
+	lastTexture = nullptr;
 }
 
 void SpriteBatch::flush()
@@ -53,6 +55,7 @@ void SpriteBatch::flush()
 
 		selectedShader->begin();
 		selectedShader->setUniformMatrix("u_projTrans", camera->getCombined());
+		//lastTexture->bindTexture();
 		mesh.render(*selectedShader);
 		selectedShader->end();
 		batchedSprites.clear();
@@ -73,5 +76,5 @@ void SpriteBatch::buildMeshFromBatchedSprites()
 
 void SpriteBatch::copySpriteToMesh(const Sprite* sprite)
 {
-	mesh.addVertices(sprite->getVertices().data(), 4);
+	mesh.addVertices(sprite->getVertices().data(), 6);
 }

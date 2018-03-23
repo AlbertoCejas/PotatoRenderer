@@ -237,7 +237,7 @@ int main()
 
 	//OrthographicCamera camera((float)WIDTH, (float)HEIGHT);
 	PerspectiveCamera camera((float)WIDTH, (float)HEIGHT);
-	camera.translate(0, 0, 50);
+	camera.translate(0, 0, 100);
 	camera.update();
 
 	double deltaTime = 0.0f;
@@ -301,58 +301,68 @@ int main()
 		shader.end();
 		*/
 
+		/*
 		spriteBatch.begin(camera);
 		spriteBatch.render(sprite);
 		spriteBatch.end();
+		*/
 
-		/*shapeRenderer.begin(camera.getCombined(), DrawMode::FILLED);
+		shapeRenderer.begin(camera.getCombined(), DrawMode::FILLED);
 		{
-		    shapeRenderer.triangle
-		    (
-		        0.0f, 0.0f, 0.0f,
-		        50.0f, 0.0f, 0.0f,
-		        25.0f, 50.0f, 0.0f,
-		        Color::BLUE
-		    );
-		    shapeRenderer.rectangle
-		    (
-		        -10.0f, 20.0f, 0.0f,
-		        -30.0f, 20.0f, 0.0f,
-		        -30.0f, 40.0f, 0.0f,
-		        -10.0f, 40.0f, 0.0f,
-		        Color::ORANGE
-		    );
-		    shapeRenderer.circle(0.0f, 0.0f, 0.0f, 5.0f, 20, Color::PINK);
+			shapeRenderer.triangle
+			(
+			    0.0f, 0.0f, 0.0f,
+			    50.0f, 0.0f, 0.0f,
+			    25.0f, 50.0f, 0.0f,
+			    Color::BLUE
+			);
+			shapeRenderer.rectangle
+			(
+			    -10.0f, 20.0f, 0.0f,
+			    -30.0f, 20.0f, 0.0f,
+			    -30.0f, 40.0f, 0.0f,
+			    -10.0f, 40.0f, 0.0f,
+			    Color::ORANGE
+			);
+			shapeRenderer.rectangle
+			(
+			    0.0f, 0.0f, 0.0f,
+			    512.0f, 0.0f, 0.0f,
+			    0.0f, 512.0f, 0.0f,
+			    512.0f, 512.0f, 0.0f,
+			    Color::RED
+			);
+			shapeRenderer.circle(0.0f, 0.0f, 0.0f, 5.0f, 20, Color::PINK);
 		}
 		shapeRenderer.end();
 
 
 		shapeRenderer.begin(camera.getCombined(), DrawMode::LINES);
 		{
-		    shapeRenderer.triangle
-		    (
-		        0.0f, 0.0f, 10.0f,
-		        -50.0f, 0.0f, 10.0f,
-		        -25.0f, 50.0f, 10.0f,
-		        Color::ORANGE
-		    );
-		    shapeRenderer.rectangle
-		    (
-		        10.0f, 20.0f, 0.0f,
-		        30.0f, 20.0f, 0.0f,
-		        30.0f, 40.0f, 0.0f,
-		        10.0f, 40.0f, 0.0f,
-		        Color::ORANGE
-		    );
-		    shapeRenderer.line
-		    (
-		        0.0f, -10.0f, 0.0f,
-		        10.0f, -10.0f, 0.0f,
-		        Color::PINK
-		    );
+			shapeRenderer.triangle
+			(
+			    0.0f, 0.0f, 10.0f,
+			    -50.0f, 0.0f, 10.0f,
+			    -25.0f, 50.0f, 10.0f,
+			    Color::ORANGE
+			);
+			shapeRenderer.rectangle
+			(
+			    10.0f, 20.0f, 0.0f,
+			    30.0f, 20.0f, 0.0f,
+			    30.0f, 40.0f, 0.0f,
+			    10.0f, 40.0f, 0.0f,
+			    Color::ORANGE
+			);
+			shapeRenderer.line
+			(
+			    0.0f, -10.0f, 0.0f,
+			    10.0f, -10.0f, 0.0f,
+			    Color::PINK
+			);
 		}
 		shapeRenderer.end();
-		*/
+
 
 		//glBindVertexArray(0);
 

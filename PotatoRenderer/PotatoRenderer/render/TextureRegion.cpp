@@ -2,12 +2,12 @@
 #include "render/Texture.h"
 #include <cmath>
 
-TextureRegion::TextureRegion(const Texture& _texture) : TextureRegion(_texture, 0, 0, _texture.getWidth(), _texture.getHeight())
+TextureRegion::TextureRegion(Texture& _texture) : TextureRegion(_texture, 0, 0, _texture.getWidth(), _texture.getHeight())
 {
 
 }
 
-TextureRegion::TextureRegion(const Texture& _texture, int _x, int _y, int _width, int _height) : texture(_texture)
+TextureRegion::TextureRegion(Texture& _texture, int _x, int _y, int _width, int _height) : texture(_texture)
 {
 	setRegion(_x, _y, _width, _height);
 }
