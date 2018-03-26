@@ -17,7 +17,7 @@ class VertexAttribute
 	//static const Usage TEXTURE_COORDS = Usage::TEXTURE_COORDS;
 
 	static VertexAttribute position() { return VertexAttribute(Usage::POSITION, 3, ShaderProgram::POSITION_ATTRIBUTE); }
-	static VertexAttribute color() { return VertexAttribute(Usage::COLOR, 3, GL_FLOAT, false, ShaderProgram::COLOR_ATTRIBUTE, 0); }
+	static VertexAttribute color() { return VertexAttribute(Usage::COLOR, 4, GL_FLOAT, false, ShaderProgram::COLOR_ATTRIBUTE, 0); }
 	static VertexAttribute texCoords(int unit) { return VertexAttribute(Usage::TEXTURE_COORDS, 2, GL_FLOAT, false, (ShaderProgram::TEXCOORD_ATTRIBUTE + std::to_string(unit)).c_str(), unit); }
 
 	VertexAttribute(const VertexAttribute& other) : VertexAttribute(other.usage, other.numOfComponents, other.type, other.normalized, other.alias, other.unit)

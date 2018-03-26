@@ -16,7 +16,7 @@ Sprite::Sprite(const TextureRegion& _textureRegion, float _bottomLeftX, float _b
                float _originX, float _originY, float _originZ) :
 	textureRegion(_textureRegion),
 	origin(_originX, _originY, _originZ),
-	color(Color::RED),
+	color(Color::WHITE),
 	dirty(false)
 {
 	updatePosition(_bottomLeftX, _bottomLeftY, _bottomLeftZ, _upperRightX, _upperRightY, _upperRightZ);
@@ -60,7 +60,6 @@ void Sprite::updatePosition(float bottomLeftX, float bottomLeftY, float bottomLe
 	vertices[X6] = upperRightX;
 	vertices[Y6] = bottomLeftY; //2
 	vertices[Z6] = upperRightZ;
-
 }
 
 void Sprite::updateColor()
@@ -68,26 +67,51 @@ void Sprite::updateColor()
 	vertices[CR1] = color.r;
 	vertices[CG1] = color.g;
 	vertices[CB1] = color.b;
+	vertices[CA1] = color.a;
 	vertices[CR2] = color.r;
 	vertices[CG2] = color.g;
 	vertices[CB2] = color.b;
+	vertices[CA2] = color.a;
 	vertices[CR3] = color.r;
 	vertices[CG3] = color.g;
 	vertices[CB3] = color.b;
+	vertices[CA3] = color.a;
 	vertices[CR4] = color.r;
 	vertices[CG4] = color.g;
 	vertices[CB4] = color.b;
+	vertices[CA4] = color.a;
 	vertices[CR5] = color.r;
 	vertices[CG5] = color.g;
 	vertices[CB5] = color.b;
+	vertices[CA5] = color.a;
 	vertices[CR6] = color.r;
 	vertices[CG6] = color.g;
 	vertices[CB6] = color.b;
+	vertices[CA6] = color.a;
 }
 
 void Sprite::updateUVs()
 {
-	/*vertices[U1] = textureRegion.getU1();
+	vertices[U1] = 0.0f;
+	vertices[V1] = 0.0f;
+
+	vertices[U2] = 1.0f;
+	vertices[V2] = 0.0f;
+
+	vertices[U3] = 1.0f;
+	vertices[V3] = 0.0f;
+
+	vertices[U4] = 1.0f;
+	vertices[V4] = 1.0f;
+
+	vertices[U5] = 1.0f;
+	vertices[V5] = 0.0f;
+
+	vertices[U6] = 1.0f;
+	vertices[V6] = 0.0f;
+
+	/*
+	vertices[U1] = textureRegion.getU1();
 	vertices[V1] = textureRegion.getV1();
 
 	vertices[U2] = textureRegion.getU2();
@@ -97,5 +121,12 @@ void Sprite::updateUVs()
 	vertices[V3] = textureRegion.getV2();
 
 	vertices[U4] = textureRegion.getU2();
-	vertices[V4] = textureRegion.getV2();*/
+	vertices[V4] = textureRegion.getV2();
+
+	vertices[U5] = textureRegion.getU1();
+	vertices[V5] = textureRegion.getV2();
+
+	vertices[U6] = textureRegion.getU2();
+	vertices[V6] = textureRegion.getV1();
+	*/
 }

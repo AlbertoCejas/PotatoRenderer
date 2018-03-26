@@ -55,6 +55,10 @@ int main()
 #include "render/Sprite.h"
 #include "render/SpriteBatch.h"
 
+
+
+#include "utils/stb_image.h"
+
 // Function prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
@@ -125,6 +129,7 @@ int main()
 	// Setup some OpenGL options
 	// glEnable(GL_DEPTH_TEST);
 
+	/*
 
 	// Build and compile our shader program
 	// Vertex shader
@@ -138,8 +143,8 @@ int main()
 
 	if (!success)
 	{
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+	    glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+	    std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
 	}
 
 	// Fragment shader
@@ -151,8 +156,8 @@ int main()
 
 	if (!success)
 	{
-		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+	    glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+	    std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
 	}
 
 	// Link shaders
@@ -165,21 +170,22 @@ int main()
 
 	if (!success)
 	{
-		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+	    glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+	    std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
 	}
 
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
+	*/
 
-
+	/*
 	// Set up vertex data (and buffer(s)) and attribute pointers
 	GLfloat vertices[] =
 	{
-		// Positions        // Colors
-		0.5f, -0.5f, 1.0f,  1.0f, 0.0f, 0.0f, // Bottom Right
-		-0.5f, -0.5f, 1.0f, 0.0f, 1.0f, 0.0f, // Bottom Left
-		0.0f,  0.5f, 1.0f,  0.0f, 0.0f, 1.0f  // Top
+	    // Positions        // Colors
+	    0.5f, -0.5f, 1.0f,  1.0f, 0.0f, 0.0f, // Bottom Right
+	    -0.5f, -0.5f, 1.0f, 0.0f, 1.0f, 0.0f, // Bottom Left
+	    0.0f,  0.5f, 1.0f,  0.0f, 0.0f, 1.0f  // Top
 	};
 	GLuint VBO, VAO;
 	glGenVertexArrays(1, &VAO);
@@ -202,18 +208,18 @@ int main()
 
 	GLfloat verticesData1[] =
 	{
-		// Positions        // Colors
-		0.0f, 0.0f, -10.0f,  1.0f, 0.0f, 0.0f, // Bottom Right
-		-50.0f, 0.0f, -10.0f, 1.0f, 0.0f, 0.0f, // Bottom Left
-		-25.0f, 50.0f, -10.0f,  1.0f, 0.0f, 0.0f  // Top
+	    // Positions        // Colors
+	    0.0f, 0.0f, -10.0f,  1.0f, 0.0f, 0.0f, // Bottom Right
+	    -50.0f, 0.0f, -10.0f, 1.0f, 0.0f, 0.0f, // Bottom Left
+	    -25.0f, 50.0f, -10.0f,  1.0f, 0.0f, 0.0f  // Top
 	};
 
 	GLfloat verticesData2[] =
 	{
-		// Positions        // Colors
-		50.0f, 0.0f, 10.0f,  0.0f, 1.0f, 0.0f, // Bottom Right
-		0.0f, 0.0f, 10.0f, 0.0f, 1.0f, 0.0f, // Bottom Left
-		25.0f, 50.0f, 10.0f,  0.0f, 1.0f, 0.0f  // Top
+	    // Positions        // Colors
+	    50.0f, 0.0f, 10.0f,  0.0f, 1.0f, 0.0f, // Bottom Right
+	    0.0f, 0.0f, 10.0f, 0.0f, 1.0f, 0.0f, // Bottom Left
+	    25.0f, 50.0f, 10.0f,  0.0f, 1.0f, 0.0f  // Top
 	};
 
 	ShaderProgram shader(false, true, false);
@@ -235,19 +241,56 @@ int main()
 	mesh3.bind(shader);
 	mesh3.setVertices(vertices, 3);
 
+	*/
+
+	double deltaTime = 0.0f;
+	double lastFrame = 0.0f;
+
 	//OrthographicCamera camera((float)WIDTH, (float)HEIGHT);
 	PerspectiveCamera camera((float)WIDTH, (float)HEIGHT);
 	camera.translate(0, 0, 100);
 	camera.update();
 
-	double deltaTime = 0.0f;
-	double lastFrame = 0.0f;
-
 	ShapeRenderer shapeRenderer;
 
+	// TEST --------------------------------------------------------------
 	/*
+	// Set up vertex data (and buffer(s)) and attribute pointers
+	GLfloat vertices[] =
+	{
+	    // Positions          // Colors           // Texture Coords
+	    //0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f, 1.0f,   2.0f, 2.0f, // Top Right
+	    0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,   2.0f, 0.0f, // Bottom Right
+	    -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f, 1.0f,   0.0f, 0.0f, // Bottom Left
+	    -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f, 1.0f,   0.0f, 2.0f,  // Top Left
+	};
+
+	GLuint VBO, VAO;
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+
+	glBindVertexArray(VAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	// Position attribute
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (GLvoid*)0);
+	glEnableVertexAttribArray(0);
+	// Color attribute
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(1);
+	// TexCoord attribute
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (GLvoid*)(7 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(2);
+
+	glBindVertexArray(0); // Unbind VAO
+
+	ShaderProgram testShader(false, true, 1);
+
 	unsigned int texture;
 	glGenTextures(1, &texture);
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	// set the texture wrapping/filtering options (on the currently bound texture object)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -269,11 +312,12 @@ int main()
 	}
 
 	stbi_image_free(data);
+	glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture when done, so we won't accidentily mess up our texture.
 	*/
-
+	// ----------------------------------------------------------------
 
 	SpriteBatch spriteBatch(1000);
-	Texture texture("texture.jpg");
+	Texture texture("assets/texture.jpg");
 	TextureRegion region(texture);
 	Sprite sprite(region);
 
@@ -293,6 +337,24 @@ int main()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+
+		// TEST -------------------
+		/*
+		// Bind Texture
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		glUniform1i(glGetUniformLocation(9, "a_texCoord0"), 0);
+
+		// Activate shader
+		testShader.begin();
+
+		// Draw container
+		glBindVertexArray(VAO);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glBindVertexArray(0);
+		*/
+		// ----------------------
+
 		/*
 		shader.begin();
 		shader.setUniformMatrix("u_projTrans", camera.getCombined());
@@ -301,68 +363,61 @@ int main()
 		shader.end();
 		*/
 
-		/*
+
 		spriteBatch.begin(camera);
 		spriteBatch.render(sprite);
 		spriteBatch.end();
-		*/
 
+		/*
 		shapeRenderer.begin(camera.getCombined(), DrawMode::FILLED);
 		{
-			shapeRenderer.triangle
-			(
-			    0.0f, 0.0f, 0.0f,
-			    50.0f, 0.0f, 0.0f,
-			    25.0f, 50.0f, 0.0f,
-			    Color::BLUE
-			);
-			shapeRenderer.rectangle
-			(
-			    -10.0f, 20.0f, 0.0f,
-			    -30.0f, 20.0f, 0.0f,
-			    -30.0f, 40.0f, 0.0f,
-			    -10.0f, 40.0f, 0.0f,
-			    Color::ORANGE
-			);
-			shapeRenderer.rectangle
-			(
-			    0.0f, 0.0f, 0.0f,
-			    512.0f, 0.0f, 0.0f,
-			    0.0f, 512.0f, 0.0f,
-			    512.0f, 512.0f, 0.0f,
-			    Color::RED
-			);
-			shapeRenderer.circle(0.0f, 0.0f, 0.0f, 5.0f, 20, Color::PINK);
+		    shapeRenderer.triangle
+		    (
+		        0.0f, 0.0f, 0.0f,
+		        50.0f, 0.0f, 0.0f,
+		        25.0f, 50.0f, 0.0f,
+		        Color::BLUE
+		    );
+		    shapeRenderer.rectangle
+		    (
+		        -10.0f, 20.0f, 0.0f,
+		        -30.0f, 20.0f, 0.0f,
+		        -30.0f, 40.0f, 0.0f,
+		        -10.0f, 40.0f, 0.0f,
+		        Color::ORANGE
+		    );
+
+		    shapeRenderer.circle(0.0f, 0.0f, 0.0f, 5.0f, 20, Color::PINK);
 		}
 		shapeRenderer.end();
-
-
+		*/
+		/*
 		shapeRenderer.begin(camera.getCombined(), DrawMode::LINES);
 		{
-			shapeRenderer.triangle
-			(
-			    0.0f, 0.0f, 10.0f,
-			    -50.0f, 0.0f, 10.0f,
-			    -25.0f, 50.0f, 10.0f,
-			    Color::ORANGE
-			);
-			shapeRenderer.rectangle
-			(
-			    10.0f, 20.0f, 0.0f,
-			    30.0f, 20.0f, 0.0f,
-			    30.0f, 40.0f, 0.0f,
-			    10.0f, 40.0f, 0.0f,
-			    Color::ORANGE
-			);
-			shapeRenderer.line
-			(
-			    0.0f, -10.0f, 0.0f,
-			    10.0f, -10.0f, 0.0f,
-			    Color::PINK
-			);
+		    shapeRenderer.triangle
+		    (
+		        0.0f, 0.0f, 10.0f,
+		        -50.0f, 0.0f, 10.0f,
+		        -25.0f, 50.0f, 10.0f,
+		        Color::ORANGE
+		    );
+		    shapeRenderer.rectangle
+		    (
+		        10.0f, 20.0f, 0.0f,
+		        30.0f, 20.0f, 0.0f,
+		        30.0f, 40.0f, 0.0f,
+		        10.0f, 40.0f, 0.0f,
+		        Color::ORANGE
+		    );
+		    shapeRenderer.line
+		    (
+		        0.0f, -10.0f, 0.0f,
+		        10.0f, -10.0f, 0.0f,
+		        Color::PINK
+		    );
 		}
 		shapeRenderer.end();
-
+		*/
 
 		//glBindVertexArray(0);
 
@@ -371,8 +426,8 @@ int main()
 	}
 
 	// Properly de-allocate all resources once they've outlived their purpose
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
+	//glDeleteVertexArrays(1, &VAO);
+	//glDeleteBuffers(1, &VBO);
 	// Terminate GLFW, clearing any resources allocated by GLFW.
 	glfwTerminate();
 	return 0;

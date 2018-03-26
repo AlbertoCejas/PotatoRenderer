@@ -8,12 +8,12 @@ std::vector<VertexAttribute> SpriteBatch::buildVertexAttributes()
 	std::vector<VertexAttribute> attribs = std::vector<VertexAttribute>();
 	attribs.push_back(VertexAttribute::position());
 	attribs.push_back(VertexAttribute::color());
-	// attribs.push_back(VertexAttribute::texCoords(0));
+	attribs.push_back(VertexAttribute::texCoords(0));
 	return attribs;
 }
 
 SpriteBatch::SpriteBatch(int _maxVertices) : batchedSprites(), selectedShader(nullptr), mesh(false, _maxVertices,
-	        buildVertexAttributes()), defaultShader(false, true, 0), hasBegun(false), camera(nullptr), lastTexture(nullptr)
+	        buildVertexAttributes()), defaultShader(false, true, 1), hasBegun(false), camera(nullptr), lastTexture(nullptr)
 {
 	batchedSprites.reserve(_maxVertices / 6);
 	selectedShader = &defaultShader;
@@ -32,9 +32,10 @@ void SpriteBatch::render(Sprite& sprite)
 
 	batchedSprites.push_back(&sprite);
 
-	if (lastTexture != &texture)
+	lastTexture = &texture;
+
+	if (lastTexture != nullptr && lastTexture != &texture)
 	{
-		lastTexture = &texture;
 		flush();
 	}
 }
@@ -53,11 +54,15 @@ void SpriteBatch::flush()
 	{
 		buildMeshFromBatchedSprites();
 
+		lastTexture->bindTexture();
+		unsigned int location = selectedShader->fetchAttributeLocation((std::string(ShaderProgram::TEXCOORD_ATTRIBUTE) + "0").c_str());
+		glUniform1i(location, 0);
+
 		selectedShader->begin();
 		selectedShader->setUniformMatrix("u_projTrans", camera->getCombined());
-		//lastTexture->bindTexture();
 		mesh.render(*selectedShader);
 		selectedShader->end();
+
 		batchedSprites.clear();
 
 		mesh.setVertices(nullptr, 0);

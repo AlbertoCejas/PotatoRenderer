@@ -30,26 +30,26 @@ const char* ShaderProgram::DEFAULT_FRAGMENT_SHADER_SOURCE =
 std::string ShaderProgram::createDefaultVertexShader(bool hasNormals, bool hasColors, int numOfTexCoords)
 {
 	std::string vertexShader("#version 330 core\n");
-	vertexShader += ("attribute vec3 " + std::string(ShaderProgram::POSITION_ATTRIBUTE) + ";\n"); // Position
-	vertexShader += hasNormals ? ("attribute vec3 " + std::string(ShaderProgram::NORMAL_ATTRIBUTE) + ";\n") : ""; // Normal
-	vertexShader += hasColors ? ("attribute vec3 " + std::string(ShaderProgram::COLOR_ATTRIBUTE) + ";\n") : ""; // Color
+	vertexShader += ("in vec3 " + std::string(ShaderProgram::POSITION_ATTRIBUTE) + ";\n"); // Position
+	vertexShader += hasNormals ? ("in vec3 " + std::string(ShaderProgram::NORMAL_ATTRIBUTE) + ";\n") : ""; // Normal
+	vertexShader += hasColors ? ("in vec4 " + std::string(ShaderProgram::COLOR_ATTRIBUTE) + ";\n") : ""; // Color
 
 	for (int i = 0; i < numOfTexCoords; i++)
 	{
-		vertexShader += "attribute vec2 " + std::string(ShaderProgram::TEXCOORD_ATTRIBUTE) + std::to_string(i) + ";\n"; // TexCoords
+		vertexShader += "in vec2 " + std::string(ShaderProgram::TEXCOORD_ATTRIBUTE) + std::to_string(i) + ";\n"; // TexCoords
 	}
 
 	vertexShader += "uniform mat4 u_projTrans;\n";
-	vertexShader += (hasColors ? "varying vec3 v_col;\n" : "");
+	vertexShader += (hasColors ? "out vec4 v_col;\n" : "");
 
 	for (int i = 0; i < numOfTexCoords; i++)
 	{
-		vertexShader += "varying vec2 v_tex" + std::to_string(i) + ";\n";
+		vertexShader += "out vec2 v_tex" + std::to_string(i) + ";\n";
 	}
 
 	vertexShader += "void main() {\n";
-	vertexShader += "   gl_Position = u_projTrans * vec4(" + std::string(ShaderProgram::POSITION_ATTRIBUTE) + ", 1.0);\n"
-	                + (hasColors ? "   v_col = " + std::string(ShaderProgram::COLOR_ATTRIBUTE) + ";\n" : "");
+	vertexShader += "   gl_Position = u_projTrans * vec4(" + std::string(ShaderProgram::POSITION_ATTRIBUTE) + ", 1.0);\n";
+	vertexShader += (hasColors ? "   v_col = " + std::string(ShaderProgram::COLOR_ATTRIBUTE) + ";\n" : "");
 
 	for (int i = 0; i < numOfTexCoords; i++)
 	{
@@ -59,6 +59,8 @@ std::string ShaderProgram::createDefaultVertexShader(bool hasNormals, bool hasCo
 
 	vertexShader += "   gl_PointSize = 1.0;\n";
 	vertexShader += "}\n";
+
+	std::cout << vertexShader << std::endl;
 
 	return vertexShader;
 }
@@ -71,18 +73,21 @@ std::string ShaderProgram::createDefaultFragmentShader(bool, bool hasColors, int
 	fragmentShader += "precision mediump float;\n";
 	fragmentShader += "#endif\n";
 
-	if (hasColors) { fragmentShader += "varying vec3 v_col;\n"; }
+	fragmentShader += "out vec4 out_Color;\n";
+
+	if (hasColors) { fragmentShader += "in vec4 v_col;\n"; }
 
 	for (int i = 0; i < numOfTextCoords; i++)
 	{
 		std::string iStr = std::to_string(i);
-		fragmentShader += "varying vec2 v_tex" + iStr + ";\n";
+		fragmentShader += "in vec2 v_tex" + iStr + ";\n";
 		fragmentShader += "uniform sampler2D u_sampler" + iStr + ";\n";
 	}
 
 	fragmentShader += "void main() {\n";
-	fragmentShader += "   gl_FragColor = ";
-	fragmentShader += (hasColors ? "vec4(v_col, 1.0f)" : "vec4(1, 1, 1, 1)");
+
+	fragmentShader += "   out_Color = ";
+	fragmentShader += (hasColors ? "v_col" : "vec4(1, 1, 1, 1)");
 
 	if (numOfTextCoords > 0) { fragmentShader += " * "; }
 
@@ -100,7 +105,18 @@ std::string ShaderProgram::createDefaultFragmentShader(bool, bool hasColors, int
 		}
 	}
 
-	fragmentShader += ";\n}";
+	fragmentShader += ";\n";
+
+	for (int i = 0; i < numOfTextCoords; i++)
+	{
+		fragmentShader += "out_Color = vec4(v_tex0, v_col.z == 0 ? v_col.z : 0, v_col.z == 1 ? v_col.z : 1);";
+	}
+
+
+	fragmentShader += "}";
+
+	std::cout << fragmentShader << std::endl;
+
 
 	return fragmentShader;
 }
@@ -154,6 +170,17 @@ void ShaderProgram::compileShader(unsigned int shader)
 	glCompileShader(shader);
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 
+	// Check for compile time errors
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+
+	GLchar infoLog[512];
+
+	if (!success)
+	{
+		glGetShaderInfoLog(shader, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+	}
+
 	assert(success != 0);
 }
 
@@ -165,12 +192,21 @@ unsigned int ShaderProgram::createShaderProgram(unsigned int vertexShader, unsig
 	return shaderProgram;
 }
 
-void ShaderProgram::linkProgram(unsigned int shaderProgram)
+void ShaderProgram::linkProgram(unsigned int shader)
 {
-	glLinkProgram(shaderProgram);
+	glLinkProgram(shader);
 	// Check for compile time errors
 	int success;
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+	glGetProgramiv(shader, GL_LINK_STATUS, &success);
+
+	GLchar infoLog[512];
+
+	if (!success)
+	{
+		glGetProgramInfoLog(shader, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+	}
+
 	assert(success != 0);
 }
 
