@@ -92,25 +92,6 @@ void Sprite::updateColor()
 
 void Sprite::updateUVs()
 {
-	vertices[U1] = 0.0f;
-	vertices[V1] = 0.0f;
-
-	vertices[U2] = 1.0f;
-	vertices[V2] = 0.0f;
-
-	vertices[U3] = 1.0f;
-	vertices[V3] = 0.0f;
-
-	vertices[U4] = 1.0f;
-	vertices[V4] = 1.0f;
-
-	vertices[U5] = 1.0f;
-	vertices[V5] = 0.0f;
-
-	vertices[U6] = 1.0f;
-	vertices[V6] = 0.0f;
-
-	/*
 	vertices[U1] = textureRegion.getU1();
 	vertices[V1] = textureRegion.getV1();
 
@@ -128,5 +109,4 @@ void Sprite::updateUVs()
 
 	vertices[U6] = textureRegion.getU2();
 	vertices[V6] = textureRegion.getV1();
-	*/
 }

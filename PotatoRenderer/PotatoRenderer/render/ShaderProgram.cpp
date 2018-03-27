@@ -106,13 +106,6 @@ std::string ShaderProgram::createDefaultFragmentShader(bool, bool hasColors, int
 	}
 
 	fragmentShader += ";\n";
-
-	for (int i = 0; i < numOfTextCoords; i++)
-	{
-		fragmentShader += "out_Color = vec4(v_tex0, v_col.z == 0 ? v_col.z : 0, v_col.z == 1 ? v_col.z : 1);";
-	}
-
-
 	fragmentShader += "}";
 
 	std::cout << fragmentShader << std::endl;

@@ -16,9 +16,7 @@ void TextureRegion::setRegion(int _x, int _y, int _width, int _height)
 {
 	float invTexWidth = 1.0f / texture.getWidth();
 	float invTexHeight = 1.0f / texture.getHeight();
-	setRegion(_x * invTexWidth, _y * invTexHeight, (_x + width) * invTexWidth, (_y + height) * invTexHeight);
-	width = _width;
-	height = _height;
+	setRegion(_x * invTexWidth, _y * invTexHeight, (_x + _width) * invTexWidth, (_y + _height) * invTexHeight);
 }
 
 void TextureRegion::setRegion(float _u, float _v, float _u2, float _v2)
