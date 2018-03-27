@@ -50,6 +50,7 @@ std::string ShaderProgram::createDefaultVertexShader(bool hasNormals, bool hasCo
 	vertexShader += "void main() {\n";
 	vertexShader += "   gl_Position = u_projTrans * vec4(" + std::string(ShaderProgram::POSITION_ATTRIBUTE) + ", 1.0);\n";
 	vertexShader += (hasColors ? "   v_col = " + std::string(ShaderProgram::COLOR_ATTRIBUTE) + ";\n" : "");
+	vertexShader += (hasColors ? "   v_col.a = v_col.a * (255.0/254.0);\n" : ""); // Because of not having full precision when packaging colors into floats
 
 	for (int i = 0; i < numOfTexCoords; i++)
 	{
@@ -106,6 +107,7 @@ std::string ShaderProgram::createDefaultFragmentShader(bool, bool hasColors, int
 	}
 
 	fragmentShader += ";\n";
+
 	fragmentShader += "}";
 
 	std::cout << fragmentShader << std::endl;

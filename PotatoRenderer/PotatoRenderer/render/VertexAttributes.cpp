@@ -14,7 +14,14 @@ int VertexAttributes::calculateOffsets()
 		VertexAttribute& attribute = attributes.at(i);
 		attribute.setOffset(count);
 
-		count += (4 * attribute.getNumOfComponents());
+		if (attribute.getType() == GL_FLOAT) // TODO: MAP THIS
+		{
+			count += (4 * attribute.getNumOfComponents());
+		}
+		else if (attribute.getType() == GL_UNSIGNED_BYTE)
+		{
+			count += attribute.getNumOfComponents();
+		}
 	}
 
 	return count;

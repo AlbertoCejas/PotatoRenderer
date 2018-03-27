@@ -73,8 +73,5 @@ void ImmediateRenderer::positionToVertexCache(float x, float y, float z)
 
 void ImmediateRenderer::colorToVertexCache(const Color& _color)
 {
-	vertexCache[3] = _color.r;
-	vertexCache[4] = _color.g;
-	vertexCache[5] = _color.b;
-	vertexCache[6] = _color.a;
+	vertexCache[3] = Color::toFloatBits(_color.r, _color.g, _color.b, _color.a);
 }

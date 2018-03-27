@@ -12,18 +12,18 @@ class VertexAttribute
 
 	enum class Usage : std::int32_t { POSITION, COLOR, TEXTURE_COORDS};
 
-	//static const Usage POSITION = Usage::POSITION;
-	//static const Usage COLOR = Usage::COLOR;
-	//static const Usage TEXTURE_COORDS = Usage::TEXTURE_COORDS;
-
 	static VertexAttribute position() { return VertexAttribute(Usage::POSITION, 3, ShaderProgram::POSITION_ATTRIBUTE); }
-	static VertexAttribute color() { return VertexAttribute(Usage::COLOR, 4, GL_FLOAT, false, ShaderProgram::COLOR_ATTRIBUTE, 0); }
+	static VertexAttribute color() { return VertexAttribute(Usage::COLOR, 4, GL_UNSIGNED_BYTE, false, ShaderProgram::COLOR_ATTRIBUTE, 0); } // PACKED
 	static VertexAttribute texCoords(int unit) { return VertexAttribute(Usage::TEXTURE_COORDS, 2, GL_FLOAT, false, (ShaderProgram::TEXCOORD_ATTRIBUTE + std::to_string(unit)).c_str(), unit); }
 
-	VertexAttribute(const VertexAttribute& other) : VertexAttribute(other.usage, other.numOfComponents, other.type, other.normalized, other.alias, other.unit)
+	VertexAttribute(Usage _usage, int _numComponents, int _type, bool _normalized, const char* _alias, int _index)
+		: usage(_usage), numOfComponents(_numComponents), type(_type), normalized(_normalized), unit(_index)
 	{
-
+		size_t aliasLength = strlen(_alias);
+		alias = new char[aliasLength + 1];
+		strcpy_s(alias, aliasLength + 1, _alias);
 	}
+	VertexAttribute(const VertexAttribute& other) : VertexAttribute(other.usage, other.numOfComponents, other.type, other.normalized, other.alias, other.unit) { }
 	~VertexAttribute() { delete[] alias; }
 
 	inline int getLocation() const { return (int) usage; }
@@ -57,14 +57,6 @@ class VertexAttribute
 		    alias,
 		    index
 		) {}
-
-	VertexAttribute(Usage _usage, int _numComponents, int _type, bool _normalized, const char* _alias, int _index)
-		: usage(_usage), numOfComponents(_numComponents), type(_type), normalized(_normalized), unit(_index)
-	{
-		size_t aliasLength = strlen(_alias);
-		alias = new char[aliasLength + 1];
-		strcpy_s(alias, aliasLength + 1, _alias);
-	}
 
 	Usage           usage;
 	int32_t         numOfComponents;

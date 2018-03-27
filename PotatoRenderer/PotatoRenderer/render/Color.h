@@ -15,7 +15,13 @@ class Color
 	static const Color PINK;
 	static const Color ORANGE;
 	static const Color BLACK;
+	static const Color LIGHT_GRAY;
+	static const Color GRAY;
+	static const Color DARK_GRAY;
 	static const Color WHITE;
+
+	static float toFloatBits(float _r, float _g, float _b, float _a);
+
 
 	Color(float red, float green, float blue, float alpha) : r(red), g(green), b(blue), a(alpha)
 	{
@@ -27,7 +33,6 @@ class Color
 
 	uint32_t toIntBits() const;
 	float toFloatBits() const;
-	static float toFloatBits(float _r, float _g, float _b, float _a);
 
 	float r;
 	float g;
