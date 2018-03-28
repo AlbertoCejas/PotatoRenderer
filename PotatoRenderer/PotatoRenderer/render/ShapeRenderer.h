@@ -3,11 +3,11 @@
 
 #include <cinttypes>
 #include "GLEnums.h"
-#include "math/Matrix.h"
 #include "render/Color.h"
 #include "render/ImmediateRenderer.h"
 
 class Texture;
+class BaseCamera;
 
 class ShapeRenderer
 {
@@ -16,7 +16,7 @@ class ShapeRenderer
 	ShapeRenderer() : ShapeRenderer(5000) { }
 	explicit ShapeRenderer(int maxVertices);
 
-	void begin(const Mat4f& transformation, const DrawMode& type);
+	void begin(const BaseCamera& camera, const DrawMode& type);
 
 	void setColor(const Color& color);
 	void setColor(float red, float green, float blue, float alpha);

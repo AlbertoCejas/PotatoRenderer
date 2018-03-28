@@ -286,14 +286,15 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		spriteBatch.begin(camera);
-		spriteBatch.render(boxSprite);
-		spriteBatch.render(boxSprite2);
-		spriteBatch.render(boxSprite2Clone);
-		spriteBatch.render(boxSprite2CloneClone);
+		{
+			spriteBatch.render(boxSprite);
+			spriteBatch.render(boxSprite2);
+			spriteBatch.render(boxSprite2Clone);
+			spriteBatch.render(boxSprite2CloneClone);
+		}
 		spriteBatch.end();
 
-
-		shapeRenderer.begin(camera.getCombined(), DrawMode::FILLED);
+		shapeRenderer.begin(camera, DrawMode::FILLED);
 		{
 			shapeRenderer.triangle
 			(
@@ -310,40 +311,37 @@ int main()
 			    -10.0f, 40.0f, 0.0f,
 			    Color::GRAY
 			);
-
 			shapeRenderer.circle(0.0f, 0.0f, 0.0f, 5.0f, 20, Color::BLACK);
 			shapeRenderer.circle(10.0f, 0.0f, 0.0f, 5.0f, 20, Color::ORANGE);
 		}
 		shapeRenderer.end();
 
-
-		/*
-		shapeRenderer.begin(camera.getCombined(), DrawMode::LINES);
+		shapeRenderer.begin(camera, DrawMode::LINES);
 		{
-		    shapeRenderer.triangle
-		    (
-		        0.0f, 0.0f, 10.0f,
-		        -50.0f, 0.0f, 10.0f,
-		        -25.0f, 50.0f, 10.0f,
-		        Color::ORANGE
-		    );
-		    shapeRenderer.rectangle
-		    (
-		        10.0f, 20.0f, 0.0f,
-		        30.0f, 20.0f, 0.0f,
-		        30.0f, 40.0f, 0.0f,
-		        10.0f, 40.0f, 0.0f,
-		        Color::ORANGE
-		    );
-		    shapeRenderer.line
-		    (
-		        0.0f, -10.0f, 0.0f,
-		        10.0f, -10.0f, 0.0f,
-		        Color::PINK
-		    );
+			shapeRenderer.triangle
+			(
+			    0.0f, 0.0f, 10.0f,
+			    -50.0f, 0.0f, 10.0f,
+			    -25.0f, 50.0f, 10.0f,
+			    Color::ORANGE
+			);
+			shapeRenderer.rectangle
+			(
+			    10.0f, 20.0f, 0.0f,
+			    30.0f, 20.0f, 0.0f,
+			    30.0f, 40.0f, 0.0f,
+			    10.0f, 40.0f, 0.0f,
+			    Color::ORANGE
+			);
+			shapeRenderer.line
+			(
+			    0.0f, -10.0f, 0.0f,
+			    10.0f, -10.0f, 0.0f,
+			    Color::PINK
+			);
 		}
 		shapeRenderer.end();
-		*/
+
 		//glBindVertexArray(0);
 
 		// Swap the screen buffers

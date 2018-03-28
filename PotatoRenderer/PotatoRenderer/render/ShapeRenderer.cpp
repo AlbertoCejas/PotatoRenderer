@@ -1,5 +1,7 @@
 #include "render/ShapeRenderer.h"
 #include "math/MathUtils.h"
+#include "render/BaseCamera.h"
+#include "math/Matrix.h"
 #include <algorithm>
 #include <cassert>
 
@@ -8,11 +10,11 @@ ShapeRenderer::ShapeRenderer(int maxVertices) : immediateRenderer(maxVertices), 
 
 }
 
-void ShapeRenderer::begin(const Mat4f& transformation, const DrawMode& type)
+void ShapeRenderer::begin(const BaseCamera& camera, const DrawMode& type)
 {
 	assert(!alreadyBegun);
 	alreadyBegun = true;
-	immediateRenderer.begin(transformation, type);
+	immediateRenderer.begin(camera.getCombined(), type);
 }
 
 void ShapeRenderer::setColor(const Color& _color)
@@ -243,7 +245,8 @@ void ShapeRenderer::check(DrawMode preferred, DrawMode other, int newVertices)
 	{
 		const Mat4f* transformation = immediateRenderer.getTransform();
 		end();
-		begin(*transformation, preferred);
+		alreadyBegun = true;
+		immediateRenderer.begin(*transformation, preferred);
 	}
 	else if (immediateRenderer.getMaxNumVertices() - immediateRenderer.getNumVertices() < newVertices)
 	{
@@ -251,6 +254,7 @@ void ShapeRenderer::check(DrawMode preferred, DrawMode other, int newVertices)
 		DrawMode type = drawMode;
 		const Mat4f* transformation = immediateRenderer.getTransform();
 		end();
-		begin(*transformation, type);
+		alreadyBegun = true;
+		immediateRenderer.begin(*transformation, type);
 	}
 }
