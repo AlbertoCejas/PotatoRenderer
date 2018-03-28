@@ -93,3 +93,30 @@ void Sprite::updateUVs()
 	vertices[U6] = textureRegion.getU2();
 	vertices[V6] = textureRegion.getV1();
 }
+
+void Sprite::translate(float _x, float _y, float _z)
+{
+	vertices[X1] += _x;
+	vertices[Y1] += _y; //1
+	vertices[Z1] += _z;
+
+	vertices[X2] += _x;
+	vertices[Y2] += _y; //2
+	vertices[Z2] += _z;
+
+	vertices[X3] += _x;
+	vertices[Y3] += _y; //3
+	vertices[Z3] += _z;
+
+	vertices[X4] += _x;
+	vertices[Y4] += _y; //4
+	vertices[Z4] += _z;
+
+	vertices[X5] += _x;
+	vertices[Y5] += _y; //3
+	vertices[Z5] += _z;
+
+	vertices[X6] += _x;
+	vertices[Y6] += _y; //2
+	vertices[Z6] += _z;
+}

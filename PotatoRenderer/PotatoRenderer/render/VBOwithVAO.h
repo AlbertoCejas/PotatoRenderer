@@ -16,6 +16,8 @@ class VBOWithVAO
 	inline VertexAttributes& getAttributes() { return vertexAttributes; }
 	inline int getMaxNumVertices() const { return maxNumOfVertices; }
 	inline int getCurrentNumVertices() const { return currentNumOfVertices; };
+	inline int getVertexSize() const { return verticesSize / maxNumOfVertices; }
+	inline const float* getVertices() const { return vertices; }
 	inline float* getVertices() { isDirty = true; return vertices; }
 
 	void setVertices(const float* vertices, int numOfVertices);

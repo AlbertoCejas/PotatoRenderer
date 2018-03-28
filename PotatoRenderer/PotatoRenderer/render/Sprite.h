@@ -76,7 +76,7 @@ class Sprite
 	inline const Color& getColor() const { return color; }
 
 	inline void setColor(const Color& _color) { color = _color; updateColor(); }
-
+	void translate(float _x, float _y, float _z);
 
   private:
 

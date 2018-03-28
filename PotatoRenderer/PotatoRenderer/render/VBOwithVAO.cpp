@@ -55,7 +55,9 @@ void VBOWithVAO::addVertices(const float* verticesToAdd, int numOfVertices)
 	isDirty = true;
 
 	int numOfFloatsToCopy = numOfVertices * vertexAttributes.getVertexSizeBytes() / 4;
-	memcpy(vertices + currentNumOfVertices * numOfFloatsToCopy, verticesToAdd, sizeof(float) * numOfFloatsToCopy);
+	int vertexSize = this->getVertexSize();
+
+	memcpy(vertices + currentNumOfVertices * vertexSize, verticesToAdd, sizeof(float) * numOfFloatsToCopy);
 	currentNumOfVertices += numOfVertices;
 
 	bufferChanged();

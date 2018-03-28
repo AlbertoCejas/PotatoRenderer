@@ -91,6 +91,7 @@ void Mesh::render(ShaderProgram& shader, int offset, int count, int primitiveTyp
 	}
 
 	bind(shader);
+
 	glDrawArrays(primitiveType, offset, count);
 	unbind();
 }

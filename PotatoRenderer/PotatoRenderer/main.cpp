@@ -252,8 +252,6 @@ int main()
 	camera.update();
 
 	ShapeRenderer shapeRenderer;
-
-
 	SpriteBatch spriteBatch(1000);
 
 	Texture boxTexture("assets/texture.jpg");
@@ -264,6 +262,12 @@ int main()
 	TextureRegion boxRegion2(boxTexture2);
 	Sprite boxSprite2(boxRegion2, .0f, .0f, .0f, 50.0f, 50.0f, 0.0f);
 	boxSprite2.setColor(Color::RED);
+
+	Sprite boxSprite2Clone(boxRegion2, .0f, .0f, .0f, 50.0f, 50.0f, 0.0f);
+	boxSprite2Clone.translate(50.0f, 0.0f, 0.0f);
+
+	Sprite boxSprite2CloneClone(boxRegion2, .0f, .0f, .0f, 50.0f, 50.0f, 0.0f);
+	boxSprite2CloneClone.translate(100.0f, 0.0f, 0.0f);
 
 	// Game loop
 	while (!glfwWindowShouldClose(window))
@@ -284,32 +288,34 @@ int main()
 		spriteBatch.begin(camera);
 		spriteBatch.render(boxSprite);
 		spriteBatch.render(boxSprite2);
+		spriteBatch.render(boxSprite2Clone);
+		spriteBatch.render(boxSprite2CloneClone);
 		spriteBatch.end();
 
-		/*
+
 		shapeRenderer.begin(camera.getCombined(), DrawMode::FILLED);
 		{
-		    shapeRenderer.triangle
-		    (
-		        0.0f, 0.0f, 0.0f,
-		        50.0f, 0.0f, 0.0f,
-		        25.0f, 50.0f, 0.0f,
-		        Color::BLACK
-		    );
-		    shapeRenderer.rectangle
-		    (
-		        -10.0f, 20.0f, 0.0f,
-		        -30.0f, 20.0f, 0.0f,
-		        -30.0f, 40.0f, 0.0f,
-		        -10.0f, 40.0f, 0.0f,
-		        Color::GRAY
-		    );
+			shapeRenderer.triangle
+			(
+			    0.0f, 0.0f, 0.0f,
+			    50.0f, 0.0f, 0.0f,
+			    25.0f, 50.0f, 0.0f,
+			    Color::BLACK
+			);
+			shapeRenderer.rectangle
+			(
+			    -10.0f, 20.0f, 0.0f,
+			    -30.0f, 20.0f, 0.0f,
+			    -30.0f, 40.0f, 0.0f,
+			    -10.0f, 40.0f, 0.0f,
+			    Color::GRAY
+			);
 
-		    shapeRenderer.circle(0.0f, 0.0f, 0.0f, 5.0f, 20, Color::BLACK);
-		    shapeRenderer.circle(10.0f, 0.0f, 0.0f, 5.0f, 20, Color::ORANGE);
+			shapeRenderer.circle(0.0f, 0.0f, 0.0f, 5.0f, 20, Color::BLACK);
+			shapeRenderer.circle(10.0f, 0.0f, 0.0f, 5.0f, 20, Color::ORANGE);
 		}
 		shapeRenderer.end();
-		*/
+
 
 		/*
 		shapeRenderer.begin(camera.getCombined(), DrawMode::LINES);

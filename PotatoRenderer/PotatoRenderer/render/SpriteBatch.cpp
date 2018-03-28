@@ -30,14 +30,15 @@ void SpriteBatch::render(Sprite& sprite)
 {
 	Texture& texture = sprite.getTextureRegion().getTexture();
 
-	batchedSprites.push_back(&sprite);
+	if (lastTexture != &texture)
+	{
+		lastTexture = &texture;
+		flush();
+	}
 
 	lastTexture = &texture;
 
-	if (lastTexture != nullptr && lastTexture != &texture)
-	{
-		flush();
-	}
+	batchedSprites.push_back(&sprite);
 }
 
 void SpriteBatch::end()
@@ -56,7 +57,7 @@ void SpriteBatch::flush()
 
 		lastTexture->bindTexture();
 		unsigned int location = selectedShader->fetchAttributeLocation((std::string(ShaderProgram::TEXCOORD_ATTRIBUTE) + "0").c_str());
-		glUniform1i(location, 0);
+		glUniform1i(location, lastTexture->getTextureUnitIndex());
 
 		selectedShader->begin();
 		selectedShader->setUniformMatrix("u_projTrans", camera->getCombined());
@@ -66,6 +67,7 @@ void SpriteBatch::flush()
 		batchedSprites.clear();
 
 		mesh.setVertices(nullptr, 0);
+		lastTexture->unbindTexture();
 	}
 }
 
