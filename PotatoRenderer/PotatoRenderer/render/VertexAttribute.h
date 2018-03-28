@@ -13,7 +13,7 @@ class VertexAttribute
 	enum class Usage : std::int32_t { POSITION, COLOR, TEXTURE_COORDS};
 
 	static VertexAttribute position() { return VertexAttribute(Usage::POSITION, 3, ShaderProgram::POSITION_ATTRIBUTE); }
-	static VertexAttribute color() { return VertexAttribute(Usage::COLOR, 4, GL_UNSIGNED_BYTE, false, ShaderProgram::COLOR_ATTRIBUTE, 0); } // PACKED
+	static VertexAttribute color() { return VertexAttribute(Usage::COLOR, 4, GL_UNSIGNED_BYTE, true, ShaderProgram::COLOR_ATTRIBUTE, 0); } // PACKED
 	static VertexAttribute texCoords(int unit) { return VertexAttribute(Usage::TEXTURE_COORDS, 2, GL_FLOAT, false, (ShaderProgram::TEXCOORD_ATTRIBUTE + std::to_string(unit)).c_str(), unit); }
 
 	VertexAttribute(Usage _usage, int _numComponents, int _type, bool _normalized, const char* _alias, int _index)

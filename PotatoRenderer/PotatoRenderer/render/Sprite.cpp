@@ -64,30 +64,13 @@ void Sprite::updatePosition(float bottomLeftX, float bottomLeftY, float bottomLe
 
 void Sprite::updateColor()
 {
-	vertices[CR1] = color.r;
-	vertices[CG1] = color.g;
-	vertices[CB1] = color.b;
-	vertices[CA1] = color.a;
-	vertices[CR2] = color.r;
-	vertices[CG2] = color.g;
-	vertices[CB2] = color.b;
-	vertices[CA2] = color.a;
-	vertices[CR3] = color.r;
-	vertices[CG3] = color.g;
-	vertices[CB3] = color.b;
-	vertices[CA3] = color.a;
-	vertices[CR4] = color.r;
-	vertices[CG4] = color.g;
-	vertices[CB4] = color.b;
-	vertices[CA4] = color.a;
-	vertices[CR5] = color.r;
-	vertices[CG5] = color.g;
-	vertices[CB5] = color.b;
-	vertices[CA5] = color.a;
-	vertices[CR6] = color.r;
-	vertices[CG6] = color.g;
-	vertices[CB6] = color.b;
-	vertices[CA6] = color.a;
+	float colorFloatBits = color.toFloatBits();
+	vertices[C1] = colorFloatBits;
+	vertices[C2] = colorFloatBits;
+	vertices[C3] = colorFloatBits;
+	vertices[C4] = colorFloatBits;
+	vertices[C5] = colorFloatBits;
+	vertices[C6] = colorFloatBits;
 }
 
 void Sprite::updateUVs()

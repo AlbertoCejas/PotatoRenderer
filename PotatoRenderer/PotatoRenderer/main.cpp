@@ -253,12 +253,17 @@ int main()
 
 	ShapeRenderer shapeRenderer;
 
-	/*
+
 	SpriteBatch spriteBatch(1000);
-	Texture texture("assets/texture.jpg");
-	TextureRegion region(texture);
-	Sprite sprite(region);
-	*/
+
+	Texture boxTexture("assets/texture.jpg");
+	TextureRegion boxRegion(boxTexture);
+	Sprite boxSprite(boxRegion);
+
+	Texture boxTexture2("assets/texture.jpg");
+	TextureRegion boxRegion2(boxTexture2);
+	Sprite boxSprite2(boxRegion2, .0f, .0f, .0f, 50.0f, 50.0f, 0.0f);
+	boxSprite2.setColor(Color::RED);
 
 	// Game loop
 	while (!glfwWindowShouldClose(window))
@@ -276,34 +281,35 @@ int main()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		/*
 		spriteBatch.begin(camera);
-		spriteBatch.render(sprite);
+		spriteBatch.render(boxSprite);
+		spriteBatch.render(boxSprite2);
 		spriteBatch.end();
-		*/
 
+		/*
 		shapeRenderer.begin(camera.getCombined(), DrawMode::FILLED);
 		{
-			shapeRenderer.triangle
-			(
-			    0.0f, 0.0f, 0.0f,
-			    50.0f, 0.0f, 0.0f,
-			    25.0f, 50.0f, 0.0f,
-			    Color::BLACK
-			);
-			shapeRenderer.rectangle
-			(
-			    -10.0f, 20.0f, 0.0f,
-			    -30.0f, 20.0f, 0.0f,
-			    -30.0f, 40.0f, 0.0f,
-			    -10.0f, 40.0f, 0.0f,
-			    Color::GRAY
-			);
+		    shapeRenderer.triangle
+		    (
+		        0.0f, 0.0f, 0.0f,
+		        50.0f, 0.0f, 0.0f,
+		        25.0f, 50.0f, 0.0f,
+		        Color::BLACK
+		    );
+		    shapeRenderer.rectangle
+		    (
+		        -10.0f, 20.0f, 0.0f,
+		        -30.0f, 20.0f, 0.0f,
+		        -30.0f, 40.0f, 0.0f,
+		        -10.0f, 40.0f, 0.0f,
+		        Color::GRAY
+		    );
 
-			//shapeRenderer.circle(0.0f, 0.0f, 0.0f, 5.0f, 20, Color::BLACK);
-			//shapeRenderer.circle(10.0f, 0.0f, 0.0f, 5.0f, 20, Color::ORANGE);
+		    shapeRenderer.circle(0.0f, 0.0f, 0.0f, 5.0f, 20, Color::BLACK);
+		    shapeRenderer.circle(10.0f, 0.0f, 0.0f, 5.0f, 20, Color::ORANGE);
 		}
 		shapeRenderer.end();
+		*/
 
 		/*
 		shapeRenderer.begin(camera.getCombined(), DrawMode::LINES);

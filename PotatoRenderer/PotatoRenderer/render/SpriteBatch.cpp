@@ -15,7 +15,7 @@ std::vector<VertexAttribute> SpriteBatch::buildVertexAttributes()
 SpriteBatch::SpriteBatch(int _maxVertices) : batchedSprites(), selectedShader(nullptr), mesh(false, _maxVertices,
 	        buildVertexAttributes()), defaultShader(false, true, 1), hasBegun(false), camera(nullptr), lastTexture(nullptr)
 {
-	batchedSprites.reserve(_maxVertices / 6);
+	batchedSprites.reserve(_maxVertices / 6); // 6 is num of vertices required to from a rectangle, TODO: optimize with indices (4 vertices)
 	selectedShader = &defaultShader;
 }
 
@@ -81,5 +81,5 @@ void SpriteBatch::buildMeshFromBatchedSprites()
 
 void SpriteBatch::copySpriteToMesh(const Sprite* sprite)
 {
-	mesh.addVertices(sprite->getVertices().data(), 6);
+	mesh.addVertices(sprite->getVertices().data(), 6); // // 6 is num of vertices required to from a rectangle, TODO: optimize with indices (4 vertices)
 }
