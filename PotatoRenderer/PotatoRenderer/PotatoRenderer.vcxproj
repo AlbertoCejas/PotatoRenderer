@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="core\Application.h" />
+    <ClInclude Include="core\BaseScene.h" />
     <ClInclude Include="math\MathUtils.h" />
     <ClInclude Include="math\Matrix.h" />
     <ClInclude Include="math\MatrixTransformations.h" />
@@ -154,6 +155,7 @@
     <ClInclude Include="render\VertexAttribute.h" />
     <ClInclude Include="render\VertexAttributes.h" />
     <ClInclude Include="render\Window.h" />
+    <ClInclude Include="scenes\Scene2DShapes.h" />
     <ClInclude Include="utils\BitwiseUtils.h" />
     <ClInclude Include="utils\CharUtils.h" />
     <ClInclude Include="utils\stb_image.h" />
@@ -179,6 +181,7 @@
     <ClCompile Include="render\VBOwithVAO.cpp" />
     <ClCompile Include="render\VertexAttributes.cpp" />
     <ClCompile Include="render\Window.cpp" />
+    <ClCompile Include="scenes\Scene2DShapes.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

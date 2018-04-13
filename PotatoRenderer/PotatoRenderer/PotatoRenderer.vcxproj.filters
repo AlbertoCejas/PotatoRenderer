@@ -34,6 +34,12 @@
     <Filter Include="Header Files\utils">
       <UniqueIdentifier>{4bd49c5d-3f60-428c-85d4-02d8a81c5aa3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\scenes">
+      <UniqueIdentifier>{c9a3b67e-5d34-45f1-8b01-80c99688d797}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scenes">
+      <UniqueIdentifier>{9188d1ea-d7ca-4619-97ed-750da69939f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\Application.h">
@@ -126,6 +132,12 @@
     <ClInclude Include="render\SpriteBatch.h">
       <Filter>Header Files\render</Filter>
     </ClInclude>
+    <ClInclude Include="core\BaseScene.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="scenes\Scene2DShapes.h">
+      <Filter>Header Files\scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\Application.cpp">
@@ -187,6 +199,9 @@
     </ClCompile>
     <ClCompile Include="render\SpriteBatch.cpp">
       <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="scenes\Scene2DShapes.cpp">
+      <Filter>Source Files\scenes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

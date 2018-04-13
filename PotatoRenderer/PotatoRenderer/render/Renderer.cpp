@@ -1,15 +1,18 @@
+// GLEW
+#define GLEW_STATIC
+#include <GL/glew.h>
+
+// GLFW
+#include <GLFW/glfw3.h>
+
 #include "Renderer.h"
+
 #include "core/Application.h"
 #include <cassert>
 
 #include "Window.h"
 
-#define GLEW_STATIC
-#include <GL/glew.h>
-
-#include <GLFW/glfw3.h>
-
-Renderer::Renderer() : application(nullptr), window(nullptr), isInit(false)
+Renderer::Renderer(int _width, int _height) : application(nullptr), window(nullptr), isInit(false), width(_width), height(_height), shapeRenderer(nullptr)
 {
 
 }
@@ -25,9 +28,6 @@ void Renderer::init(Application* app)
 	assert(isInit == false);
 
 	this->application = app;
-
-	int32_t width = 1024;
-	int32_t height = 768;
 
 	// Init GLFW
 	glfwInit();
@@ -50,6 +50,8 @@ void Renderer::init(Application* app)
 	glViewport(0, 0, width, height);
 
 	isInit = true;
+
+	shapeRenderer = new ShapeRenderer();
 }
 
 void Renderer::update(int64_t)
@@ -61,17 +63,26 @@ void Renderer::update(int64_t)
 
 }
 
-void Renderer::render()
+void Renderer::pollEvents() const
 {
 	// Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
 	glfwPollEvents();
+}
 
+void Renderer::beginRender() const
+{
 	// Render
 	// Clear the colorbuffer
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
+}
 
+void Renderer::render()
+{
 
+}
 
+void Renderer::endRender() const
+{
 	window->swapBuffers();
 }

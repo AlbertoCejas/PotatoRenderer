@@ -11,14 +11,20 @@ class Renderer
 {
   public:
 
-	Renderer();
+	explicit Renderer(int width, int height);
 	~Renderer();
 
 	void init(Application* app);
 	void update(int64_t microseconds);
+	void beginRender() const;
 	void render();
+	void endRender() const;
 
-	inline ShapeRenderer& getShapeRenderer() { return shapeRenderer; }
+	void pollEvents() const;
+
+	inline ShapeRenderer& getShapeRenderer() { return *shapeRenderer; }
+	inline int getWidth() const { return width; }
+	inline int getHeight() const { return height; }
 
   private:
 
@@ -26,7 +32,10 @@ class Renderer
 	Application* application;
 	bool isInit;
 
-	ShapeRenderer shapeRenderer;
+	int32_t width;
+	int32_t height;
+
+	ShapeRenderer* shapeRenderer;
 
 };
 

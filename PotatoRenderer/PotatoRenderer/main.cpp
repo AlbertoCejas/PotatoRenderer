@@ -1,5 +1,5 @@
 
-#define BASIC_SAMPLE
+//#define BASIC_SAMPLE
 
 #ifndef BASIC_SAMPLE
 
@@ -19,9 +19,8 @@ int main()
 		clock_t begin_time = clock();
 
 		app.update(deltaMicroseconds);
-		app.render();
 
-		deltaMicroseconds = (clock() - begin_time) * 1000000 / CLOCKS_PER_SEC;
+		deltaMicroseconds = (clock() - begin_time) * 1000000 / CLOCKS_PER_SEC; // switch this to std::chrono
 	}
 
 	return true;
@@ -127,7 +126,7 @@ int main()
 	glViewport(0, 0, WIDTH, HEIGHT);
 
 	// Setup some OpenGL options
-	// glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
 
 	/*
 
