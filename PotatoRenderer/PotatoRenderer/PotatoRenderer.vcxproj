@@ -129,6 +129,8 @@
   <ItemGroup>
     <ClInclude Include="core\Application.h" />
     <ClInclude Include="core\BaseScene.h" />
+    <ClInclude Include="input\InputSystem.h" />
+    <ClInclude Include="input\Keys.h" />
     <ClInclude Include="math\MathUtils.h" />
     <ClInclude Include="math\Matrix.h" />
     <ClInclude Include="math\MatrixTransformations.h" />
@@ -158,10 +160,12 @@
     <ClInclude Include="scenes\Scene2DShapes.h" />
     <ClInclude Include="utils\BitwiseUtils.h" />
     <ClInclude Include="utils\CharUtils.h" />
+    <ClInclude Include="utils\FreeList.h" />
     <ClInclude Include="utils\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\Application.cpp" />
+    <ClCompile Include="input\InputSystem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="render\BaseCamera.cpp" />
     <ClCompile Include="render\Color.cpp" />

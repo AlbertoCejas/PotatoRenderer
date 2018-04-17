@@ -22,6 +22,7 @@ class Renderer
 
 	void pollEvents() const;
 
+	inline const Window& getWindow() const { return *window; }
 	inline ShapeRenderer& getShapeRenderer() { return *shapeRenderer; }
 	inline int getWidth() const { return width; }
 	inline int getHeight() const { return height; }

@@ -9,7 +9,9 @@ class Window
 {
   public:
 
-	Window(const char* title, int width, int height);
+	explicit Window(const char* title, int width, int height);
+
+	GLFWwindow& getGLFWwindow() const { return *window; }
 
 	bool requiresExit() const;
 

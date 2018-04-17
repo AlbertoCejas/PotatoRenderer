@@ -3,10 +3,11 @@
 
 #include <cinttypes>
 #include "render/Renderer.h"
+#include "input/Keys.h"
 
 class BaseScene;
 
-class Application
+class Application // TODO -> move input stuff to input system
 {
   public:
 
@@ -22,6 +23,10 @@ class Application
 
 	void initScenes();
 	void switchToScene(int nextSceneIndex);
+
+	void processInputEvents();
+	void onKeyReleased(Key key);
+	void onMouseMoved(int deltaX, int deltaY);
 
 	int32_t currentSceneIndex;
 	std::vector<BaseScene*> scenes;
