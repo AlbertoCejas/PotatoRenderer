@@ -26,8 +26,8 @@ class Scene2DShapes : public BaseScene
   private:
 
 	void processInput(int64_t microsecondsDelta);
-	void processKey(Key key);
 	Vec3f getCameraDirection(Key key);
+	void updateInputDirection();
 
 	ShaderProgram shader;
 	BaseCamera* camera;

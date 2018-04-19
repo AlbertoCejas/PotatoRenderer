@@ -56,10 +56,6 @@ void Renderer::init(Application* app)
 
 void Renderer::update(int64_t)
 {
-	if (window->requiresExit())
-	{
-		application->forceExit();
-	}
 
 }
 

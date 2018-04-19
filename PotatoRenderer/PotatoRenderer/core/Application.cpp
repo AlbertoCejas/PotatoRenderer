@@ -3,7 +3,7 @@
 #include "scenes/Scene2DShapes.h"
 #include "input/InputSystem.h"
 #include <cassert>
-
+#include "render/Window.h"
 #include "utils/FreeList.h"
 
 struct hola
@@ -52,6 +52,14 @@ void Application::update(int64_t microseconds)
 {
 	renderer.pollEvents();
 
+	const Window& window = renderer.getWindow();
+
+	if (window.requiresExit())
+	{
+		forceExit();
+		return;
+	}
+	
 	processInputEvents();
 
 	BaseScene* scene = scenes[currentSceneIndex];
@@ -115,6 +123,11 @@ void Application::onKeyHold(Key key)
 
 void Application::onKeyReleased(Key key)
 {
+	if (key == Key::KEY_ESCAPE)
+	{
+		this->forceExit();
+		return;
+	}
 	BaseScene* scene = scenes[currentSceneIndex];
 	scene->onKeyReleased(key);
 }

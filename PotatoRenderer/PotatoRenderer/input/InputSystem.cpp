@@ -6,6 +6,7 @@
 FreeList<InputEvent> InputSystem::eventsPool(20u);
 std::queue<InputEvent*> InputSystem::eventsQueueToProcess;
 std::vector<InputEvent*> InputSystem::eventsToReturnToPool;
+std::unordered_set<Key> InputSystem::pressedKeys;
 int32_t InputSystem::lastXMousePos;
 int32_t InputSystem::lastYMousePos;
 
@@ -21,12 +22,14 @@ void InputSystem::keyCallback(GLFWwindow*, int key, int, int action, int) // win
 		case GLFW_PRESS:
 		{
 			eventInstance->type = InputEventType::KEYBOARD_PRESS;
+			pressedKeys.insert(Key(key));
 			break;
 		}
 
 		case GLFW_RELEASE:
 		{
 			eventInstance->type = InputEventType::KEYBOARD_RELEASE;
+			pressedKeys.erase(Key(key));
 			break;
 		}
 
@@ -116,4 +119,9 @@ void InputSystem::finishProcessingQueuedEvents()
 	}
 
 	eventsToReturnToPool.clear();
+}
+
+bool InputSystem::isKeyPressed(Key key)
+{
+	return pressedKeys.find(key) != pressedKeys.end();
 }

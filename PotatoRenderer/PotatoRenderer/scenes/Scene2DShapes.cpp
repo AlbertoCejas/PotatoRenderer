@@ -3,6 +3,7 @@
 #include "render/ShapeRenderer.h"
 #include "scenes/Scene2DShapes.h"
 #include <iostream>
+#include "input/InputSystem.h"
 
 Scene2DShapes::~Scene2DShapes()
 {
@@ -89,7 +90,6 @@ void Scene2DShapes::onKeyPressed(Key key)
 
 void Scene2DShapes::onKeyHold(Key key)
 {
-	cameraDirectionToApply += getCameraDirection(key);
 	std::cout << "Key Hold" << (int) key << std::endl;
 }
 
@@ -118,22 +118,11 @@ void Scene2DShapes::onMouseMoved(int deltaX, int deltaY)
 	}
 }
 
-
 void Scene2DShapes::processInput(int64_t microsecondsDelta)
 {
-	if (cameraDirectionToApply != Vec3f::ZERO)
-	{
-		float speed = 50.0f; // units per second
-		float translation = speed * microsecondsDelta / 1000000.0f;
+	bool requiresCameraUpdate = false;
 
-		cameraDirectionToApply.normalize();
-
-		camera->translate(cameraDirectionToApply * translation);
-
-		cameraDirectionToApply.set(0.0f, 0.0f, 0.0f);
-	}
-
-	if (yaw != 0 || pitch != 0)
+	if (yaw != 0.0f || pitch != 0.0f)
 	{
 		Vector3<float> right(camera->getDirection());
 		right.cross(camera->getUp()).normalize();
@@ -143,19 +132,29 @@ void Scene2DShapes::processInput(int64_t microsecondsDelta)
 		//right.cross(camera.getUp());
 		//right.normalize();
 		camera->rotateDegrees(right.x, right.y, right.z, pitch);
-		camera->rotateDegrees(.0f, 1.0f, 0.0f, -yaw); // This should be the updated UP vector of the camera
+		camera->rotateDegrees(0.0f, 1.0f, 0.0f, -yaw); // This should be the updated UP vector of the camera
+		
+		yaw = 0.0f;
+		pitch = 0.0f;
+		requiresCameraUpdate = true;
 
-		yaw = .0f;
-		pitch = .0f;
+		updateInputDirection();
 	}
 
-	camera->update();
-}
+	if (cameraDirectionToApply != Vec3f::ZERO)
+	{
+		float speed = 50.0f; // units per second
+		float translation = speed * microsecondsDelta / 1000000.0f;
+		Vec3f cameraDirectionToApplyCopy(cameraDirectionToApply);
+		cameraDirectionToApplyCopy.normalize();
+		camera->translate(cameraDirectionToApplyCopy * translation);
+		requiresCameraUpdate = true;
+	}
 
-
-void Scene2DShapes::processKey(Key key)
-{
-	cameraDirectionToApply += getCameraDirection(key);
+	if (requiresCameraUpdate)
+	{
+		camera->update();
+	}
 }
 
 Vec3f Scene2DShapes::getCameraDirection(Key key)
@@ -185,4 +184,29 @@ Vec3f Scene2DShapes::getCameraDirection(Key key)
 			return -right;
 		}
 	}
+
+	return Vec3f::ZERO;
+}
+
+void Scene2DShapes::updateInputDirection()
+{
+	cameraDirectionToApply.set(Vec3f::ZERO);
+
+	if (InputSystem::isKeyPressed(Key::KEY_W))
+	{
+		cameraDirectionToApply += getCameraDirection(Key::KEY_W);
+	}
+	if (InputSystem::isKeyPressed(Key::KEY_S))
+	{
+		cameraDirectionToApply += getCameraDirection(Key::KEY_S);
+	}
+	if (InputSystem::isKeyPressed(Key::KEY_D))
+	{
+		cameraDirectionToApply += getCameraDirection(Key::KEY_D);
+	}
+	if (InputSystem::isKeyPressed(Key::KEY_A))
+	{
+		cameraDirectionToApply += getCameraDirection(Key::KEY_A);
+	}
+
 }

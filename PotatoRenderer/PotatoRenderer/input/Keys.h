@@ -11,7 +11,8 @@ enum class Key : int32_t
 	KEY_A = GLFW_KEY_A,
 	KEY_S = GLFW_KEY_S,
 	KEY_D = GLFW_KEY_D,
-	KEY_W = GLFW_KEY_W
+	KEY_W = GLFW_KEY_W,
+	KEY_ESCAPE = GLFW_KEY_ESCAPE
 };
 
 #endif

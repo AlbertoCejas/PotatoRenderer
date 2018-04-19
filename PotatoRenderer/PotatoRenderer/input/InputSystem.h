@@ -5,6 +5,7 @@
 #include <cstdint>
 #include "input/Keys.h"
 #include <queue>
+#include <unordered_set>
 
 class Window;
 struct GLFWwindow;
@@ -40,13 +41,14 @@ struct InputEvent
 	};
 };
 
-class InputSystem
+class InputSystem // TODO: make it thread-safe and lock free
 {
   public:
 
 	static void setInputTarget(const Window& window);
 	static InputEvent* popQueuedEvent();
 	static void finishProcessingQueuedEvents();
+	static bool isKeyPressed(Key key);
 
   private:
 
@@ -60,6 +62,7 @@ class InputSystem
 	static FreeList<InputEvent> eventsPool;
 	static std::queue<InputEvent*> eventsQueueToProcess;
 	static std::vector<InputEvent*> eventsToReturnToPool;
+	static std::unordered_set<Key> pressedKeys;
 };
 
 #endif
