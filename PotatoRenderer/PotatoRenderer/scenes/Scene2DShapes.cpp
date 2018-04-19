@@ -2,6 +2,7 @@
 #include "render/Renderer.h"
 #include "render/ShapeRenderer.h"
 #include "scenes/Scene2DShapes.h"
+#include <iostream>
 
 Scene2DShapes::~Scene2DShapes()
 {
@@ -80,37 +81,22 @@ void Scene2DShapes::onExit()
 
 }
 
+void Scene2DShapes::onKeyPressed(Key key)
+{
+	cameraDirectionToApply += getCameraDirection(key);
+	std::cout << "Key Pressed" << (int)key << std::endl;
+}
+
+void Scene2DShapes::onKeyHold(Key key)
+{
+	cameraDirectionToApply += getCameraDirection(key);
+	std::cout << "Key Hold" << (int) key << std::endl;
+}
+
 void Scene2DShapes::onKeyReleased(Key key)
 {
-	Vector3<float> right(camera->getDirection());
-	right.cross(camera->getUp()).normalize();
-
-	switch (key)
-	{
-		case Key::KEY_W:
-		{
-			cameraDirectionToApply += camera->getDirection();
-			break;
-		}
-
-		case Key::KEY_S:
-		{
-			cameraDirectionToApply -= camera->getDirection();
-			break;
-		}
-
-		case Key::KEY_D:
-		{
-			cameraDirectionToApply += right;
-			break;
-		}
-
-		case Key::KEY_A:
-		{
-			cameraDirectionToApply -= right;
-			break;
-		}
-	}
+	cameraDirectionToApply -= getCameraDirection(key);
+	std::cout << "Key Released" << (int)key << std::endl;
 }
 
 void Scene2DShapes::onMouseMoved(int deltaX, int deltaY)
@@ -132,23 +118,27 @@ void Scene2DShapes::onMouseMoved(int deltaX, int deltaY)
 	}
 }
 
+
 void Scene2DShapes::processInput(int64_t microsecondsDelta)
 {
-	float speed = 100.0f;
-	float velocity = speed * microsecondsDelta / 1000.0f;
+	if (cameraDirectionToApply != Vec3f::ZERO)
+	{
+		float speed = 50.0f; // units per second
+		float translation = speed * microsecondsDelta / 1000000.0f;
 
-	cameraDirectionToApply.normalize();
+		cameraDirectionToApply.normalize();
 
-	camera->translate(cameraDirectionToApply * velocity);
+		camera->translate(cameraDirectionToApply * translation);
 
-	cameraDirectionToApply.set(0.0f, 0.0f, 0.0f);
-
-	Vector3<float> right(camera->getDirection());
-	right.cross(camera->getUp()).normalize();
+		cameraDirectionToApply.set(0.0f, 0.0f, 0.0f);
+	}
 
 	if (yaw != 0 || pitch != 0)
 	{
-		Vec3f direction(camera->getDirection());
+		Vector3<float> right(camera->getDirection());
+		right.cross(camera->getUp()).normalize();
+
+		//Vec3f direction(camera->getDirection());
 		//Vec3f right(camera.getDirection());
 		//right.cross(camera.getUp());
 		//right.normalize();
@@ -160,4 +150,39 @@ void Scene2DShapes::processInput(int64_t microsecondsDelta)
 	}
 
 	camera->update();
+}
+
+
+void Scene2DShapes::processKey(Key key)
+{
+	cameraDirectionToApply += getCameraDirection(key);
+}
+
+Vec3f Scene2DShapes::getCameraDirection(Key key)
+{
+	Vector3<float> right(camera->getDirection());
+	right.cross(camera->getUp()).normalize();
+
+	switch (key)
+	{
+		case Key::KEY_W:
+		{
+			return camera->getDirection();
+		}
+
+		case Key::KEY_S:
+		{
+			return -camera->getDirection();
+		}
+
+		case Key::KEY_D:
+		{
+			return right;
+		}
+
+		case Key::KEY_A:
+		{
+			return -right;
+		}
+	}
 }

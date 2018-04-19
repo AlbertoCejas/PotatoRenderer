@@ -153,6 +153,16 @@ class Vector3
 		return *this;
 	}
 
+	bool operator==(const Vector3& other) const
+	{
+		return this->x == other.x && this->y == other.y && this->z == other.z;
+	}
+
+	bool operator!=(const Vector3& other) const
+	{
+		return !(*this == other);
+	}
+
 	Vector3& cross(const Vector3& other)
 	{
 		return this->set

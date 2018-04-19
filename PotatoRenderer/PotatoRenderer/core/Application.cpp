@@ -4,6 +4,15 @@
 #include "input/InputSystem.h"
 #include <cassert>
 
+#include "utils/FreeList.h"
+
+struct hola
+{
+	int a;
+	int b;
+	int c;
+};
+
 Application::Application() : renderer(1024, 768), exit(false), currentSceneIndex(-1)
 {
 
@@ -49,6 +58,7 @@ void Application::update(int64_t microseconds)
 	scene->onUpdate(microseconds);
 }
 
+
 void Application::processInputEvents()
 {
 	InputEvent* inputEvent = InputSystem::popQueuedEvent();
@@ -65,17 +75,42 @@ void Application::processInputEvents()
 				break;
 			}
 
+			case InputEventType::KEYBOARD_PRESS:
+			{
+				onKeyPressed(inputEvent->keyboardInfo.key);
+				break;
+			}
+
+			case InputEventType::KEYBOARD_HOLD:
+			{
+				onKeyHold(inputEvent->keyboardInfo.key);
+				break;
+			}
+
 			case InputEventType::KEYBOARD_RELEASE:
 			{
 				onKeyReleased(inputEvent->keyboardInfo.key);
 				break;
 			}
+
 		}
 
 		inputEvent = InputSystem::popQueuedEvent();
 	}
 
 	InputSystem::finishProcessingQueuedEvents();
+}
+
+void Application::onKeyPressed(Key key)
+{
+	BaseScene* scene = scenes[currentSceneIndex];
+	scene->onKeyPressed(key);
+}
+
+void Application::onKeyHold(Key key)
+{
+	BaseScene* scene = scenes[currentSceneIndex];
+	scene->onKeyHold(key);
 }
 
 void Application::onKeyReleased(Key key)

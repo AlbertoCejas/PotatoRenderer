@@ -18,12 +18,16 @@ class Scene2DShapes : public BaseScene
 	void onUpdate(int64_t microsecondsDelta) override;
 	void onExit() override;
 
+	void onKeyPressed(Key key) override;
+	void onKeyHold(Key key) override;
 	void onKeyReleased(Key key) override;
 	void onMouseMoved(int deltaX, int deltaY) override;
 
   private:
 
 	void processInput(int64_t microsecondsDelta);
+	void processKey(Key key);
+	Vec3f getCameraDirection(Key key);
 
 	ShaderProgram shader;
 	BaseCamera* camera;

@@ -17,6 +17,8 @@ class BaseScene
 	virtual void onUpdate(int64_t) {} // microseconds
 	virtual void onExit() {}
 
+	virtual void onKeyPressed(Key) { }
+	virtual void onKeyHold(Key) { }
 	virtual void onKeyReleased(Key) { }
 	virtual void onMouseMoved(int, int) {}   // deltaX, deltaY
 

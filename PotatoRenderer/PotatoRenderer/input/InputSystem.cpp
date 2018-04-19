@@ -5,13 +5,14 @@
 
 FreeList<InputEvent> InputSystem::eventsPool(20u);
 std::queue<InputEvent*> InputSystem::eventsQueueToProcess;
-std::vector<InputEvent*> InputSystem::eventsToReturnToPool(20u);
+std::vector<InputEvent*> InputSystem::eventsToReturnToPool;
 int32_t InputSystem::lastXMousePos;
 int32_t InputSystem::lastYMousePos;
 
 void InputSystem::keyCallback(GLFWwindow*, int key, int, int action, int) // window, key, scancode, action, mods
 {
 	InputEvent* eventInstance = eventsPool.get();
+
 	assert(eventInstance != nullptr);
 	eventInstance->keyboardInfo.key = (Key)key;
 
@@ -45,6 +46,7 @@ void InputSystem::mouseButtonCallback(GLFWwindow* window, int button, int action
 	glfwGetCursorPos(window, &xPos, &yPos);
 
 	InputEvent* eventInstance = eventsPool.get();
+
 	assert(eventInstance != nullptr);
 	eventInstance->mouseClickInfo.x = (int32_t)xPos;
 	eventInstance->mouseClickInfo.y = (int32_t)yPos;
@@ -67,8 +69,9 @@ void InputSystem::mouseButtonCallback(GLFWwindow* window, int button, int action
 void InputSystem::mouseMoveCallback(GLFWwindow*, double xPos, double yPos)
 {
 	InputEvent* eventInstance = eventsPool.get();
+
 	assert(eventInstance != nullptr);
-	eventInstance->mouseMoveInfo.deltaX = lastXMousePos - (int32_t)xPos;
+	eventInstance->mouseMoveInfo.deltaX = (int32_t)xPos - lastXMousePos;
 	eventInstance->mouseMoveInfo.deltaY = lastYMousePos - (int32_t)yPos;
 	lastXMousePos = (int32_t)xPos;
 	lastYMousePos = (int32_t)yPos;
@@ -93,12 +96,12 @@ void InputSystem::setInputTarget(const Window& window)
 
 InputEvent* InputSystem::popQueuedEvent()
 {
-	InputEvent* eventInstance = eventsQueueToProcess.front();
-
-	if (eventInstance == nullptr)
+	if (eventsQueueToProcess.empty())
 	{
 		return nullptr;
 	}
+
+	InputEvent* eventInstance = eventsQueueToProcess.front();
 
 	eventsToReturnToPool.push_back(eventInstance);
 	eventsQueueToProcess.pop();

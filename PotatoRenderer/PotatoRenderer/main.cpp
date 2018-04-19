@@ -5,22 +5,24 @@
 
 #include "core/Application.h"
 #include <ctime>
+#include <chrono>
 
 int main()
 {
-	Application app;
+	Application* app = new Application();
 
-	app.init();
+	app->init();
 
-	int64_t deltaMicroseconds = 0;
+	std::chrono::steady_clock::time_point beginTime = std::chrono::steady_clock::now();
 
-	while (app.mustExit() == false)
+	while (app->mustExit() == false)
 	{
-		clock_t begin_time = clock();
+		std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
+		int64_t microsecondsDelta = std::chrono::duration_cast<std::chrono::microseconds>(endTime - beginTime).count();
 
-		app.update(deltaMicroseconds);
+		app->update(microsecondsDelta);
 
-		deltaMicroseconds = (clock() - begin_time) * 1000000 / CLOCKS_PER_SEC; // switch this to std::chrono
+		beginTime = endTime;
 	}
 
 	return true;

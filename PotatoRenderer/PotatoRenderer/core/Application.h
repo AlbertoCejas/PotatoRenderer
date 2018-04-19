@@ -7,7 +7,7 @@
 
 class BaseScene;
 
-class Application // TODO -> move input stuff to input system
+class Application
 {
   public:
 
@@ -25,6 +25,8 @@ class Application // TODO -> move input stuff to input system
 	void switchToScene(int nextSceneIndex);
 
 	void processInputEvents();
+	void onKeyPressed(Key key);
+	void onKeyHold(Key key);
 	void onKeyReleased(Key key);
 	void onMouseMoved(int deltaX, int deltaY);
 
