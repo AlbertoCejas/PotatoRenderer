@@ -63,13 +63,7 @@
     <ClInclude Include="render\Mesh.h">
       <Filter>Header Files\render</Filter>
     </ClInclude>
-    <ClInclude Include="render\VAO.h">
-      <Filter>Header Files\render</Filter>
-    </ClInclude>
     <ClInclude Include="render\VertexAttribute.h">
-      <Filter>Header Files\render</Filter>
-    </ClInclude>
-    <ClInclude Include="render\VBO.h">
       <Filter>Header Files\render</Filter>
     </ClInclude>
     <ClInclude Include="render\ShaderProgram.h">
@@ -132,9 +126,6 @@
     <ClInclude Include="render\TextureRegion.h">
       <Filter>Header Files\render</Filter>
     </ClInclude>
-    <ClInclude Include="render\Sprite.h">
-      <Filter>Source Files\render</Filter>
-    </ClInclude>
     <ClInclude Include="render\SpriteBatch.h">
       <Filter>Header Files\render</Filter>
     </ClInclude>
@@ -153,6 +144,12 @@
     <ClInclude Include="input\InputSystem.h">
       <Filter>Header Files\input</Filter>
     </ClInclude>
+    <ClInclude Include="render\Sprite.h">
+      <Filter>Header Files\render</Filter>
+    </ClInclude>
+    <ClInclude Include="render\IBOSubData.h">
+      <Filter>Header Files\render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\Application.cpp">
@@ -166,12 +163,6 @@
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="render\VAO.cpp">
-      <Filter>Source Files\render</Filter>
-    </ClCompile>
-    <ClCompile Include="render\VBO.cpp">
-      <Filter>Source Files\render</Filter>
     </ClCompile>
     <ClCompile Include="render\Mesh.cpp">
       <Filter>Source Files\render</Filter>
@@ -220,6 +211,9 @@
     </ClCompile>
     <ClCompile Include="input\InputSystem.cpp">
       <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="render\IBOSubData.cpp">
+      <Filter>Source Files\render</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

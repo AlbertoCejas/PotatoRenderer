@@ -2,7 +2,6 @@
 #include "render/Renderer.h"
 #include "render/ShapeRenderer.h"
 #include "scenes/Scene2DShapes.h"
-#include <iostream>
 #include "input/InputSystem.h"
 
 Scene2DShapes::~Scene2DShapes()
@@ -85,18 +84,11 @@ void Scene2DShapes::onExit()
 void Scene2DShapes::onKeyPressed(Key key)
 {
 	cameraDirectionToApply += getCameraDirection(key);
-	std::cout << "Key Pressed" << (int)key << std::endl;
-}
-
-void Scene2DShapes::onKeyHold(Key key)
-{
-	std::cout << "Key Hold" << (int) key << std::endl;
 }
 
 void Scene2DShapes::onKeyReleased(Key key)
 {
 	cameraDirectionToApply -= getCameraDirection(key);
-	std::cout << "Key Released" << (int)key << std::endl;
 }
 
 void Scene2DShapes::onMouseMoved(int deltaX, int deltaY)

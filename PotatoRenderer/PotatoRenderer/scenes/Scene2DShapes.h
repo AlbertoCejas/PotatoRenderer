@@ -19,7 +19,6 @@ class Scene2DShapes : public BaseScene
 	void onExit() override;
 
 	void onKeyPressed(Key key) override;
-	void onKeyHold(Key key) override;
 	void onKeyReleased(Key key) override;
 	void onMouseMoved(int deltaX, int deltaY) override;
 

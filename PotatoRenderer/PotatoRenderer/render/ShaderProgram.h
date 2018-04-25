@@ -1,7 +1,7 @@
 #ifndef _SHADER_PROGRAM_H_
 #define _SHADER_PROGRAM_H_
 
-#include <cinttypes>
+#include <cstdint>
 #include <unordered_map>
 #include "utils/CharUtils.h"
 #include "math/Matrix.h"

@@ -139,6 +139,7 @@
     <ClInclude Include="math\VectorTransformations.h" />
     <ClInclude Include="render\BaseCamera.h" />
     <ClInclude Include="render\Color.h" />
+    <ClInclude Include="render\IBOSubData.h" />
     <ClInclude Include="render\ImmediateRenderer.h" />
     <ClInclude Include="render\PerspectiveCamera.h" />
     <ClInclude Include="render\GLEnums.h" />
@@ -151,8 +152,6 @@
     <ClInclude Include="render\SpriteBatch.h" />
     <ClInclude Include="render\Texture.h" />
     <ClInclude Include="render\TextureRegion.h" />
-    <ClInclude Include="render\VAO.h" />
-    <ClInclude Include="render\VBO.h" />
     <ClInclude Include="render\VBOwithVAO.h" />
     <ClInclude Include="render\VertexAttribute.h" />
     <ClInclude Include="render\VertexAttributes.h" />
@@ -169,6 +168,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="render\BaseCamera.cpp" />
     <ClCompile Include="render\Color.cpp" />
+    <ClCompile Include="render\IBOSubData.cpp" />
     <ClCompile Include="render\ImmediateRenderer.cpp" />
     <ClCompile Include="render\PerspectiveCamera.cpp" />
     <ClCompile Include="render\Mesh.cpp" />
@@ -180,8 +180,6 @@
     <ClCompile Include="render\SpriteBatch.cpp" />
     <ClCompile Include="render\Texture.cpp" />
     <ClCompile Include="render\TextureRegion.cpp" />
-    <ClCompile Include="render\VAO.cpp" />
-    <ClCompile Include="render\VBO.cpp" />
     <ClCompile Include="render\VBOwithVAO.cpp" />
     <ClCompile Include="render\VertexAttributes.cpp" />
     <ClCompile Include="render\Window.cpp" />
