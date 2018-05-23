@@ -10,13 +10,20 @@ class IBOSubData
 		IBOSubData(bool isStatic, int maxIndices);
 		~IBOSubData();
 
+		inline const int* getIndices() const { return indices; }
 		inline int getNumOfIndices() const { return currentNumOfIndices; }
 		inline int getMaxNumOfIndices() const { return maxNumOfIndices; }
 
 		void setIndices(const int* indices, int count);
+		void addIndices(const int* indices, int count);
 		void updateIndices(const int* indices, int offset, int count);
 
+		void bind();
+		void unbind();
+
 	private:
+
+		void bufferChanged();
 
 		uint32_t                            IBOhandle;
 		int32_t                             currentNumOfIndices;

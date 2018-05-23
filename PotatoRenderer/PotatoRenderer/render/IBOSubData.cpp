@@ -1,5 +1,7 @@
 #include "IBOSubData.h"
 #include <GL/glew.h>
+#include <cstring>
+#include <cassert>
 
 IBOSubData::IBOSubData(bool _isStatic, int _maxIndices) : maxNumOfIndices(_maxIndices), currentNumOfIndices(0), isStatic(_isStatic)
 {
@@ -13,6 +15,66 @@ IBOSubData::IBOSubData(bool _isStatic, int _maxIndices) : maxNumOfIndices(_maxIn
 
 IBOSubData::~IBOSubData()
 {
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBOhandle);
 	glDeleteBuffers(1, &IBOhandle);
 	delete[] indices;
+}
+
+void IBOSubData::bufferChanged()
+{
+	if (isBound)
+	{
+		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, currentNumOfIndices, indices);
+		isDirty = false;
+	}
+}
+
+void IBOSubData::setIndices(const int* indicesToSet, int count)
+{
+	isDirty = true;
+	currentNumOfIndices = count;
+
+	memcpy(indices, indicesToSet, sizeof(int) * count);
+
+	bufferChanged();
+}
+
+void IBOSubData::addIndices(const int* indicesToAdd, int count)
+{
+	assert(count > 0 && (currentNumOfIndices + count) <= maxNumOfIndices);
+
+	isDirty = true;
+
+	memcpy(indices + currentNumOfIndices, indicesToAdd, sizeof(int) * count);
+	currentNumOfIndices += count;
+
+	bufferChanged();
+}
+
+void IBOSubData::updateIndices(const int* indicesToUpdate, int offset, int count)
+{
+	assert(count > 0 && offset > -1 && ((offset + count) < maxNumOfIndices));
+
+	isDirty = true;
+
+	memcpy(indices + offset, indicesToUpdate, sizeof(int) * count);
+
+	bufferChanged();
+}
+
+void IBOSubData::bind()
+{
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBOhandle);
+	if (isDirty) 
+	{
+		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, currentNumOfIndices, indices);
+		isDirty = false;
+	}
+	isBound = true;
+}
+
+void IBOSubData::unbind()
+{
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	isBound = false;
 }

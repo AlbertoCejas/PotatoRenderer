@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "render/VBOwithVAO.h"
+#include "render/IBOSubData.h"
 #include "render/VertexAttribute.h"
 
 class ShaderProgram;
@@ -11,12 +12,16 @@ class Mesh
 {
   public:
 
-	Mesh(bool isStatic, int numVertices, const std::vector<VertexAttribute>& attributes);
+	Mesh(bool isStatic, int maxVertices, int maxIndices, const std::vector<VertexAttribute>& attributes);
 	~Mesh();
 
 	Mesh& setVertices(const float* vertices, int numOfVertices);
 	Mesh& addVertices(const float* vertices, int numOfVertices);
 	Mesh& updateVertices(const float* vertices, int numOfVerticesOffset, int numOfVertices);
+
+	Mesh& setIndices(const int* indices, int numOfIndices);
+	Mesh& addIndices(const int* indices, int numOfIndices);
+	Mesh& updateIndices(const int* indices, int numOfIndicesOffset, int numOfIndices);
 
 	bool hasVertexAttribute(VertexAttribute::Usage usage);
 	VertexAttribute* getVertexAttribute(VertexAttribute::Usage usage);
@@ -24,6 +29,9 @@ class Mesh
 
 	inline int getMaxNumVertices() const { return vertexData.getMaxNumVertices(); }
 	inline int getNumVertices() const { return vertexData.getCurrentNumVertices(); }
+
+	inline int getMaxNumIndices() const { return indexData.getMaxNumOfIndices(); }
+	inline int getNumIndices() const { return indexData.getNumOfIndices(); }
 
 	void bind(ShaderProgram& shader);
 	void unbind();
@@ -36,6 +44,7 @@ class Mesh
   private:
 
 	VBOWithVAO vertexData;
+	IBOSubData indexData;
 
 };
 

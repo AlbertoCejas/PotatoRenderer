@@ -1,6 +1,6 @@
 #include "Mesh.h"
 
-Mesh::Mesh(bool isStatic, int maxVertices, const std::vector<VertexAttribute>& attributes) : vertexData(isStatic, maxVertices, attributes)
+Mesh::Mesh(bool isStatic, int maxVertices, int maxIndices, const std::vector<VertexAttribute>& attributes) : vertexData(isStatic, maxVertices, attributes), indexData(isStatic, maxIndices)
 {
 
 }
@@ -26,6 +26,21 @@ Mesh& Mesh::updateVertices(const float* vertices, int numOfVerticesOffset, int n
 {
 	vertexData.updateVertices(vertices, numOfVerticesOffset, numOfVertices);
 	return *this;
+}
+
+Mesh& Mesh::setIndices(const int* indices, int numOfIndices)
+{
+	indexData.setIndices(indices, numOfIndices);
+}
+
+Mesh& Mesh::addIndices(const int* indices, int numOfIndices)
+{
+	indexData.addIndices(indices, numOfIndices);
+}
+
+Mesh& Mesh::updateIndices(const int* indices, int numOfIndicesOffset, int numOfIndices)
+{
+	indexData.updateIndices(indices, numOfIndicesOffset, numOfIndices);
 }
 
 bool Mesh::hasVertexAttribute(VertexAttribute::Usage usage) // TODO: const here
@@ -65,11 +80,13 @@ VertexAttribute* Mesh::getVertexAttribute(VertexAttribute::Usage usage) // TODO:
 void Mesh::bind(ShaderProgram& shader)
 {
 	vertexData.bind(shader);
+	if (indexData.getNumOfIndices() > 0) indexData.bind();
 }
 
 void Mesh::unbind()
 {
 	vertexData.unbind();
+	if (indexData.getNumOfIndices() > 0) indexData.unbind();
 }
 
 void Mesh::render(ShaderProgram& shader)
@@ -80,7 +97,7 @@ void Mesh::render(ShaderProgram& shader)
 void Mesh::render(ShaderProgram& shader, int primitiveType)
 {
 	int numVertices = getNumVertices();
-	render(shader, 0, numVertices, primitiveType);
+	render(shader, 0, indexData.getMaxNumOfIndices() > 0 ? getNumIndices() : getNumVertices(), primitiveType);
 }
 
 void Mesh::render(ShaderProgram& shader, int offset, int count, int primitiveType)
@@ -92,6 +109,14 @@ void Mesh::render(ShaderProgram& shader, int offset, int count, int primitiveTyp
 
 	bind(shader);
 
-	glDrawArrays(primitiveType, offset, count);
+	if (indexData.getNumOfIndices() > 0)
+	{
+		glDrawElements(primitiveType, count, GL_UNSIGNED_SHORT, indexData.getIndices());
+	}
+	else
+	{
+		glDrawArrays(primitiveType, offset, count);
+	}
+
 	unbind();
 }

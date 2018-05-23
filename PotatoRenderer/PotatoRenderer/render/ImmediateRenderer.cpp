@@ -8,7 +8,7 @@ std::vector<VertexAttribute> ImmediateRenderer::buildVertexAttributes()
 	return attribs;
 }
 
-ImmediateRenderer::ImmediateRenderer(int _maxVertices) : maxVertices(_maxVertices), numVertices(0), mesh(false, _maxVertices, buildVertexAttributes()), shader(false, true, 0),
+ImmediateRenderer::ImmediateRenderer(int _maxVertices) : maxVertices(_maxVertices), numVertices(0), mesh(false, _maxVertices, 0, buildVertexAttributes()), shader(false, true, 0),
 	transform(nullptr), color(Color::BLACK)
 {
 	vertexCache = new float[mesh.getVertexAttributes().getVertexSizeBytes() / 4];
