@@ -31,16 +31,19 @@ Mesh& Mesh::updateVertices(const float* vertices, int numOfVerticesOffset, int n
 Mesh& Mesh::setIndices(const int* indices, int numOfIndices)
 {
 	indexData.setIndices(indices, numOfIndices);
+	return *this;
 }
 
 Mesh& Mesh::addIndices(const int* indices, int numOfIndices)
 {
 	indexData.addIndices(indices, numOfIndices);
+	return *this;
 }
 
 Mesh& Mesh::updateIndices(const int* indices, int numOfIndicesOffset, int numOfIndices)
 {
 	indexData.updateIndices(indices, numOfIndicesOffset, numOfIndices);
+	return *this;
 }
 
 bool Mesh::hasVertexAttribute(VertexAttribute::Usage usage) // TODO: const here
@@ -96,7 +99,6 @@ void Mesh::render(ShaderProgram& shader)
 
 void Mesh::render(ShaderProgram& shader, int primitiveType)
 {
-	int numVertices = getNumVertices();
 	render(shader, 0, indexData.getMaxNumOfIndices() > 0 ? getNumIndices() : getNumVertices(), primitiveType);
 }
 

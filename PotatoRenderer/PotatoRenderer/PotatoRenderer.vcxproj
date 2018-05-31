@@ -157,6 +157,7 @@
     <ClInclude Include="render\VertexAttributes.h" />
     <ClInclude Include="render\Window.h" />
     <ClInclude Include="scenes\Scene2DShapes.h" />
+    <ClInclude Include="scenes\Scene2DSprites.h" />
     <ClInclude Include="utils\BitwiseUtils.h" />
     <ClInclude Include="utils\CharUtils.h" />
     <ClInclude Include="utils\FreeList.h" />
@@ -184,6 +185,7 @@
     <ClCompile Include="render\VertexAttributes.cpp" />
     <ClCompile Include="render\Window.cpp" />
     <ClCompile Include="scenes\Scene2DShapes.cpp" />
+    <ClCompile Include="scenes\Scene2DSprites.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

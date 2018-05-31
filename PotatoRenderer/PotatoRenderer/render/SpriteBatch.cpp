@@ -12,11 +12,26 @@ std::vector<VertexAttribute> SpriteBatch::buildVertexAttributes()
 	return attribs;
 }
 
-SpriteBatch::SpriteBatch(int _maxVertices) : batchedSprites(), selectedShader(nullptr), mesh(false, _maxVertices,
-	        buildVertexAttributes()), defaultShader(false, true, 1), hasBegun(false), camera(nullptr), lastTexture(nullptr)
+SpriteBatch::SpriteBatch(int _maxVertices) : batchedSprites(), selectedShader(nullptr), mesh(false, _maxVertices, 1000, buildVertexAttributes()), 
+	defaultShader(false, true, 1), hasBegun(false), camera(nullptr), lastTexture(nullptr)
 {
-	batchedSprites.reserve(_maxVertices / 6); // 6 is num of vertices required to from a rectangle, TODO: optimize with indices (4 vertices)
+	batchedSprites.reserve(1000u);
 	selectedShader = &defaultShader;
+
+	int* indices = new int[1000];
+	short j = 0;
+	for (int i = 0; i < 1000; i += 6, j += 4)
+	{
+		indices[i] = j;
+		indices[i + 1] = (j + 1);
+		indices[i + 2] = (j + 2);
+		indices[i + 3] = (j + 2);
+		indices[i + 4] = (j + 3);
+		indices[i + 5] = j;
+	}
+	mesh.setIndices(indices, 1000);
+
+	//delete[] indices; // TODO: FREE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }
 
 void SpriteBatch::begin(const BaseCamera& _camera)
@@ -67,6 +82,7 @@ void SpriteBatch::flush()
 		batchedSprites.clear();
 
 		mesh.setVertices(nullptr, 0);
+		//mesh.setIndices(nullptr, 0);
 		lastTexture->unbindTexture();
 	}
 }
@@ -83,5 +99,6 @@ void SpriteBatch::buildMeshFromBatchedSprites()
 
 void SpriteBatch::copySpriteToMesh(const Sprite* sprite)
 {
-	mesh.addVertices(sprite->getVertices().data(), 6); // // 6 is num of vertices required to from a rectangle, TODO: optimize with indices (4 vertices)
+	mesh.addVertices(sprite->getVertices().data(), 4); // // 6 is num of vertices required to from a rectangle, TODO: optimize with indices (4 vertices)
+	//mesh.addIndices(sprite->getIndices().data(), 6);
 }

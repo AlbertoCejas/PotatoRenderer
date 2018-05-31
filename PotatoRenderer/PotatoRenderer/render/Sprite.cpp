@@ -53,6 +53,7 @@ void Sprite::updatePosition(float bottomLeftX, float bottomLeftY, float bottomLe
 	vertices[Y4] = upperRightY; //4
 	vertices[Z4] = upperRightZ;
 
+	/*
 	vertices[X5] = bottomLeftX;
 	vertices[Y5] = upperRightY; //3
 	vertices[Z5] = bottomLeftZ;
@@ -60,6 +61,7 @@ void Sprite::updatePosition(float bottomLeftX, float bottomLeftY, float bottomLe
 	vertices[X6] = upperRightX;
 	vertices[Y6] = bottomLeftY; //2
 	vertices[Z6] = upperRightZ;
+	*/
 }
 
 void Sprite::updateColor()
@@ -69,8 +71,10 @@ void Sprite::updateColor()
 	vertices[C2] = colorFloatBits;
 	vertices[C3] = colorFloatBits;
 	vertices[C4] = colorFloatBits;
+	/*
 	vertices[C5] = colorFloatBits;
 	vertices[C6] = colorFloatBits;
+	*/
 }
 
 void Sprite::updateUVs()
@@ -87,11 +91,15 @@ void Sprite::updateUVs()
 	vertices[U4] = textureRegion.getU2();
 	vertices[V4] = textureRegion.getV2();
 
+	/*
+
 	vertices[U5] = textureRegion.getU1();
 	vertices[V5] = textureRegion.getV2();
 
 	vertices[U6] = textureRegion.getU2();
 	vertices[V6] = textureRegion.getV1();
+
+	*/
 }
 
 void Sprite::translate(float _x, float _y, float _z)
@@ -112,6 +120,8 @@ void Sprite::translate(float _x, float _y, float _z)
 	vertices[Y4] += _y; //4
 	vertices[Z4] += _z;
 
+	/*
+
 	vertices[X5] += _x;
 	vertices[Y5] += _y; //3
 	vertices[Z5] += _z;
@@ -119,4 +129,6 @@ void Sprite::translate(float _x, float _y, float _z)
 	vertices[X6] += _x;
 	vertices[Y6] += _y; //2
 	vertices[Z6] += _z;
+
+	*/
 }

@@ -1,17 +1,11 @@
 #include "core/Application.h"
 #include "core/BaseScene.h"
 #include "scenes/Scene2DShapes.h"
+#include "scenes/Scene2DSprites.h"
 #include "input/InputSystem.h"
 #include <cassert>
 #include "render/Window.h"
 #include "utils/FreeList.h"
-
-struct hola
-{
-	int a;
-	int b;
-	int c;
-};
 
 Application::Application() : renderer(1024, 768), exit(false), currentSceneIndex(-1)
 {
@@ -28,9 +22,11 @@ void Application::init()
 void Application::initScenes()
 {
 	Scene2DShapes* shapes = new Scene2DShapes(renderer);
+	Scene2DSprites* sprites = new Scene2DSprites(renderer);
 	scenes.push_back(shapes);
+	scenes.push_back(sprites);
 
-	switchToScene(0);
+	switchToScene(1);
 }
 
 void Application::switchToScene(int nextSceneIndex)

@@ -49,6 +49,8 @@ class Sprite
 	static const int32_t C4 = 21;
 	static const int32_t U4 = 22;
 	static const int32_t V4 = 23;
+
+	/*
 	static const int32_t X5 = 24;
 	static const int32_t Y5 = 25;
 	static const int32_t Z5 = 26;
@@ -61,10 +63,11 @@ class Sprite
 	static const int32_t C6 = 33;
 	static const int32_t U6 = 34;
 	static const int32_t V6 = 35;
+	*/
 
   public:
 
-	static constexpr int32_t SPRITE_SIZE = VERTEX_SIZE * 6; // floats * 4 bytes/float  = 8 * 4 = 32
+	static constexpr int32_t SPRITE_SIZE = VERTEX_SIZE * 4; // floats * 4 bytes/float  = 8 * 4 = 32
 
 	explicit Sprite(const TextureRegion& _textureRegion);
 	explicit Sprite(const TextureRegion& _textureRegion, float bottomLeftX, float bottomLeftY, float bottomLeftZ, float upperRightX, float upperRightY, float upperRightZ);

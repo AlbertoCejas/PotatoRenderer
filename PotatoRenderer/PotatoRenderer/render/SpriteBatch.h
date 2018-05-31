@@ -17,7 +17,7 @@ class SpriteBatch
 {
   public:
 
-	explicit SpriteBatch(int maxVertices);
+	explicit SpriteBatch(int maxVertices); // TODO : change max vertices for max sprites size
 
 	inline void setShader(ShaderProgram& shader) { selectedShader = &shader; }
 

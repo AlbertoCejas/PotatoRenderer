@@ -150,6 +150,9 @@
     <ClInclude Include="render\IBOSubData.h">
       <Filter>Header Files\render</Filter>
     </ClInclude>
+    <ClInclude Include="scenes\Scene2DSprites.h">
+      <Filter>Header Files\scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\Application.cpp">
@@ -214,6 +217,9 @@
     </ClCompile>
     <ClCompile Include="render\IBOSubData.cpp">
       <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="scenes\Scene2DSprites.cpp">
+      <Filter>Source Files\scenes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
