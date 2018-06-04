@@ -28,6 +28,12 @@ Mesh& Mesh::updateVertices(const float* vertices, int numOfVerticesOffset, int n
 	return *this;
 }
 
+Mesh& Mesh::setNumOfIndices(int numOfIndices)
+{
+	indexData.setNumOfIndices(numOfIndices);
+	return *this;
+}
+
 Mesh& Mesh::setIndices(const int* indices, int numOfIndices)
 {
 	indexData.setIndices(indices, numOfIndices);

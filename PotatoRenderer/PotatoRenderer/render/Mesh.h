@@ -19,6 +19,7 @@ class Mesh
 	Mesh& addVertices(const float* vertices, int numOfVertices);
 	Mesh& updateVertices(const float* vertices, int numOfVerticesOffset, int numOfVertices);
 
+	Mesh& setNumOfIndices(int numOfIndices);
 	Mesh& setIndices(const int* indices, int numOfIndices);
 	Mesh& addIndices(const int* indices, int numOfIndices);
 	Mesh& updateIndices(const int* indices, int numOfIndicesOffset, int numOfIndices);

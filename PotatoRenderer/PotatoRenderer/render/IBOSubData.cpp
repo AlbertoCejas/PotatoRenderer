@@ -31,6 +31,8 @@ void IBOSubData::bufferChanged()
 
 void IBOSubData::setIndices(const int* indicesToSet, int count)
 {
+	assert(count >= 0 && count <= maxNumOfIndices);
+
 	isDirty = true;
 	currentNumOfIndices = count;
 
@@ -58,6 +60,17 @@ void IBOSubData::updateIndices(const int* indicesToUpdate, int offset, int count
 	isDirty = true;
 
 	memcpy(indices + offset, indicesToUpdate, sizeof(int) * count);
+
+	bufferChanged();
+}
+
+void IBOSubData::setNumOfIndices(int numOfIndices)
+{
+	assert(numOfIndices >= 0 && numOfIndices <= maxNumOfIndices);
+
+	currentNumOfIndices = numOfIndices;
+
+	isDirty = true;
 
 	bufferChanged();
 }

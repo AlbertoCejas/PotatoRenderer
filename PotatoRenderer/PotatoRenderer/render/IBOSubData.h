@@ -14,6 +14,8 @@ class IBOSubData
 		inline int getNumOfIndices() const { return currentNumOfIndices; }
 		inline int getMaxNumOfIndices() const { return maxNumOfIndices; }
 
+		void setNumOfIndices(int numOfIndices);
+
 		void setIndices(const int* indices, int count);
 		void addIndices(const int* indices, int count);
 		void updateIndices(const int* indices, int offset, int count);

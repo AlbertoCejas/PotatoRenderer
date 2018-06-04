@@ -19,7 +19,7 @@ SpriteBatch::SpriteBatch(int _maxVertices) : batchedSprites(), selectedShader(nu
 	selectedShader = &defaultShader;
 
 	int* indices = new int[1000];
-	short j = 0;
+	int j = 0;
 	for (int i = 0; i < 1000; i += 6, j += 4)
 	{
 		indices[i] = j;
@@ -95,6 +95,9 @@ void SpriteBatch::buildMeshFromBatchedSprites()
 	{
 		copySpriteToMesh(batchedSprites[i]);
 	}
+
+	mesh.setNumOfIndices(batchedSprites.size() * 6);
+
 }
 
 void SpriteBatch::copySpriteToMesh(const Sprite* sprite)
